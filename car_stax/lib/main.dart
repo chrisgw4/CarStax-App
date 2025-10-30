@@ -4,6 +4,7 @@ import 'package:car_stax/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:car_stax/pages/login_page.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       home: LoginOrRegister(),
       theme: light_mode,
       routes: {
+        '/login_register_page':(context) => LoginOrRegister(),
         '/home_page' : (context) => HomePage(),
       },
     );

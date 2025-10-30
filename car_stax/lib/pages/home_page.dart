@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'login_page.dart';
+
 
 
 class HomePage extends StatelessWidget {
@@ -10,7 +12,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
 
       appBar: AppBar(
-
+        leading: BackButton(
+          onPressed: () {
+            is_logged_in = false;
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(),
