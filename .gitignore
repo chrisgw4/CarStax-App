@@ -1,2 +1,10 @@
 car_stax/lib/backend/uris.dart
 car_stax/lib/backend/backend_functions.dart
+car_stax/windows/
+car_stax/web
+car_stax/macos
+car_stax/linux
+car_stax/ios
+car_stax/README.md
+car_stax/build
+/car_stax/windows
