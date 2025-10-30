@@ -1,3 +1,4 @@
+import 'package:car_stax/backend/backend_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
@@ -14,7 +15,11 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+
+  final TextEditingController lastNameController = TextEditingController();
+
+  final TextEditingController companyNameController = TextEditingController();
 
   final TextEditingController emailController = TextEditingController();
 
@@ -23,7 +28,48 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController confirmPasswordController = TextEditingController();
 
   void register() async {
+
+    if (firstNameController.text == "") {
+      print("No firstName input");
+      return;
+    }
+
+    if (lastNameController.text == "") {
+      print("No lastName input");
+      return;
+    }
+
+    if (companyNameController.text == "") {
+      print("No companyName input");
+      return;
+    }
+
+    if (emailController.text == "") {
+      print("No email input");
+      return;
+    }
+
+    if (passwordController.text == "") {
+      print("No password input");
+      return;
+    }
+
+    if (confirmPasswordController.text == "") {
+      print("No confirm password input");
+      return;
+    }
+
+    if (passwordController.text != confirmPasswordController.text) {
+      print("Passwords do not match");
+      return;
+    }
+
     print("Attempting to register");
+
+    backend_register(email: emailController.text, password: passwordController.text,
+        companyName: companyNameController.text, firstName: firstNameController.text,
+        lastName: lastNameController.text);
+
 
     return;
   }
@@ -44,14 +90,42 @@ class _RegisterPageState extends State<RegisterPage> {
 
               SizedBox(height: 50,),
 
-              // email text field
+              Row(
+                children: [
+                  Expanded(
+                      child:
+                      // firstName text field
+                      MyTextField(
+                        hintText: "First Name",
+                        obscureText: false,
+                        controller: firstNameController
+                      ),
+                  ),
+                  SizedBox(width: 15,),
+                  Expanded(
+                    child:
+                    // lastName text field
+                    MyTextField(
+                        hintText: "Last Name",
+                        obscureText: false,
+                        controller: lastNameController
+                    ),
+                  ),
+                ],
+              ),
+
+
+              const SizedBox(height: 10,),
+
+              // companyName text field
               MyTextField(
-                  hintText: "Username",
+                  hintText: "Company Name",
                   obscureText: false,
-                  controller: usernameController
+                  controller: companyNameController
               ),
 
               const SizedBox(height: 10,),
+
               // email text field
               MyTextField(
                   hintText: "Email",
@@ -76,19 +150,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: confirmPasswordController
               ),
 
-              const SizedBox(height: 10,),
+              const SizedBox(height: 20,),
 
-              // forgot password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text("Forgot Password?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                  ),
-                ],
-              ),
 
               // register button
               MyButton(text: "Register", onTap: register),

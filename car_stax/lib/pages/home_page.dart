@@ -12,16 +12,18 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
 
       ),
-
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.only(left: 48, right: 48),
-          child: Column(
-            // Centers Text
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Temp Home Page")
-            ],
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(),
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.only(left: 48, right: 48),
+            child: Column(
+              // Centers Text
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Temp Home Page")
+              ],
+            ),
           ),
         ),
       ),

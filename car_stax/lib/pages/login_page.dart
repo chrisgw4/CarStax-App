@@ -1,3 +1,4 @@
+import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/components/my_textfield.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,23 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
 
 
+  void forgotPassword() async {
+    print("Run Forgot Password Code");
+  }
+
   void login() async {
+
+    if (emailController.text == "") {
+      print("No email input");
+      return;
+    }
+
+    if (passwordController.text == "") {
+      print("No password input");
+      return;
+    }
+
+    backend_login(emailController.text, passwordController.text);
 
     print("Attempting Login");
 
@@ -31,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(25.0),
@@ -38,6 +56,10 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
+              Container(
+                child: Text("Image goes here"),
+              ),
+
               SizedBox(height: 50,),
 
               // Email text input
@@ -64,11 +86,15 @@ class _LoginPageState extends State<LoginPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text("Forgot Password?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
+                  GestureDetector(
+                    onTap: forgotPassword,
+                    child: Text("Forgot Password?",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                     ),
-                  ),
+                  )
+
                 ],
               ),
 
