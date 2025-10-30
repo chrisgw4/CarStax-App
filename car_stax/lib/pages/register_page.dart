@@ -101,7 +101,9 @@ class _RegisterPageState extends State<RegisterPage> {
                         controller: firstNameController
                       ),
                   ),
+
                   SizedBox(width: 15,),
+                  
                   Expanded(
                     child:
                     // lastName text field

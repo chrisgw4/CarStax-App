@@ -43,11 +43,13 @@ class _LoginPageState extends State<LoginPage> {
 
     if (emailController.text == "") {
       print("No email input");
+      attempting_login = false;
       return;
     }
 
     if (passwordController.text == "") {
       print("No password input");
+      attempting_login = false;
       return;
     }
 
