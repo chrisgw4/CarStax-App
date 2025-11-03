@@ -4,6 +4,7 @@ import 'package:car_stax/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
+import '../main.dart';
 
 
 bool is_logged_in = false;
@@ -32,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() async {
+
     if (is_logged_in) {
       return;
     }
@@ -92,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Padding(
           padding: EdgeInsets.all(25.0),
           child: Column(
+
             mainAxisAlignment: MainAxisAlignment.center,
 
             children: [
@@ -103,9 +106,9 @@ class _LoginPageState extends State<LoginPage> {
 
               // Email text input
               MyTextField(
-                  hintText: "Email",
-                  obscureText: false,
-                  controller: emailController
+                hintText: "Email",
+                obscureText: false,
+                controller: emailController
               ),
 
               // Separator

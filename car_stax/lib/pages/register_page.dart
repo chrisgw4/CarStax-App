@@ -2,6 +2,7 @@ import 'package:car_stax/backend/backend_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
+import '../components/my_text.dart';
 import '../components/my_textfield.dart';
 
 
@@ -26,6 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController = TextEditingController();
+
+  String success_text = "";
 
   void register() async {
 
@@ -66,9 +69,24 @@ class _RegisterPageState extends State<RegisterPage> {
 
     print("Attempting to register");
 
-    backend_register(email: emailController.text, password: passwordController.text,
+    Map<String, dynamic> response = await backend_register(email: emailController.text, password: passwordController.text,
         companyName: companyNameController.text, firstName: firstNameController.text,
         lastName: lastNameController.text);
+
+
+    // Check the response of the Register API
+    if (response["success"] == true)
+      {
+        success_text = "Account created successfully, please check email for verification link.";
+      }
+    else if (response["success"] == false)
+      {
+        success_text = "Account failed to create.";
+      }
+    else if (response["message"] == "User already exists")
+      {
+        success_text = "Email is already used.";
+      }
 
 
     return;
@@ -152,8 +170,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   controller: confirmPasswordController
               ),
 
-              const SizedBox(height: 20,),
+              const SizedBox(height: 10,),
 
+              // Text(success_text),
+
+              const SizedBox(height: 10,),
 
               // register button
               MyButton(text: "Register", onTap: register),
