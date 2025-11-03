@@ -30,6 +30,16 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String success_text = "";
 
+  final TextEditingController registerSuccessText = TextEditingController();
+
+
+  Stream<String> textControllerListener(TextEditingController controller) async* { // <- here
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      yield controller.value.text;
+    }
+  }
+
   void register() async {
 
     if (firstNameController.text == "") {
@@ -78,14 +88,17 @@ class _RegisterPageState extends State<RegisterPage> {
     if (response["success"] == true)
       {
         success_text = "Account created successfully, please check email for verification link.";
+        registerSuccessText.text = success_text;
       }
     else if (response["success"] == false)
       {
         success_text = "Account failed to create.";
+        registerSuccessText.text = success_text;
       }
     else if (response["message"] == "User already exists")
       {
         success_text = "Email is already used.";
+        registerSuccessText.text = success_text;
       }
 
 
@@ -173,6 +186,17 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 10,),
 
               // Text(success_text),
+              StreamBuilder<String>(
+                  stream: textControllerListener(registerSuccessText),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Error');
+                    } else {
+                      return Text((snapshot.data) as String);
+                    }
+                  }),
+
 
               const SizedBox(height: 10,),
 
