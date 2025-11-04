@@ -278,10 +278,11 @@ class _AddCarPageState extends State<AddCarPage> {
                   dropdownMenuEntries: RentalStatus.entries,
                   leadingIcon: ImageIcon(selectedStatus?.icon),
                 ),
+                SizedBox(height: 10,),
                 ElevatedButton(
                     onPressed: openDialog,
                     child: Text(
-                      "Button",
+                      "Add Issues",
                       style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                     )
                 ),
@@ -344,43 +345,46 @@ class _AddCarPageState extends State<AddCarPage> {
 
       child: StatefulBuilder(
         builder: (context, setDialogState) {
-          return SizedBox(
-            width: 300,
-            height: 400,
-            child: Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-
-                    setDialogState(() {
-                      warningList.add(TextEditingController());
-                    });
-                  },
-                  child: Text(
-                    "Add Field",
-                    style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                  ),
-                ),
-
-
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: warningList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: warningList[index],
-                          decoration: InputDecoration(
-                            labelText: 'Field ${index + 1}',
-                            border: const OutlineInputBorder(),
-                          ),
-                        ),
-                      );
+          return Container(
+            padding: EdgeInsets.all(12),
+            child: SizedBox(
+              width: 300,
+              height: 400,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+            
+                      setDialogState(() {
+                        warningList.add(TextEditingController());
+                      });
                     },
+                    child: Text(
+                      "Add Field",
+                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                    ),
                   ),
-                ),
-              ],
+            
+            
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: warningList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: warningList[index],
+                            decoration: InputDecoration(
+                              labelText: 'Field ${index + 1}',
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },

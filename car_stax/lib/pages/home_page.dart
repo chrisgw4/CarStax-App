@@ -15,23 +15,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    backend_add_car(
-        lPlate: "12334ACBC",
-        rentalStatus: "available",
-        currentRental: "none",
-        year: 2023,
-        color: "Red",
-        make: "Honda",
-        model: "Civic",
-        mileage: 102345,
-        repairStatus: "",
-        warningLightIndicators: [],
-        VIN: "213uda24",
-        carType: "sedan"
-    );
 
     return Scaffold(
       appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Temp Home Page")
+          ],
+        ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         actions: <Widget>[
           IconButton(
           icon: const Icon(Icons.add),
@@ -44,7 +40,7 @@ class HomePage extends StatelessWidget {
             );
 
           },
-          tooltip: 'Settings', // Optional: provides a tooltip on long press
+          tooltip: 'Add Car', // Optional: provides a tooltip on long press
           ),
         ],
         leading: Row(
@@ -61,12 +57,17 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
+
+          decoration: BoxDecoration(
+
+
+          ),
           padding: EdgeInsets.only(left: 48, right: 48),
           child: Column(
             // Centers Text
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Temp Home Page"),
+              // Text("Temp Home Page"),
 
               // CarListBuilder(),
               CarListBuilderStf()
