@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/components/my_text.dart';
 import 'package:car_stax/components/my_textfield.dart';
 import 'package:flutter/material.dart';
@@ -277,7 +278,57 @@ class _AddCarPageState extends State<AddCarPage> {
                   dropdownMenuEntries: RentalStatus.entries,
                   leadingIcon: ImageIcon(selectedStatus?.icon),
                 ),
-                ElevatedButton(onPressed: openDialog, child: Text("Button")),
+                ElevatedButton(
+                    onPressed: openDialog,
+                    child: Text(
+                      "Button",
+                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                    )
+                ),
+
+                // Add Car Button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          if (yearController.text == "")
+                            return;
+                          if (mileageController.text == "")
+                            return;
+
+                          // Adds the car to the backend
+                          backend_add_car(
+                              lPlate: lPLateController.text,
+                              rentalStatus: rentalStatusController.text,
+                              currentRental: "",
+                              year: int.parse(yearController.text),
+                              color: colorController.text,
+                              make: makeController.text,
+                              model: modelController.text,
+                              mileage: int.parse(mileageController.text),
+                              repairStatus: "",
+                              warningLightIndicators: [],
+                              VIN: vinController.text,
+                              carType: carTypeController.text
+                          );
+                        },
+                        child: SizedBox(
+                          width: 80,
+                          height: 30,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Add Car",
+                                style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                              ),
+                            ],
+                          )
+                        )
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -305,7 +356,10 @@ class _AddCarPageState extends State<AddCarPage> {
                       warningList.add(TextEditingController());
                     });
                   },
-                  child: const Text("Add Field"),
+                  child: Text(
+                    "Add Field",
+                    style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                  ),
                 ),
 
 

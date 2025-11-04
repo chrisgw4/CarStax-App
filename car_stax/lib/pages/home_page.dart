@@ -4,6 +4,7 @@ import 'package:car_stax/pages/car_list_page.dart';
 import 'package:flutter/material.dart';
 
 import '../backend/backend_functions.dart';
+import 'add_car_page.dart';
 import 'login_page.dart';
 
 
@@ -31,7 +32,23 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                builder: (context) => const AddCarPage(),
+              )
+            );
+
+          },
+          tooltip: 'Settings', // Optional: provides a tooltip on long press
+          ),
+        ],
         leading: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             BackButton(
               onPressed: () {
