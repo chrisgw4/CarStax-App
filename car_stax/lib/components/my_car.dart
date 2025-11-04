@@ -1,3 +1,4 @@
+import "package:car_stax/pages/edit_car_page.dart";
 import "package:flutter/material.dart";
 
 class MyCar extends StatelessWidget {
@@ -29,6 +30,23 @@ class MyCar extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         print("Pressed Car Item");
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (context) => EditCarPage(
+              licensePlate: licensePlate,
+              year: year,
+              mileage: mileage,
+              make: make,
+              model: model,
+              color: color,
+              vin: VIN,
+              carType: carType,
+              rentalStatus: rentalStatus,
+              warningList: [],
+            ),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(
@@ -55,7 +73,6 @@ class MyCar extends StatelessWidget {
                   SizedBox(width: 20),
                   Text("Color: " + color),
                 ],
-
               ),
               SizedBox(height: 5),
               Row(

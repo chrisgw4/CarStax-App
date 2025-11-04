@@ -1,101 +1,93 @@
-import 'dart:ffi';
 
-import 'package:car_stax/backend/backend_functions.dart';
-import 'package:car_stax/components/my_text.dart';
-import 'package:car_stax/components/my_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 
-typedef CarEntry = DropdownMenuEntry<CarType>;
+import '../backend/backend_functions.dart';
+import '../components/my_textfield.dart';
+import 'add_car_page.dart';
 
-// DropdownMenuEntry labels and values for the second dropdown menu.
-enum CarType {
-  sedan(
-    'Sedan',
-    NetworkImage("https://farrukhanwar.site/assets/sedan-BfLnftng.png"),
-  ),
-  suv('SUV', NetworkImage("https://farrukhanwar.site/assets/suv-DHEXZqaC.png")),
-  truck(
-    'Truck',
-    NetworkImage("https://farrukhanwar.site/assets/truck-DWk2EocT.png"),
-  ),
-  coupe(
-    'Coupe',
-    NetworkImage("https://farrukhanwar.site/assets/coupe-DpR66DVc.png"),
-  ),
-  convertible(
-    'Convertible',
-    NetworkImage("https://farrukhanwar.site/assets/convertible-D5rVBvli.png"),
-  ),
-  hatchback(
-    'Hatchback',
-    NetworkImage("https://farrukhanwar.site/assets/hatchback-Bz_gbJNw.png"),
-  ),
-  van('Van', NetworkImage("https://farrukhanwar.site/assets/van-D86uPqS3.png")),
-  motorcycle(
-    'Motorcycle',
-    NetworkImage("https://farrukhanwar.site/assets/motorcycle-BLOPTAqK.png"),
-  ),
-  other(
-    'Other',
-    NetworkImage("https://farrukhanwar.site/assets/other-Db6NQrY2.png"),
-  );
 
-  const CarType(this.label, this.icon);
-  final String label;
-  final NetworkImage icon;
 
-  static final List<CarEntry> entries = UnmodifiableListView<CarEntry>(
-    values.map<CarEntry>(
-      (CarType icon) => CarEntry(
-        value: icon,
-        label: icon.label,
-        leadingIcon: ImageIcon(icon.icon),
-      ),
-    ),
-  );
-}
+class EditCarPage extends StatefulWidget {
+  EditCarPage({super.key,
+    required this.licensePlate,
+    required this.year,
+    required this.mileage,
+    required this.make,
+    required this.model,
+    required this.color,
+    required this.vin,
+    required this.carType,
+    required this.rentalStatus,
+    required this.warningList
+  });
 
-typedef RentalEntry = DropdownMenuEntry<RentalStatus>;
-
-// DropdownMenuEntry labels and values for the second dropdown menu.
-enum RentalStatus {
-  available(
-    'Available',
-    NetworkImage("https://farrukhanwar.site/assets/available-C_NG3xW-.png"),
-  ),
-  rented(
-    'Rented',
-    NetworkImage("https://farrukhanwar.site/assets/rented-CFektGni.png"),
-  ),
-  maintenance(
-    'Maintenance',
-    NetworkImage("https://farrukhanwar.site/assets/maintenance-CUMVvKMO.png"),
-  );
-
-  const RentalStatus(this.label, this.icon);
-  final String label;
-  final NetworkImage icon;
-
-  static final List<RentalEntry> entries = UnmodifiableListView<RentalEntry>(
-    values.map<RentalEntry>(
-      (RentalStatus icon) => RentalEntry(
-        value: icon,
-        label: icon.label,
-        leadingIcon: ImageIcon(icon.icon),
-      ),
-    ),
-  );
-}
-
-class AddCarPage extends StatefulWidget {
-  const AddCarPage({super.key});
+  final String licensePlate;
+  final int year;
+  final int mileage;
+  final String make;
+  final String model;
+  final String color;
+  final String vin;
+  final String carType;
+  final String rentalStatus;
+  final List<TextEditingController> warningList;
 
   @override
-  State<AddCarPage> createState() => _AddCarPageState();
+  State<EditCarPage> createState() => _EditCarPageState(
+      licensePlate: licensePlate,
+      year: year,
+      mileage: mileage,
+      make: make,
+      model: model,
+      color: color,
+      vin: vin,
+      carType: carType,
+      rentalStatus: rentalStatus,
+      warningList1: warningList
+  );
 }
 
-class _AddCarPageState extends State<AddCarPage> {
+class _EditCarPageState extends State<EditCarPage> {
+  _EditCarPageState({
+  required this.licensePlate,
+  required this.year,
+  required this.mileage,
+  required this.make,
+  required this.model,
+  required this.color,
+  required this.vin,
+  required this.carType,
+  required this.rentalStatus,
+  required this.warningList1
+  }
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    lPLateController.text = licensePlate;
+    yearController.text = year.toString();
+    mileageController.text = mileage.toString();
+    makeController.text = make;
+    modelController.text = model;
+    colorController.text = color;
+    vinController.text = vin;
+    carTypeController.text = carType;
+    rentalStatusController.text = rentalStatus;
+    warningList = warningList1;
+  }
+
+  final String licensePlate;
+  final int year;
+  final int mileage;
+  final String make;
+  final String model;
+  final String color;
+  final String vin;
+  final String carType;
+  final String rentalStatus;
+  final List<TextEditingController> warningList1;
+
   final TextEditingController lPLateController = TextEditingController();
 
   final TextEditingController yearController = TextEditingController();
@@ -118,12 +110,62 @@ class _AddCarPageState extends State<AddCarPage> {
   late List<TextEditingController> warningList = [];
 
 
+  Future openDialog() => showDialog(
+    context: context,
+    builder: (context) => Dialog(
+
+      child: StatefulBuilder(
+        builder: (context, setDialogState) {
+          return Container(
+            padding: EdgeInsets.all(12),
+            child: SizedBox(
+              width: 300,
+              height: 400,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+
+                      setDialogState(() {
+                        warningList.add(TextEditingController());
+                      });
+                    },
+                    child: Text(
+                      "Add Field",
+                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                    ),
+                  ),
+
+
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: warningList.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: warningList[index],
+                            decoration: InputDecoration(
+                              labelText: 'Field ${index + 1}',
+                              border: const OutlineInputBorder(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    ),
+  );
+
+
   @override
   Widget build(BuildContext context) {
-    // print('Number of entries: ${CarType.entries.length}');
-    for (var entry in CarType.entries) {
-      // print('Entry label: ${entry.label}, value: ${entry.value}');
-    }
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -315,17 +357,17 @@ class _AddCarPageState extends State<AddCarPage> {
                           );
                         },
                         child: SizedBox(
-                          width: 80,
-                          height: 30,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Add Car",
-                                style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                              ),
-                            ],
-                          )
+                            width: 80,
+                            height: 30,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Add Car",
+                                  style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                                ),
+                              ],
+                            )
                         )
                     ),
                   ],
@@ -337,58 +379,5 @@ class _AddCarPageState extends State<AddCarPage> {
       ),
     );
   }
-
-
-  Future openDialog() => showDialog(
-    context: context,
-    builder: (context) => Dialog(
-
-      child: StatefulBuilder(
-        builder: (context, setDialogState) {
-          return Container(
-            padding: EdgeInsets.all(12),
-            child: SizedBox(
-              width: 300,
-              height: 400,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-            
-                      setDialogState(() {
-                        warningList.add(TextEditingController());
-                      });
-                    },
-                    child: Text(
-                      "Add Field",
-                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                    ),
-                  ),
-            
-            
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: warningList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: warningList[index],
-                            decoration: InputDecoration(
-                              labelText: 'Field ${index + 1}',
-                              border: const OutlineInputBorder(),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    ),
-  );
 }
+

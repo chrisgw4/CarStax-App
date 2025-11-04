@@ -35,7 +35,6 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
     final collection = db.collection('cars');
 
-
     final pipeline = [
       {
         '\$match': {
@@ -49,6 +48,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
     ];
 
     changeStream = collection.watch(pipeline);
+    
 
     setState(() {}); // Trigger rebuild after stream is initialized
   }
@@ -98,6 +98,8 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                 itemCount: carList.length,
                 itemBuilder: (context, index) {
                   return Container(
+                    padding: EdgeInsets.only(top: 10),
+
                     child: Column(
                       children: [
                         MyCar(
@@ -111,7 +113,6 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                           VIN: carList[index]["vehicleIdentificationNumber"],
                           rentalStatus: carList[index]["rentalStatus"],
                         ),
-                        SizedBox(height: 15),
                       ],
                     ),
                   );
