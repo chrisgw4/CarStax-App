@@ -87,7 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // Check the response of the Register API
     if (response["success"] == true)
       {
-        success_text = "Account created successfully, please check email for verification link.";
+        success_text = "Account created successfully, please check your email for a verification link.";
         registerSuccessText.text = success_text;
       }
     else if (response["success"] == false)
@@ -185,7 +185,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
               const SizedBox(height: 10,),
 
-              // Text(success_text),
               StreamBuilder<String>(
                   stream: textControllerListener(registerSuccessText),
                   builder:
@@ -193,6 +192,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (snapshot.hasError) {
                       return const Text('Error');
                     } else {
+                      if (snapshot.data == null) {
+                        return Text("");
+                      }
                       return Text((snapshot.data) as String);
                     }
                   }),

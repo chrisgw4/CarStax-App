@@ -27,6 +27,16 @@ class _LoginPageState extends State<LoginPage> {
 
   final TextEditingController passwordController = TextEditingController();
 
+  final TextEditingController loginFailedText = TextEditingController();
+
+
+  Stream<String> textControllerListener(TextEditingController controller) async* { // <- here
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      yield controller.value.text;
+    }
+  }
+
 
   void forgotPassword() async {
     print("Run Forgot Password Code");
@@ -79,6 +89,17 @@ class _LoginPageState extends State<LoginPage> {
 
         is_logged_in = true;
       }
+    else if(return_value["success"] == false)
+      {
+        if (return_value["message"] == "Email is not verified") {
+          loginFailedText.text = "Email is not verified.";
+        }
+        else
+          {
+            loginFailedText.text = "Invalid credentials.";
+          }
+      }
+
 
     attempting_login = false;
     print("Attempting Login");
@@ -123,6 +144,22 @@ class _LoginPageState extends State<LoginPage> {
 
               // Separator
               const SizedBox(height: 10,),
+
+
+              StreamBuilder<String>(
+                  stream: textControllerListener(loginFailedText),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Error');
+                    } else {
+                      if (snapshot.data == null)
+                        {
+                          return Text("");
+                        }
+                      return Text((snapshot.data) as String);
+                    }
+                  }),
 
               // forgot password
               Row(
