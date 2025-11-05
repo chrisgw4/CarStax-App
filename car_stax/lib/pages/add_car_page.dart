@@ -131,9 +131,13 @@ class _AddCarPageState extends State<AddCarPage> {
             Navigator.of(context).pop();
           },
         ),
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(),
+        padding: EdgeInsets.only(top: 10),
         child: Center(
           child: Container(
             padding: EdgeInsets.only(left: 48, right: 48),

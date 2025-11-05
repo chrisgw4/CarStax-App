@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 import '../backend/backend_functions.dart';
 import '../components/my_textfield.dart';
 import 'add_car_page.dart';

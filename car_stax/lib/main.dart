@@ -5,6 +5,16 @@ import 'package:car_stax/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 
 
+extension HexColorExtension on String {
+  Color toColor() {
+    var hexString = this;
+    final buffer = StringBuffer();
+    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff'); // Default to opaque if no alpha
+    buffer.write(hexString.replaceFirst('#', '')); // Remove '#' if present
+    return Color(int.parse(buffer.toString(), radix: 16));
+  }
+}
+
 
 void main() {
   runApp(const MyApp());

@@ -56,12 +56,14 @@ class _LoginPageState extends State<LoginPage> {
     if (emailController.text == "") {
       print("No email input");
       attempting_login = false;
+      loginFailedText.text = "Please enter all fields.";
       return;
     }
 
     if (passwordController.text == "") {
       print("No password input");
       attempting_login = false;
+      loginFailedText.text = "Please enter all fields.";
       return;
     }
 
@@ -81,12 +83,12 @@ class _LoginPageState extends State<LoginPage> {
 
     if (return_value["success"] == true)
       {
+        passwordController.text = "";
         // Go to home page
         Navigator.push(context, MaterialPageRoute<void>(
           builder: (context) => const HomePage(),
         )
         );
-
         is_logged_in = true;
       }
     else if(return_value["success"] == false)
@@ -135,12 +137,18 @@ class _LoginPageState extends State<LoginPage> {
               // Separator
               SizedBox(height: 10,),
 
-              // Password text input
-              MyTextField(
-                  hintText: "Password",
-                  obscureText: true,
-                  controller: passwordController
+              StreamBuilder(
+                  stream: textControllerListener(passwordController),
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    // Password text input
+                    return MyTextField(
+                        hintText: "Password",
+                        obscureText: true,
+                        controller: passwordController
+                    );
+                  }
               ),
+
 
               // Separator
               const SizedBox(height: 10,),
