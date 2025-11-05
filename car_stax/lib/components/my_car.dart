@@ -13,7 +13,11 @@ class MyCar extends StatelessWidget {
     required this.color,
     required this.VIN,
     required this.rentalStatus,
+    required this.warningLightIndicators,
+    required this.carID,
   });
+
+  final String carID;
 
   final String carType;
   final String licensePlate;
@@ -25,11 +29,14 @@ class MyCar extends StatelessWidget {
   final String VIN;
   final String rentalStatus;
 
+  final List<dynamic> warningLightIndicators;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         print("Pressed Car Item");
+        print(warningLightIndicators);
         Navigator.push(
           context,
           MaterialPageRoute<void>(
@@ -43,7 +50,8 @@ class MyCar extends StatelessWidget {
               vin: VIN,
               carType: carType,
               rentalStatus: rentalStatus,
-              warningList: [],
+              warningList: warningLightIndicators,
+              carID: carID,
             ),
           ),
         );

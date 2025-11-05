@@ -302,6 +302,12 @@ class _AddCarPageState extends State<AddCarPage> {
                           if (mileageController.text == "")
                             return;
 
+                          List<String> warningListStrings = [];
+
+                          for (TextEditingController object in warningList) {
+                            warningListStrings.add(object.text);
+                          }
+
                           // Adds the car to the backend
                           backend_add_car(
                               lPlate: lPLateController.text,
@@ -313,7 +319,7 @@ class _AddCarPageState extends State<AddCarPage> {
                               model: modelController.text,
                               mileage: int.parse(mileageController.text),
                               repairStatus: "",
-                              warningLightIndicators: [],
+                              warningLightIndicators: warningListStrings,
                               VIN: vinController.text,
                               carType: carTypeController.text
                           );

@@ -97,6 +97,8 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                 // shrinkWrap: true,
                 itemCount: carList.length,
                 itemBuilder: (context, index) {
+                  print(carList[index]["warningLightIndicators"]);
+                  List<dynamic> stringList = carList[index]["warningLightIndicators"];
                   return Container(
                     padding: EdgeInsets.only(top: 10),
 
@@ -112,6 +114,8 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                           color: carList[index]["color"],
                           VIN: carList[index]["vehicleIdentificationNumber"],
                           rentalStatus: carList[index]["rentalStatus"],
+                          warningLightIndicators: stringList,
+                          carID: carList[index]["_id"],
                         ),
                       ],
                     ),
@@ -188,6 +192,8 @@ class CarListBuilder extends StatelessWidget {
                       color: carList[index]["color"],
                       VIN: carList[index]["vehicleIdentificationNumber"],
                       rentalStatus: carList[index]["rentalStatus"],
+                      warningLightIndicators: carList[index]["warningLightIndicators"],
+                      carID: "",
                     ),
                     SizedBox(height: 15),
                   ],

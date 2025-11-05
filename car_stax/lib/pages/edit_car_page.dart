@@ -16,7 +16,8 @@ class EditCarPage extends StatefulWidget {
     required this.vin,
     required this.carType,
     required this.rentalStatus,
-    required this.warningList
+    required this.warningList,
+    required this.carID,
   });
 
   final String licensePlate;
@@ -28,7 +29,9 @@ class EditCarPage extends StatefulWidget {
   final String vin;
   final String carType;
   final String rentalStatus;
-  final List<TextEditingController> warningList;
+  final List<dynamic> warningList;
+
+  final String carID;
 
   @override
   State<EditCarPage> createState() => _EditCarPageState(
@@ -41,7 +44,8 @@ class EditCarPage extends StatefulWidget {
       vin: vin,
       carType: carType,
       rentalStatus: rentalStatus,
-      warningList1: warningList
+      warningList1: warningList,
+      carID: carID,
   );
 }
 
@@ -56,7 +60,8 @@ class _EditCarPageState extends State<EditCarPage> {
   required this.vin,
   required this.carType,
   required this.rentalStatus,
-  required this.warningList1
+  required this.warningList1,
+  required this.carID,
   }
   );
 
@@ -72,7 +77,12 @@ class _EditCarPageState extends State<EditCarPage> {
     vinController.text = vin;
     carTypeController.text = carType;
     rentalStatusController.text = rentalStatus;
-    warningList = warningList1;
+
+    for (String s in warningList1) {
+      TextEditingController temp = TextEditingController();
+      temp.text = s;
+      warningList.add(temp);
+    }
   }
 
   final String licensePlate;
@@ -84,7 +94,9 @@ class _EditCarPageState extends State<EditCarPage> {
   final String vin;
   final String carType;
   final String rentalStatus;
-  final List<TextEditingController> warningList1;
+  final List<dynamic> warningList1;
+
+  final String carID;
 
   final TextEditingController lPLateController = TextEditingController();
 
@@ -114,6 +126,7 @@ class _EditCarPageState extends State<EditCarPage> {
 
       child: StatefulBuilder(
         builder: (context, setDialogState) {
+          print(warningList);
           return Container(
             padding: EdgeInsets.all(12),
             child: SizedBox(
@@ -338,8 +351,14 @@ class _EditCarPageState extends State<EditCarPage> {
                           if (mileageController.text == "")
                             return;
 
+                          List<String> warningListStrings = [];
+
+                          for (TextEditingController object in warningList) {
+                            warningListStrings.add(object.text);
+                          }
+
                           // Adds the car to the backend
-                          backend_add_car(
+                          backend_edit_car(
                               lPlate: lPLateController.text,
                               rentalStatus: rentalStatusController.text,
                               currentRental: "",
@@ -349,9 +368,10 @@ class _EditCarPageState extends State<EditCarPage> {
                               model: modelController.text,
                               mileage: int.parse(mileageController.text),
                               repairStatus: "",
-                              warningLightIndicators: [],
+                              warningLightIndicators: warningListStrings,
                               VIN: vinController.text,
-                              carType: carTypeController.text
+                              carType: carTypeController.text,
+                              carId: carID,
                           );
                         },
                         child: SizedBox(
@@ -361,7 +381,7 @@ class _EditCarPageState extends State<EditCarPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Add Car",
+                                  "Edit Car",
                                   style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                                 ),
                               ],
