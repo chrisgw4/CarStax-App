@@ -48,7 +48,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
     ];
 
     changeStream = collection.watch(pipeline);
-    
+    print("SET UP COLLECTION WATCH");
 
     setState(() {}); // Trigger rebuild after stream is initialized
   }
@@ -97,7 +97,6 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                 // shrinkWrap: true,
                 itemCount: carList.length,
                 itemBuilder: (context, index) {
-                  print(carList[index]["warningLightIndicators"]);
                   List<dynamic> stringList = carList[index]["warningLightIndicators"];
                   return Container(
                     padding: EdgeInsets.only(top: 10),

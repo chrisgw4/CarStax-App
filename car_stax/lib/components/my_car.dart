@@ -1,4 +1,5 @@
 import "package:car_stax/pages/edit_car_page.dart";
+import "package:car_stax/pages/view_car_page.dart";
 import "package:flutter/material.dart";
 
 class MyCar extends StatelessWidget {
@@ -40,19 +41,32 @@ class MyCar extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute<void>(
-            builder: (context) => EditCarPage(
-              licensePlate: licensePlate,
-              year: year,
-              mileage: mileage,
-              make: make,
-              model: model,
-              color: color,
-              vin: VIN,
-              carType: carType,
-              rentalStatus: rentalStatus,
-              warningList: warningLightIndicators,
-              carID: carID,
-            ),
+            builder: (context) => ViewCarPage(
+                licensePlate: licensePlate,
+                year: year,
+                mileage: mileage,
+                make: make,
+                model: model,
+                color: color,
+                vin: VIN,
+                carType: carType,
+                rentalStatus: rentalStatus,
+                warningList: warningLightIndicators,
+                carID: carID
+            )
+            // builder: (context) => EditCarPage(
+            //   licensePlate: licensePlate,
+            //   year: year,
+            //   mileage: mileage,
+            //   make: make,
+            //   model: model,
+            //   color: color,
+            //   vin: VIN,
+            //   carType: carType,
+            //   rentalStatus: rentalStatus,
+            //   warningList: warningLightIndicators,
+            //   carID: carID,
+            // ),
           ),
         );
       },

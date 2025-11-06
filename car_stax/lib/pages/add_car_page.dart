@@ -299,7 +299,7 @@ class _AddCarPageState extends State<AddCarPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Theme.of(context).colorScheme.tertiary,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (yearController.text == "")
                             return;
                           if (mileageController.text == "")
@@ -314,7 +314,7 @@ class _AddCarPageState extends State<AddCarPage> {
                           }
 
                           // Adds the car to the backend
-                          backend_add_car(
+                          var response = await backend_add_car(
                               lPlate: lPLateController.text,
                               rentalStatus: rentalStatusController.text,
                               currentRental: "",
@@ -328,6 +328,12 @@ class _AddCarPageState extends State<AddCarPage> {
                               VIN: vinController.text,
                               carType: carTypeController.text
                           );
+
+                          // Leave the add car page after successfully adding car to database
+                          if (response["success"] == true)
+                            {
+                              Navigator.pop(context);
+                            }
                         },
                         child: SizedBox(
                           width: 80,
