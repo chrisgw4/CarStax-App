@@ -126,6 +126,8 @@ class _AddCarPageState extends State<AddCarPage> {
     }
     return Scaffold(
       appBar: AppBar(
+        title: Text("Add a Car"),
+        centerTitle: true,
         leading: BackButton(
           onPressed: () {
             Navigator.of(context).pop();

@@ -1,11 +1,12 @@
 import "dart:math";
 
 import "package:flutter/material.dart";
-import 'package:mongo_dart/mongo_dart.dart' as mongo hide Center, State;
+import 'package:mongo_dart/mongo_dart.dart' hide Center, State;
 
 import "../backend/backend_functions.dart";
 import "../backend/uris.dart";
 import "my_car.dart";
+
 
 
 
@@ -17,7 +18,7 @@ class CarListBuilderStf extends StatefulWidget {
 }
 
 class _CarListBuilderStfState extends State<CarListBuilderStf> {
-  late mongo.Db db;
+  late Db db;
   Stream? changeStream;
 
   @override
@@ -28,12 +29,17 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
   Future<void> _initMongoDBStream() async {
 
-    db = await mongo.Db.create(
+    db = await Db.create(
       mongo_db,
     );
     await db.open();
 
     final collection = db.collection('cars');
+
+    // final pipe = AggregationPipelineBuilder().addStage(
+    //   Match(where.oneFrom("operationType", ["insert", "update", "delete"])
+    //       .or(where.eq('fullDocument.companyName', "New Company2")))
+    // ).build();
 
     final pipeline = [
       {
@@ -41,14 +47,25 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
           '\$or': [
             {'operationType': 'insert'},
             {'operationType': 'delete'},
-            {'operationType': 'update'}
+            {'operationType': 'update'},
           ],
         },
       },
     ];
 
+
     changeStream = collection.watch(pipeline);
+
+ 
+
     print("SET UP COLLECTION WATCH");
+
+    // final result = await collection.aggregateToStream(pipeline).toList();
+    //
+    // print(result);
+
+
+
 
     setState(() {}); // Trigger rebuild after stream is initialized
   }
@@ -62,22 +79,33 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
         if (changeStream == null)
           {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
+            return Column(
+              children: [
+                SizedBox(height: 20,),
+                Center(
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                ),
+              ],
             );
           }
 
         print("CHANGED");
+        print(snapshot.data);
         return FutureBuilder(
           future: backend_get_cars(),
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
+              return Column(
+                children: [
+                  SizedBox(height: 20,),
+                  Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                ],
               );
             }
             if (snapshot.hasError) {
@@ -90,11 +118,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
             List carList = snapshot.data["cars"];
 
             return Expanded(
-              key: ValueKey(snapshot.data["licensePlate"]),
               child: ListView.builder(
-                key: ValueKey(snapshot.data["licensePlate"]),
-                // physics: NeverScrollableScrollPhysics(),
-                // shrinkWrap: true,
                 itemCount: carList.length,
                 itemBuilder: (context, index) {
                   List<dynamic> stringList = carList[index]["warningLightIndicators"];

@@ -75,10 +75,8 @@ class ViewCarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text("Car")],
-          ),
+          title: Text("Car View Page"),
+          centerTitle: true,
           actions: <Widget>[
             IconButton(
               icon: const Icon(
@@ -132,8 +130,9 @@ class ViewCarPage extends StatelessWidget {
           ),
           backgroundColor: Theme.of(context).colorScheme.tertiary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
+            borderRadius: BorderRadius.circular(12.0),
           ),
+
         ),
       body: Padding(
         padding: EdgeInsets.all(8),

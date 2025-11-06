@@ -227,6 +227,12 @@ class _EditCarPageState extends State<EditCarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Edit Car"),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         leading: BackButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -381,6 +387,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   leadingIcon: ImageIcon(selectedStatus?.icon),
                 ),
                 SizedBox(height: 10,),
+                
                 ElevatedButton(
                     onPressed: openDialog,
                     child: Text(
@@ -435,7 +442,7 @@ class _EditCarPageState extends State<EditCarPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Edit Car",
+                                  "Save Edits",
                                   style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                                 ),
                               ],

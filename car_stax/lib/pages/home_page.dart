@@ -16,12 +16,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Temp Home Page")
-          ],
-        ),
+        title: Text("Temp Home Page"),
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
