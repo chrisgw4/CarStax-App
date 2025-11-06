@@ -296,6 +296,9 @@ class _AddCarPageState extends State<AddCarPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
                         onPressed: () {
                           if (yearController.text == "")
                             return;
@@ -363,7 +366,6 @@ class _AddCarPageState extends State<AddCarPage> {
 
       child: StatefulBuilder(
         builder: (context, setDialogState) {
-          print(warningList);
           return Container(
             padding: EdgeInsets.all(12),
             child: SizedBox(
@@ -372,6 +374,9 @@ class _AddCarPageState extends State<AddCarPage> {
               child: Column(
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    ),
                     onPressed: () {
 
                       setDialogState(() {
@@ -400,7 +405,8 @@ class _AddCarPageState extends State<AddCarPage> {
                                             onPressed: () {
                                               warningList.remove(warningList[index]);
                                             },
-                                            icon: Icon(Icons.delete)
+                                            icon: Icon(Icons.delete,
+                                              color: Colors.red[900],)
                                         ),
                                         Expanded(child: TextField(
                                           controller: warningList[index],

@@ -133,7 +133,6 @@ class _EditCarPageState extends State<EditCarPage> {
 
       child: StatefulBuilder(
         builder: (context, setDialogState) {
-          print(warningList);
           return Container(
             padding: EdgeInsets.all(12),
             child: SizedBox(
@@ -142,8 +141,10 @@ class _EditCarPageState extends State<EditCarPage> {
               child: Column(
                 children: [
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    ),
                     onPressed: () {
-
                       setDialogState(() {
                         warningList.add(TextEditingController());
                       });
@@ -154,6 +155,7 @@ class _EditCarPageState extends State<EditCarPage> {
                     ),
                   ),
 
+                  SizedBox(height: 10,),
 
                   Expanded(
                     child: StreamBuilder(
@@ -170,7 +172,9 @@ class _EditCarPageState extends State<EditCarPage> {
                                           onPressed: () {
                                             warningList.remove(warningList[index]);
                                           },
-                                          icon: Icon(Icons.delete)
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Colors.red[900],)
                                       ),
                                       Expanded(child: TextField(
                                         controller: warningList[index],
@@ -368,6 +372,9 @@ class _EditCarPageState extends State<EditCarPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.tertiary,
+                      ),
                         onPressed: () {
                           if (yearController.text == "")
                             return;
