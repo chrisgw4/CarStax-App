@@ -119,6 +119,13 @@ class _EditCarPageState extends State<EditCarPage> {
   RentalStatus? selectedStatus;
   late List<TextEditingController> warningList = [];
 
+  Stream<int> warningListSizeListener() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      yield warningList.length;
+    }
+  }
+
 
   Future openDialog() => showDialog(
     context: context,
@@ -149,21 +156,37 @@ class _EditCarPageState extends State<EditCarPage> {
 
 
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: warningList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: warningList[index],
-                            decoration: InputDecoration(
-                              labelText: 'Field ${index + 1}',
-                              border: const OutlineInputBorder(),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                    child: StreamBuilder(
+                        stream: warningListSizeListener(),
+                        builder: (context, snapshot) {
+                          return ListView.builder(
+                            itemCount: warningList.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () {
+                                            warningList.remove(warningList[index]);
+                                          },
+                                          icon: Icon(Icons.delete)
+                                      ),
+                                      Expanded(child: TextField(
+                                        controller: warningList[index],
+                                        decoration: InputDecoration(
+                                          labelText: 'Field ${index + 1}',
+                                          border: const OutlineInputBorder(),
+                                        ),
+                                      )),
+                                    ],
+                                  )
+                              );
+                            },
+                          );
+                        }
+                    )
+
                   ),
                 ],
               ),

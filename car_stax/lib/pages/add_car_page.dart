@@ -350,6 +350,12 @@ class _AddCarPageState extends State<AddCarPage> {
     );
   }
 
+  Stream<int> warningListSizeListener() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      yield warningList.length;
+    }
+  }
 
   Future openDialog() => showDialog(
     context: context,
@@ -357,6 +363,7 @@ class _AddCarPageState extends State<AddCarPage> {
 
       child: StatefulBuilder(
         builder: (context, setDialogState) {
+          print(warningList);
           return Container(
             padding: EdgeInsets.all(12),
             child: SizedBox(
@@ -366,7 +373,7 @@ class _AddCarPageState extends State<AddCarPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-            
+
                       setDialogState(() {
                         warningList.add(TextEditingController());
                       });
@@ -376,24 +383,40 @@ class _AddCarPageState extends State<AddCarPage> {
                       style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                     ),
                   ),
-            
-            
+
+
                   Expanded(
-                    child: ListView.builder(
-                      itemCount: warningList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TextField(
-                            controller: warningList[index],
-                            decoration: InputDecoration(
-                              labelText: 'Field ${index + 1}',
-                              border: const OutlineInputBorder(),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
+                      child: StreamBuilder(
+                          stream: warningListSizeListener(),
+                          builder: (context, snapshot) {
+                            return ListView.builder(
+                              itemCount: warningList.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              warningList.remove(warningList[index]);
+                                            },
+                                            icon: Icon(Icons.delete)
+                                        ),
+                                        Expanded(child: TextField(
+                                          controller: warningList[index],
+                                          decoration: InputDecoration(
+                                            labelText: 'Field ${index + 1}',
+                                            border: const OutlineInputBorder(),
+                                          ),
+                                        )),
+                                      ],
+                                    )
+                                );
+                              },
+                            );
+                          }
+                      )
+
                   ),
                 ],
               ),
