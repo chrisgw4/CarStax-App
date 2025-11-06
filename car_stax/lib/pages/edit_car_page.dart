@@ -354,7 +354,9 @@ class _EditCarPageState extends State<EditCarPage> {
                           List<String> warningListStrings = [];
 
                           for (TextEditingController object in warningList) {
-                            warningListStrings.add(object.text);
+                            if (object.text != "") {
+                              warningListStrings.add(object.text);
+                            }
                           }
 
                           // Adds the car to the backend

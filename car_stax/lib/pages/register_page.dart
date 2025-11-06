@@ -1,9 +1,11 @@
 import 'package:car_stax/backend/backend_functions.dart';
+import 'package:car_stax/components/register_info_company_name.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
 import '../components/my_text.dart';
 import '../components/my_textfield.dart';
+import '../components/register_info.dart';
 
 
 class RegisterPage extends StatefulWidget {
@@ -32,11 +34,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final TextEditingController registerSuccessText = TextEditingController();
 
+  String userType = "solo";
+
 
   Stream<String> textControllerListener(TextEditingController controller) async* { // <- here
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
       yield controller.value.text;
+    }
+  }
+
+  Stream<String> userTypeListener() async* { // <- here
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+      yield userType;
     }
   }
 
@@ -79,9 +90,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
     print("Attempting to register");
 
-    Map<String, dynamic> response = await backend_register(email: emailController.text, password: passwordController.text,
-        companyName: companyNameController.text, firstName: firstNameController.text,
-        lastName: lastNameController.text);
+    Map<String, dynamic> response = await backend_register(
+        email: emailController.text,
+        password: passwordController.text,
+        companyName: companyNameController.text,
+        firstName: firstNameController.text,
+        lastName: lastNameController.text,
+        userType: userType,
+    );
 
 
     // Check the response of the Register API
@@ -121,67 +137,88 @@ class _RegisterPageState extends State<RegisterPage> {
 
               SizedBox(height: 50,),
 
+
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                      child:
-                      // firstName text field
-                      MyTextField(
-                        hintText: "First Name",
-                        obscureText: false,
-                        controller: firstNameController
-                      ),
+                  GestureDetector(
+                    child: Column(
+                        children: [
+                          Text("Individual User"),
+                          SizedBox(height: 5,),
+                          Icon(Icons.person_3),
+                        ]
+                    ),
+                    onTap: () {
+                      userType = "solo";
+                      print(userType);
+                    },
                   ),
 
-                  SizedBox(width: 15,),
-                  
-                  Expanded(
-                    child:
-                    // lastName text field
-                    MyTextField(
-                        hintText: "Last Name",
-                        obscureText: false,
-                        controller: lastNameController
+                  SizedBox(width: 20,),
+
+                  GestureDetector(
+                    child: Column(
+                        children: [
+                          Text("Join Company"),
+                          SizedBox(height: 5,),
+                          Icon(Icons.person_3),
+                        ]
                     ),
+                    onTap: () {
+                      userType = "company_member";
+                      print(userType);
+                    },
+                  ),
+                  SizedBox(width: 20,),
+                  GestureDetector(
+                    child: Column(
+                        children: [
+                          Text("Create Company"),
+                          SizedBox(height: 5,),
+                          Icon(Icons.person_3),
+                        ]
+                    ),
+                    onTap: () {
+                      userType = "company_admin";
+                      print(userType);
+                    },
                   ),
                 ],
               ),
 
+              SizedBox(height: 20,),
 
-              const SizedBox(height: 10,),
+              StreamBuilder(
+                  stream: userTypeListener(),
+                  builder: (context, snapshot) {
+                    // Show Company Name
+                    if (snapshot.data == "company_member" || snapshot.data == "company_admin") {
+                      if (companyNameController.text == "N/A")
+                        companyNameController.text = "";
+                      return RegisterInfoCompanyName(
+                        firstNameController: firstNameController,
+                        lastNameController: lastNameController,
+                        companyNameController: companyNameController,
+                        emailController: emailController,
+                        passwordController: passwordController,
+                        confirmPasswordController: confirmPasswordController,
+                      );
+                    }
 
-              // companyName text field
-              MyTextField(
-                  hintText: "Company Name",
-                  obscureText: false,
-                  controller: companyNameController
+                    // Do not show company name
+                    companyNameController.text = "N/A";
+                    return RegisterInfo(
+                      firstNameController: firstNameController,
+                      lastNameController: lastNameController,
+                      emailController: emailController,
+                      passwordController: passwordController,
+                      confirmPasswordController: confirmPasswordController,
+                    );
+                  }
               ),
 
-              const SizedBox(height: 10,),
 
-              // email text field
-              MyTextField(
-                  hintText: "Email",
-                  obscureText: false,
-                  controller: emailController
-              ),
-
-
-              const SizedBox(height: 10,),
-              // password text field
-
-              MyTextField(
-                  hintText: "Password",
-                  obscureText: true,
-                  controller: passwordController
-              ),
-
-              const SizedBox(height: 10,),
-              MyTextField(
-                  hintText: "Confirm Password",
-                  obscureText: true,
-                  controller: confirmPasswordController
-              ),
 
               const SizedBox(height: 10,),
 
