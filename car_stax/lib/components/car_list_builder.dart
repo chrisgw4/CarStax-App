@@ -98,6 +98,32 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                 itemCount: carList.length,
                 itemBuilder: (context, index) {
                   List<dynamic> stringList = carList[index]["warningLightIndicators"];
+
+                  if (index == carList.length-1)
+                    {
+                      return Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 40),
+
+                        child: Column(
+                          children: [
+                            MyCar(
+                              carType: carList[index]["carType"],
+                              licensePlate: carList[index]["licensePlate"],
+                              year: carList[index]["year"],
+                              mileage: carList[index]["mileage"],
+                              make: carList[index]["make"],
+                              model: carList[index]["model"],
+                              color: carList[index]["color"],
+                              VIN: carList[index]["vehicleIdentificationNumber"],
+                              rentalStatus: carList[index]["rentalStatus"],
+                              warningLightIndicators: stringList,
+                              carID: carList[index]["_id"],
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
                   return Container(
                     padding: EdgeInsets.only(top: 10),
 

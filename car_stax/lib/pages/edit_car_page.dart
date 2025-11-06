@@ -134,28 +134,13 @@ class _EditCarPageState extends State<EditCarPage> {
       child: StatefulBuilder(
         builder: (context, setDialogState) {
           return Container(
-            padding: EdgeInsets.all(12),
+            padding: EdgeInsets.all(16),
             child: SizedBox(
-              width: 300,
-              height: 400,
+              width: 350,
+              height: 500,
               child: Column(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    onPressed: () {
-                      setDialogState(() {
-                        warningList.add(TextEditingController());
-                      });
-                    },
-                    child: Text(
-                      "Add Field",
-                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                    ),
-                  ),
 
-                  SizedBox(height: 10,),
 
                   Expanded(
                     child: StreamBuilder(
@@ -192,6 +177,42 @@ class _EditCarPageState extends State<EditCarPage> {
                     )
 
                   ),
+
+                  // Buttons
+                  SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        onPressed: () {
+                          setDialogState(() {
+                            warningList.add(TextEditingController());
+                          });
+                        },
+                        child: Text(
+                          "Add Field",
+                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Close",
+                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                        ),
+                      ),
+                    ],
+                  )
+
                 ],
               ),
             ),
@@ -314,6 +335,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   textAlign: TextAlign.center,
                   width: 200,
 
+
                   inputDecorationTheme: const InputDecorationTheme(
                     filled: true,
 
@@ -420,8 +442,11 @@ class _EditCarPageState extends State<EditCarPage> {
                             )
                         )
                     ),
+
                   ],
-                )
+
+                ),
+                SizedBox(height: 100,)
               ],
             ),
           ),

@@ -60,14 +60,15 @@ class HomePage extends StatelessWidget {
 
 
           ),
-          padding: EdgeInsets.only(left: 48, right: 48, ),
+          padding: EdgeInsets.only(left: 48, right: 48,),
           child: Column(
             // Centers Text
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Text("Temp Home Page"),
               // CarListBuilder(),
-              CarListBuilderStf()
+              CarListBuilderStf(),
+
 
             ],
           ),

@@ -350,7 +350,8 @@ class _AddCarPageState extends State<AddCarPage> {
                         )
                     ),
                   ],
-                )
+                ),
+                SizedBox(height: 100,)
               ],
             ),
           ),
@@ -375,27 +376,10 @@ class _AddCarPageState extends State<AddCarPage> {
           return Container(
             padding: EdgeInsets.all(12),
             child: SizedBox(
-              width: 300,
-              height: 400,
+              width: 350,
+              height: 500,
               child: Column(
                 children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.tertiary,
-                    ),
-                    onPressed: () {
-
-                      setDialogState(() {
-                        warningList.add(TextEditingController());
-                      });
-                    },
-                    child: Text(
-                      "Add Field",
-                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                    ),
-                  ),
-
-
                   Expanded(
                       child: StreamBuilder(
                           stream: warningListSizeListener(),
@@ -430,6 +414,42 @@ class _AddCarPageState extends State<AddCarPage> {
                       )
 
                   ),
+
+                  SizedBox(height: 10,),
+
+                  // Buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        onPressed: () {
+                          setDialogState(() {
+                            warningList.add(TextEditingController());
+                          });
+                        },
+                        child: Text(
+                          "Add Field",
+                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Close",
+                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
