@@ -17,7 +17,7 @@ class _CarListPageState extends State<CarListPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CarListBuilder()
+            // CarListBuilder()
           ],
         ),
       ),
