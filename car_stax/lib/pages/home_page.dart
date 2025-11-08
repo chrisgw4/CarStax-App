@@ -2,18 +2,20 @@ import 'package:car_stax/components/car_list_builder.dart';
 import 'package:car_stax/components/my_car.dart';
 import 'package:car_stax/pages/car_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../auth/auth_provider.dart';
 import '../backend/backend_functions.dart';
 import 'add_car_page.dart';
 import 'login_page.dart';
 
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Temp Home Page"),
@@ -42,8 +44,9 @@ class HomePage extends StatelessWidget {
           children: [
             BackButton(
               onPressed: () {
-                is_logged_in = false;
-                Navigator.of(context).pop();
+                // is_logged_in = false;
+                // Navigator.of(context).pop();
+                ref.read(authProvider.notifier).logout();
               },
             ),
           ],

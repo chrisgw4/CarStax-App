@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:car_stax/auth/auth_provider.dart';
 import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/components/my_textfield.dart';
 import 'package:car_stax/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../components/my_button.dart';
 import '../main.dart';
@@ -9,16 +13,19 @@ import '../main.dart';
 
 bool is_logged_in = false;
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   final void Function()? onTap;
 
   const LoginPage({super.key, required this.onTap});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginPage> createCState() => _LoginPageState();
+
+  @override
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
 
   bool attempting_login = false;
 
@@ -75,32 +82,37 @@ class _LoginPageState extends State<LoginPage> {
       ), //center
     );
 
-    Map<String, dynamic> return_value = await backend_login(emailController.text, passwordController.text);
+    ref.read(authProvider.notifier).login(emailController.text, passwordController.text);
+
+    // var response = await backend_login(emailController.text, passwordController.text);
+
+    // Map<String, dynamic> return_value = jsonDecode(response.body);
+
 
     if (context.mounted) {
       Navigator.pop(context);
     }
 
-    if (return_value["success"] == true)
-      {
-        passwordController.text = "";
-        // Go to home page
-        Navigator.push(context, MaterialPageRoute<void>(
-          builder: (context) => const HomePage(),
-        )
-        );
-        is_logged_in = true;
-      }
-    else if(return_value["success"] == false)
-      {
-        if (return_value["message"] == "Email is not verified") {
-          loginFailedText.text = "Email is not verified.";
-        }
-        else
-          {
-            loginFailedText.text = "Invalid credentials.";
-          }
-      }
+    // if (return_value["success"] == true)
+    //   {
+    //     passwordController.text = "";
+    //     // Go to home page
+    //     Navigator.push(context, MaterialPageRoute<void>(
+    //       builder: (context) => const HomePage(),
+    //     )
+    //     );
+    //     is_logged_in = true;
+    //   }
+    // else if(return_value["success"] == false)
+    //   {
+    //     if (return_value["message"] == "Email is not verified") {
+    //       loginFailedText.text = "Email is not verified.";
+    //     }
+    //     else
+    //       {
+    //         loginFailedText.text = "Invalid credentials.";
+    //       }
+    //   }
 
 
     attempting_login = false;

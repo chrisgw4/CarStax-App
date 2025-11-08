@@ -19,7 +19,6 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
   late Db db;
   Stream? changeStream;
   Stream? stream;
-  // Map<String, bool> id_dict = {};
   bool allowStream = true;
 
   @override
@@ -52,23 +51,13 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
     // Checks for deletions
     changeStream = collection.watch(pipeline);
 
-    // var pipe = AggregationPipelineBuilder().addStage(
-    //     Match(where.oneFrom('fullDocument.companyName', ["Example Company"]).map['\$query']));
-    //
-    // stream = collection.watch(pipe,
-    //     changeStreamOptions: ChangeStreamOptions(fullDocument: 'updateLookup'));
-
-
-    // var controller = stream?.listen((changeEvent) {
-    //   allowStream = true;
-    // });
-
     var controller2 = changeStream?.listen((changeEvent) async {
       allowStream = true;
     });
 
+    print("Set up streaming");
 
-    // setState(() {}); // Trigger rebuild after stream is initialized
+
   }
 
   // Will only return when allowStream is true
@@ -85,7 +74,8 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
   Stream<Map<dynamic, dynamic>> streamCars () async* {
     while (true) {
       await getCanStream(); // Waits until allowStream changes to true
-        allowStream = false;
+      await Future.delayed(Duration(milliseconds: 100));
+      allowStream = false;
         var cars = await backend_get_cars();
         yield cars; // Sends back stream of cars
       }

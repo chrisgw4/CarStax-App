@@ -1,8 +1,11 @@
 import 'package:car_stax/auth/login_or_register.dart';
+import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/pages/home_page.dart';
 import 'package:car_stax/theme/dark_mode.dart';
 import 'package:car_stax/theme/light_mode.dart';
 import 'package:flutter/material.dart';
+import 'package:car_stax/auth/auth_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 extension HexColorExtension on String {
@@ -17,27 +20,42 @@ extension HexColorExtension on String {
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(
+      child: MyApp()
+  )
+  );
 }
 
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authProvider);
 
-    return MaterialApp(
-      home: LoginOrRegister(),
+    return MaterialApp(       // <-- MaterialApp provides Directionality
+
+      title: 'My App',
       theme: light_mode,
       darkTheme: dark_mode,
-      routes: {
-        '/login_register_page':(context) => LoginOrRegister(),
-        '/home_page' : (context) => HomePage(),
-
-      },
+      home: authState == AuthState.authenticated
+          ? const HomePage()
+          : const LoginOrRegister(),
     );
+
+
+    // return MaterialApp(
+    //   home: LoginOrRegister(),
+    //   theme: light_mode,
+    //   darkTheme: dark_mode,
+    //   routes: {
+    //     '/login_register_page':(context) => LoginOrRegister(),
+    //     '/home_page' : (context) => HomePage(),
+    //
+    //   },
+    // );
   }
 }
