@@ -111,22 +111,49 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQueryData = MediaQuery.of(context);
+    final screenWidth = mediaQueryData.size.width;
+    final screenHeight = mediaQueryData.size.height;
     return Scaffold(
 
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(25.0),
-          child: Column(
+          padding: EdgeInsets.all(0.0),
+          child: Stack(
+           children: [
+             Container(
 
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: [
-              Container(
-                child: Text("Image goes here"),
+               decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]), ),
+               height: screenHeight,
+               width: screenWidth,
+             ),
+              Column(
+                children: [SizedBox(height:screenHeight/10 ),Image(image: AssetImage("assets/images/Carstax Title Logo.png"),),],
               ),
 
-              SizedBox(height: 50,),
+              Container(
 
+                child: Column(
+                children: [
+                  SizedBox(height: screenHeight/3),
+                  Container(
+                    height: screenHeight- screenHeight/3,
+                    decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface,borderRadius: BorderRadius.only(topLeft: (Radius.circular(30)), topRight: (Radius.circular(30)) )),
+                    child: Column(children: [
+
+              Padding(padding: EdgeInsets.all(25.0),
+
+              child: Column(
+                children: [
+                  Text(
+                  "Sign In",
+                  style:  TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+
+
+                  ),),
+                  SizedBox(height: 30),
               // Email text input
               MyTextField(
                 hintText: "Email",
@@ -210,7 +237,18 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 ],
               )
+                  ]
+              )
+              )
+                      ]
+                    )
+                  )
 
+                ]
+
+              )
+
+             )
             ],
           ),
         ),
