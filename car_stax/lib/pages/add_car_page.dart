@@ -378,65 +378,65 @@ class _AddCarPageState extends State<AddCarPage> {
                 ),
 
                 // Add Car Button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.tertiary,
-                        ),
-                        onPressed: () async {
-                          if (yearController.text == "")
-                            return;
-                          if (mileageController.text == "")
-                            return;
-
-                          List<String> warningListStrings = [];
-
-                          for (TextEditingController object in warningList) {
-                            if (object.text != "") {
-                              warningListStrings.add(object.text);
-                            }
-                          }
-
-                          // Adds the car to the backend
-                          var response = await backend_add_car(
-                              lPlate: lPLateController.text,
-                              rentalStatus: rentalStatusController.text,
-                              currentRental: "",
-                              year: int.parse(yearController.text),
-                              color: colorController.text,
-                              make: makeController.text,
-                              model: modelController.text,
-                              mileage: int.parse(mileageController.text),
-                              repairStatus: "",
-                              warningLightIndicators: warningListStrings,
-                              VIN: vinController.text,
-                              carType: carTypeController.text
-                          );
-
-                          // Leave the add car page after successfully adding car to database
-                          if (response["success"] == true)
-                            {
-                              Navigator.pop(context);
-                            }
-                        },
-                        child: SizedBox(
-                          width: 80,
-                          height: 30,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Add Car",
-                                style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                              ),
-                            ],
-                          )
-                        )
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     ElevatedButton(
+                //         style: ElevatedButton.styleFrom(
+                //           backgroundColor: Theme.of(context).colorScheme.tertiary,
+                //         ),
+                //         onPressed: () async {
+                //           if (yearController.text == "")
+                //             return;
+                //           if (mileageController.text == "")
+                //             return;
+                //
+                //           List<String> warningListStrings = [];
+                //
+                //           for (TextEditingController object in warningList) {
+                //             if (object.text != "") {
+                //               warningListStrings.add(object.text);
+                //             }
+                //           }
+                //
+                //           // Adds the car to the backend
+                //           var response = await backend_add_car(
+                //               lPlate: lPLateController.text,
+                //               rentalStatus: rentalStatusController.text,
+                //               currentRental: "",
+                //               year: int.parse(yearController.text),
+                //               color: colorController.text,
+                //               make: makeController.text,
+                //               model: modelController.text,
+                //               mileage: int.parse(mileageController.text),
+                //               repairStatus: "",
+                //               warningLightIndicators: warningListStrings,
+                //               VIN: vinController.text,
+                //               carType: carTypeController.text
+                //           );
+                //
+                //           // Leave the add car page after successfully adding car to database
+                //           if (response["success"] == true)
+                //             {
+                //               Navigator.pop(context);
+                //             }
+                //         },
+                //         child: SizedBox(
+                //           width: 80,
+                //           height: 30,
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               Text(
+                //                 "Add Car",
+                //                 style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                //               ),
+                //             ],
+                //           )
+                //         )
+                //     ),
+                //   ],
+                // ),
                 SizedBox(height: 100,)
               ],
             ),
