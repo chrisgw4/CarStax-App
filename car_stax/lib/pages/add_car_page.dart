@@ -126,7 +126,7 @@ class _AddCarPageState extends State<AddCarPage> {
     }
     return Scaffold(
       floatingActionButton: Container(
-        width: 60,
+        width: 80,
         height: 60,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]),
@@ -137,8 +137,8 @@ class _AddCarPageState extends State<AddCarPage> {
             backgroundColor: Colors.transparent,
 
             child: Expanded(
-              child: Icon(Icons.add, color: Colors.white,),
-              // child: Text("Add Car"),
+              // child: Icon(Icons.add, color: Colors.white,),
+              child: Text("Add Car"),
             ),
             onPressed: () async {
               print("Pressed add");
