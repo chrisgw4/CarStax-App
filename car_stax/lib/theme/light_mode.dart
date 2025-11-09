@@ -11,6 +11,7 @@ ThemeData light_mode = ThemeData(
     secondary: Colors.grey.shade400,
     tertiary: "#48B89F".toColor(),
     inversePrimary: Colors.grey.shade800,
+    inverseSurface: Colors.black
   ),
   textTheme: ThemeData.light().textTheme.apply(
     bodyColor: Colors.grey[800],

@@ -123,7 +123,7 @@ class MyCar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(width: 15),
-                  Container(child: Image.network(image),height: 100,),
+                  Container(child: Image.network(image, color: Theme.of(context).colorScheme.inverseSurface,),height: 100),
                   SizedBox(width: 25),
                   Expanded(child:
                   Column(children: [

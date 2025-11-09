@@ -43,9 +43,13 @@ class _RegisterPageState extends State<RegisterPage> {
   double indUserHeight = 110;
   double indUserWidth = 110;
   double compUserHeight = 100;
-  double compUserWidth = 110;
+  double compUserWidth = 100;
   double companyHeight = 100;
-  double companyWidth = 110;
+  double companyWidth = 100;
+
+  Curve curveType = Curves.linear;
+
+
 
   Stream<String> textControllerListener(
     TextEditingController controller,
@@ -133,6 +137,8 @@ class _RegisterPageState extends State<RegisterPage> {
     final mediaQueryData = MediaQuery.of(context);
     final screenWidth = mediaQueryData.size.width;
     final screenHeight = mediaQueryData.size.height;
+    Curve curveType = Curves.fastOutSlowIn;
+    int animateTime = 500;
     return Scaffold(
       body: Center(
         child: Padding(
@@ -200,7 +206,11 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 indUserBorderSize,
                                               ),
 
-                                              child: Container(
+                                              child: AnimatedSize(
+                                                alignment: Alignment.center,
+                                                curve: curveType,
+                                                duration: Duration(milliseconds: animateTime),
+                                                child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
@@ -214,11 +224,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 height: indUserHeight,
                                                 child: Column(
                                                   children: [
-                                                    SizedBox(height: 20),
+                                                    SizedBox(height: 15),
                                                     Image(
                                                       image: NetworkImage(
                                                         "https://farrukhanwar.site/assets/solo-Bto2POrv.png",
                                                       ),
+                                                      color: Theme.of(context).colorScheme.inverseSurface,
                                                       width: 40,
                                                     ),
                                                     Text("Individual User"),
@@ -226,19 +237,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   ],
                                                 ),
                                               ),
-                                            ),
+                                            )),
                                           ],
                                         ),
                                         onTap: () {
                                           setState(() {
                                             compUserBorderSize = 0;
                                             compUserHeight = 100;
-                                            compUserWidth = 110;
+                                            compUserWidth = 100;
                                             indUserHeight = 110;
                                             indUserWidth = 110;
                                             indUserBorderSize = 5;
                                             companyHeight = 100;
-                                            companyWidth = 110;
+                                            companyWidth = 100;
                                             companyBorderSize = 0;
                                           });
                                           userType = "solo";
@@ -268,7 +279,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 compUserBorderSize,
                                               ),
 
-                                              child: Container(
+                                              child: AnimatedSize(
+                                                alignment: Alignment.center,
+                                                curve: curveType,
+                                                duration: Duration(milliseconds: animateTime), child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
@@ -282,11 +296,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 height: compUserHeight,
                                                 child: Column(
                                                   children: [
-                                                    SizedBox(height: 20),
+                                                    SizedBox(height: 15),
                                                     Image(
                                                       image: NetworkImage(
                                                         "https://farrukhanwar.site/assets/join_company-DttSnnG5.png",
                                                       ),
+                                                      color: Theme.of(context).colorScheme.inverseSurface,
                                                       width: 40,
                                                     ),
                                                     Text("Join Company"),
@@ -295,7 +310,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 ),
                                               ),
                                             ),
-                                          ],
+                                            )],
                                         ),
                                         onTap: () {
                                           setState(() {
@@ -303,10 +318,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                             compUserHeight = 110;
                                             compUserWidth = 110;
                                             indUserHeight = 100;
-                                            indUserWidth = 110;
+                                            indUserWidth = 100;
                                             indUserBorderSize = 0;
                                             companyHeight = 100;
-                                            companyWidth = 110;
+                                            companyWidth = 100;
                                             companyBorderSize = 0;
                                           });
                                           userType = "company_member";
@@ -333,7 +348,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 companyBorderSize,
                                               ),
 
-                                              child: Container(
+                                              child: AnimatedSize(
+                                                alignment: Alignment.center,
+                                                curve: curveType,
+                                                duration: Duration(milliseconds: animateTime), child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
@@ -347,28 +365,29 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 height: companyHeight,
                                                 child: Column(
                                                   children: [
-                                                    SizedBox(height: 20),
+                                                    SizedBox(height: 15),
                                                     Image(
                                                       image: NetworkImage(
                                                         "https://farrukhanwar.site/assets/create_company-DCiy0iUX.png",
                                                       ),
+                                                      color: Theme.of(context).colorScheme.inverseSurface,
                                                       width: 40,
                                                     ),
-                                                    Text("Create Company"),
+                                                    Expanded(child: Text("Create Company", textAlign: TextAlign.center,)),
                                                     SizedBox(height: 5),
                                                   ],
                                                 ),
                                               ),
                                             ),
-                                          ],
+                                            )],
                                         ),
                                         onTap: () {
                                           setState(() {
                                             compUserBorderSize = 0;
                                             compUserHeight = 100;
-                                            compUserWidth = 110;
+                                            compUserWidth = 100;
                                             indUserHeight = 100;
-                                            indUserWidth = 110;
+                                            indUserWidth = 100;
                                             indUserBorderSize = 0;
                                             companyHeight = 110;
                                             companyWidth = 110;
