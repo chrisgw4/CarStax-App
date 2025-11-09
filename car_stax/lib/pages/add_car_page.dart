@@ -125,6 +125,62 @@ class _AddCarPageState extends State<AddCarPage> {
       // print('Entry label: ${entry.label}, value: ${entry.value}');
     }
     return Scaffold(
+      floatingActionButton: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: FloatingActionButton(
+            tooltip: 'Add Car',
+            backgroundColor: Colors.transparent,
+
+            child: Expanded(
+              child: Icon(Icons.add, color: Colors.white,),
+              // child: Text("Add Car"),
+            ),
+            onPressed: () async {
+              print("Pressed add");
+              if (yearController.text == "")
+                return;
+              if (mileageController.text == "")
+                return;
+
+              List<String> warningListStrings = [];
+
+              for (TextEditingController object in warningList) {
+                if (object.text != "") {
+                  warningListStrings.add(object.text);
+                }
+              }
+
+              // Adds the car to the backend
+              var response = await backend_add_car(
+                  lPlate: lPLateController.text,
+                  rentalStatus: rentalStatusController.text,
+                  currentRental: "",
+                  year: int.parse(yearController.text),
+                  color: colorController.text,
+                  make: makeController.text,
+                  model: modelController.text,
+                  mileage: int.parse(mileageController.text),
+                  repairStatus: "",
+                  warningLightIndicators: warningListStrings,
+                  VIN: vinController.text,
+                  carType: carTypeController.text
+              );
+
+              // Leave the add car page after successfully adding car to database
+              if (response["success"] == true)
+              {
+                Navigator.pop(context);
+              }
+            }
+        ),
+      ),
+
+
       appBar: AppBar(
         title: Text("Add a Car"),
         centerTitle: true,
@@ -221,46 +277,71 @@ class _AddCarPageState extends State<AddCarPage> {
                   ],
                 ),
                 SizedBox(height: 10),
-                Text("Color", style: TextStyle(fontSize: 16)),
-                MyTextField(
-                  hintText: "Black",
-                  obscureText: false,
-                  controller: colorController,
-                ),
-                SizedBox(height: 10),
                 Text("VIN Number", style: TextStyle(fontSize: 16)),
                 MyTextField(
                   hintText: "1A2BC34567D890123",
                   obscureText: false,
                   controller: vinController,
                 ),
+
                 SizedBox(height: 10),
-                Text("Car Type", style: TextStyle(fontSize: 16)),
 
-                DropdownMenu<CarType>(
-                  controller: carTypeController,
 
-                  textAlign: TextAlign.center,
-                  width: 200,
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                            children: [
+                              Text("Color", style: TextStyle(fontSize: 16)),
+                              MyTextField(
+                                hintText: "Black",
+                                obscureText: false,
+                                controller: colorController,
+                              ),
+                            ]
+                        )
+                    ),
+                    SizedBox(width: 10,),
+                    Expanded(
+                        child: Column(
+                          children: [
+                            Text("Car Type", style: TextStyle(fontSize: 16)),
+                            DropdownMenu<CarType>(
+                              controller: carTypeController,
 
-                  inputDecorationTheme: const InputDecorationTheme(
-                    filled: true,
+                              textAlign: TextAlign.center,
+                              width: 200,
 
-                    prefixIconConstraints: BoxConstraints(
-                      minHeight: 40,
-                      minWidth: 40,
+                              inputDecorationTheme: const InputDecorationTheme(
+                                filled: true,
+
+                                prefixIconConstraints: BoxConstraints(
+                                  minHeight: 40,
+                                  minWidth: 40,
+                                ),
+
+                                contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                              ),
+                              onSelected: (CarType? icon) {
+                                setState(() {
+                                  selectedCar = icon;
+                                });
+                              },
+                              dropdownMenuEntries: CarType.entries,
+                              leadingIcon: ImageIcon(selectedCar?.icon),
+                            ),
+                          ],
+                        )
                     ),
 
-                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                  ),
-                  onSelected: (CarType? icon) {
-                    setState(() {
-                      selectedCar = icon;
-                    });
-                  },
-                  dropdownMenuEntries: CarType.entries,
-                  leadingIcon: ImageIcon(selectedCar?.icon),
+
+
+
+
+                  ],
                 ),
+
                 SizedBox(height: 10),
                 Text("Rental Status", style: TextStyle(fontSize: 16)),
                 DropdownMenu<RentalStatus>(
