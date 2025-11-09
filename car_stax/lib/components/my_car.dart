@@ -29,11 +29,51 @@ class MyCar extends StatelessWidget {
   final String color;
   final String VIN;
   final String rentalStatus;
-
+  String image = "";
   final List<dynamic> warningLightIndicators;
 
   @override
   Widget build(BuildContext context) {
+    switch (carType) {
+      case "sedan":
+        image = "https://farrukhanwar.site/assets/sedan-BfLnftng.png";
+        break;
+      case "suv":
+        image = "https://farrukhanwar.site/assets/suv-DHEXZqaC.png";
+        break;
+      case "truck":
+        image = "https://farrukhanwar.site/assets/truck-DWk2EocT.png";
+        break;
+
+      case "coupe":
+        image = "https://farrukhanwar.site/assets/coupe-DpR66DVc.png";
+        break;
+
+      case "convertible":
+        image = "https://farrukhanwar.site/assets/convertible-D5rVBvli.png";
+        break;
+
+      case "hatchback":
+        image = "https://farrukhanwar.site/assets/hatchback-Bz_gbJNw.png";
+        break;
+
+      case "van":
+        image ="https://farrukhanwar.site/assets/van-D86uPqS3.png";
+        break;
+
+      case "motorcycle":
+        image = "https://farrukhanwar.site/assets/motorcycle-BLOPTAqK.png";
+        break;
+
+      case "other":
+        image = "https://farrukhanwar.site/assets/other-Db6NQrY2.png";
+        break;
+
+      default:
+        image = "https://farrukhanwar.site/assets/sedan-BfLnftng.png";
+        break;
+    }
+
     return GestureDetector(
       onTap: () {
         print("Pressed Car Item");
@@ -82,15 +122,28 @@ class MyCar extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Make: " + make),
-                  SizedBox(width: 20),
-                  Text("Model: " + model),
+                  SizedBox(width: 15),
+                  Container(child: Image.network(image),height: 100,),
+                  SizedBox(width: 25),
+                  Expanded(child:
+                  Column(children: [
+
+                  Text(make + " " + model,textAlign:TextAlign.center,overflow: null  ,style: TextStyle(fontSize: 25 ),),
+                    Text( carType[0].toUpperCase() + carType.substring(1),overflow: null  ,style: TextStyle(fontSize: 15 ,  ),), ]
+                  ),
+                    //Text(make + " " + model,overflow: null  ,style: TextStyle(fontSize: 25 ),),
+
+                  )
+
                 ],
               ),
+
               SizedBox(height: 5),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+
                   Text("Car Type: " + carType),
                   SizedBox(width: 20),
                   Text("Color: " + color),

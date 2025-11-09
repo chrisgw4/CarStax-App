@@ -133,7 +133,10 @@ class _AddCarPageState extends State<AddCarPage> {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        //backgroundColor: Theme.of(context).colorScheme.tertiary,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF48B89F),Color(0xFF38A3A5) ]),borderRadius: BorderRadius.circular(15.0) ),
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),

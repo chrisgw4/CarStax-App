@@ -170,7 +170,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               MyTextField(
                 hintText: "Email",
                 obscureText: false,
-                controller: emailController
+                controller: emailController,
               ),
 
               // Separator

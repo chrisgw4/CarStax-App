@@ -12,5 +12,6 @@ ThemeData dark_mode = ThemeData(
   textTheme: ThemeData.dark().textTheme.apply(
     bodyColor: Colors.grey[300],
     displayColor: Colors.black,
-  )
+  ),
+    hintColor: Colors.grey.shade500
 );
