@@ -53,6 +53,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
     var controller2 = changeStream?.listen((changeEvent) async {
       allowStream = true;
+      print("Change Happened");
     });
 
     print("Set up streaming");
@@ -63,7 +64,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
   // Will only return when allowStream is true
   Future<bool> getCanStream() async {
     while (true) {
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: 50));
       if (allowStream == true) {
         return allowStream;
       }
@@ -74,10 +75,10 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
   Stream<Map<dynamic, dynamic>> streamCars () async* {
     while (true) {
       await getCanStream(); // Waits until allowStream changes to true
-      await Future.delayed(Duration(milliseconds: 100));
+      await Future.delayed(Duration(milliseconds: 200));
       allowStream = false;
-        var cars = await backend_get_cars();
-        yield cars; // Sends back stream of cars
+      var cars = await backend_get_cars();
+      yield cars; // Sends back stream of cars
       }
   }
 

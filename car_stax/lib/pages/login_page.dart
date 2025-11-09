@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:car_stax/auth/auth_provider.dart';
 import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/components/my_textfield.dart';
+import 'package:car_stax/pages/forgot_password.dart';
 import 'package:car_stax/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,6 +48,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void forgotPassword() async {
     print("Run Forgot Password Code");
+
+    Future openDialog() => showDialog(
+        context: context,
+        builder: (context) => ForgotPassword()
+    );
+
+    openDialog();
   }
 
   void login() async {
@@ -227,7 +235,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               const SizedBox(height: 5,),
 
               // sign in button
-              MyButton(text: "Login", onTap: login),
+              MyButton(text: "Login", onTap: login,),
 
               const SizedBox(height: 10,),
               // don't have an account? register here

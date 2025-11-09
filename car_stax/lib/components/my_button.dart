@@ -4,11 +4,13 @@ import "package:flutter/material.dart";
 class MyButton extends StatelessWidget {
   final String text;
   final void Function()? onTap;
+  final double fontSize;
 
   const MyButton({
     super.key,
     required this.text,
     required this.onTap,
+    this.fontSize=30,
   });
 
   @override
@@ -30,7 +32,7 @@ class MyButton extends StatelessWidget {
             text,
             style:  TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 30,
+              fontSize: fontSize,
               color: Colors.white,
 
             ),
