@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/components/my_text.dart';
 import 'package:car_stax/components/my_textfield.dart';
+import 'package:car_stax/components/renter_info.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
@@ -117,6 +118,30 @@ class _AddCarPageState extends State<AddCarPage> {
   RentalStatus? selectedStatus;
   late List<TextEditingController> warningList = [];
 
+  final TextEditingController renterNameController = TextEditingController();
+  final TextEditingController renterEmailController = TextEditingController();
+  final TextEditingController renterPhoneController = TextEditingController();
+  final TextEditingController renterRateController = TextEditingController();
+
+  late DateTime startDate;
+  late DateTime returnDate;
+  late DateTime actualReturnDate;
+
+
+  Stream<bool> streamRentalStatus() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+
+      if (selectedStatus?.label == "Rented") {
+        yield true;
+      }
+      else {
+        yield false;
+      }
+
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -135,11 +160,7 @@ class _AddCarPageState extends State<AddCarPage> {
         child: FloatingActionButton(
             tooltip: 'Add Car',
             backgroundColor: Colors.transparent,
-
-            child: Expanded(
-              // child: Icon(Icons.add, color: Colors.white,),
-              child: Text("Add Car"),
-            ),
+            child: Text("Add Car"),
             onPressed: () async {
               print("Pressed add");
               if (yearController.text == "")
@@ -171,11 +192,29 @@ class _AddCarPageState extends State<AddCarPage> {
                   carType: carTypeController.text
               );
 
+
+              var responseRenter;
+              if (selectedStatus?.label == "Rented") {
+                responseRenter = await backend_add_renter(
+                    carID: response["car"]["_id"],
+                    renterName: renterNameController.text,
+                    renterEmail: renterEmailController.text,
+                    renterPhone: renterPhoneController.text,
+                    dateRentedOut: "${startDate.month}/${startDate.day}/${startDate.year}",
+                    expectedReturnDate: "${returnDate.month}/${returnDate.day}/${returnDate.year}",
+                    actualReturnDate: "${actualReturnDate.month}/${actualReturnDate.day}/${actualReturnDate.year}",
+                    rentalRatePerDay: renterRateController.text,
+                    notes: "");
+              }
+
+
               // Leave the add car page after successfully adding car to database
               if (response["success"] == true)
               {
                 Navigator.pop(context);
               }
+
+
             }
         ),
       ),
@@ -375,6 +414,37 @@ class _AddCarPageState extends State<AddCarPage> {
                       "Add Issues",
                       style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                     )
+                ),
+
+                StreamBuilder(
+                    stream: streamRentalStatus(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text("");
+                      }
+                      if (!snapshot.hasData) {
+                        return Text("");
+                      }
+                      if (snapshot.data == false) {
+                        return Text("");
+                      }
+
+                      return RenterInfo(
+                        renterNameController: renterNameController,
+                        renterEmailController: renterEmailController,
+                        renterPhoneController: renterPhoneController,
+                        renterRateController: renterRateController,
+                        startDateChanged: (DateTime d) {
+                          startDate = d;
+                        },
+                        returnDateChanged: (DateTime d) {
+                          returnDate = d;
+                        },
+                        actualReturnDateChanged: (DateTime d) {
+                          actualReturnDate = d;
+                        },
+                      );
+                    }
                 ),
 
                 // Add Car Button

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../backend/backend_functions.dart';
 import '../components/my_textfield.dart';
+import '../components/renter_info.dart';
 import 'add_car_page.dart';
 
 
@@ -76,13 +77,42 @@ class _EditCarPageState extends State<EditCarPage> {
     colorController.text = color;
     vinController.text = vin;
     carTypeController.text = carType;
-    rentalStatusController.text = rentalStatus;
+    rentalStatusController.text = rentalStatus.substring(0,1).toUpperCase() + rentalStatus.substring(1);
+
+    if (rentalStatus == "rented") {
+      setState(() {
+        selectedStatus = RentalStatus.rented;
+      });
+      loadRenter();
+    }
+    else if (rentalStatus == "available") {
+      setState(() {
+        selectedStatus = RentalStatus.available;
+      });
+    }
+    else {
+      setState(() {
+        selectedStatus = RentalStatus.maintenance;
+      });
+    }
 
     for (String s in warningList1) {
       TextEditingController temp = TextEditingController();
       temp.text = s;
       warningList.add(temp);
     }
+  }
+
+  void loadRenter() async {
+    var response = await backend_get_renter(carID: carID);
+    renterNameController.text = response["rentals"][0]["renterName"];
+    renterEmailController.text = response["rentals"][0]["renterEmail"];
+    renterPhoneController.text = response["rentals"][0]["renterPhone"];
+    renterRateController.text = response["rentals"][0]["rentalRatePerDay"].toString();
+
+    startDate = DateTime.parse(response["rentals"][0]['dateRentedOut']);
+    returnDate = DateTime.parse(response["rentals"][0]['expectedReturnDate']);
+    actualReturnDate = DateTime.parse(response["rentals"][0]['actualReturnDate']);
   }
 
   final String licensePlate;
@@ -119,10 +149,55 @@ class _EditCarPageState extends State<EditCarPage> {
   RentalStatus? selectedStatus;
   late List<TextEditingController> warningList = [];
 
+
+  final TextEditingController renterNameController = TextEditingController();
+  final TextEditingController renterEmailController = TextEditingController();
+  final TextEditingController renterPhoneController = TextEditingController();
+  final TextEditingController renterRateController = TextEditingController();
+
+  late DateTime startDate = DateTime.now();
+  late DateTime returnDate = DateTime.now();
+  late DateTime actualReturnDate = DateTime.now();
+
   Stream<int> warningListSizeListener() async* {
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
       yield warningList.length;
+    }
+  }
+
+  Stream<bool> streamRentalStatus() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
+
+      if (selectedStatus?.label == "Rented") {
+        yield true;
+      }
+      else {
+        yield false;
+      }
+
+    }
+  }
+
+  Stream<List<dynamic>> streamStartDates () async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 10));
+      var response = await backend_get_renter(carID: carID);
+      List<dynamic> list = [];
+      if (response["rentals"].length > 0) {
+        // print( DateTime.parse(response["rentals"][0]["dateRentedOut"]));
+        var sD = DateTime.parse(response["rentals"][0]['dateRentedOut']);
+        var rD = DateTime.parse(response["rentals"][0]['expectedReturnDate']);
+        var aRD =
+        DateTime.parse(response["rentals"][0]['actualReturnDate']);
+        list = [selectedStatus?.label == "Rented", sD, rD, aRD];
+      }
+      else {
+        list = [selectedStatus?.label == "Rented", null, null, null];
+      }
+
+      yield list;
     }
   }
 
@@ -226,6 +301,84 @@ class _EditCarPageState extends State<EditCarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Container(
+        width: 80,
+        height: 60,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: FloatingActionButton(
+            tooltip: 'Edit Car',
+            backgroundColor: Colors.transparent,
+            child: Text("Edit Car"),
+            onPressed: () async {
+              print("Pressed add");
+              if (yearController.text == "")
+                return;
+              if (mileageController.text == "")
+                return;
+
+              List<String> warningListStrings = [];
+
+              for (TextEditingController object in warningList) {
+                if (object.text != "") {
+                  warningListStrings.add(object.text);
+                }
+              }
+
+              backend_edit_car(
+                  lPlate: lPLateController.text,
+                  rentalStatus: rentalStatusController.text,
+                  currentRental: "",
+                  year: int.parse(yearController.text),
+                  color: color,
+                  make: makeController.text,
+                  model: modelController.text,
+                  mileage: int.parse(mileageController.text),
+                  repairStatus: "",
+                  warningLightIndicators: warningListStrings,
+                  VIN: vinController.text,
+                  carType: carTypeController.text,
+                  carId: carID
+              );
+
+              var has_renter = await checkCarHasRenter(carID: carID);
+              if (selectedStatus?.label == "Rented") {
+
+                var renter = await backend_get_renter(carID: carID);
+                print(renter);
+
+                if (has_renter) {
+                  backend_edit_renter(
+                      renterID: renter["rentals"][0]["_id"],
+                      renterName: renterNameController.text,
+                      renterEmail: renterEmailController.text,
+                      renterPhone: renterPhoneController.text,
+                      dateRentedOut: "${startDate.month}/${startDate.day}/${startDate.year}",
+                      expectedReturnDate: "${returnDate.month}/${returnDate.day}/${returnDate.year}",
+                      actualReturnDate: "${actualReturnDate.month}/${actualReturnDate.day}/${actualReturnDate.year}",
+                      rentalRatePerDay: renterRateController.text,
+                      notes: ""
+                  );
+                }
+                else {
+                  backend_add_renter(
+                      carID: carID,
+                      renterName: renterNameController.text,
+                      renterEmail: renterEmailController.text,
+                      renterPhone: renterPhoneController.text,
+                      dateRentedOut: "${startDate.month}/${startDate.day}/${startDate.year}",
+                      expectedReturnDate: "${returnDate.month}/${returnDate.day}/${returnDate.year}",
+                      actualReturnDate: "${actualReturnDate.month}/${actualReturnDate.day}/${actualReturnDate.year}",
+                      rentalRatePerDay: renterRateController.text,
+                      notes: ""
+                  );
+                }
+              }
+            }
+        ),
+      ),
       appBar: AppBar(
         title: Text("Edit Car"),
         centerTitle: true,
@@ -239,6 +392,7 @@ class _EditCarPageState extends State<EditCarPage> {
           },
         ),
       ),
+
       body: SingleChildScrollView(
         padding: EdgeInsets.only(),
         child: Center(
@@ -396,63 +550,83 @@ class _EditCarPageState extends State<EditCarPage> {
                     )
                 ),
 
-                // Add Car Button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
-                      ),
-                        onPressed: () {
-                          if (yearController.text == "")
-                            return;
-                          if (mileageController.text == "")
-                            return;
+                StreamBuilder(
+                    stream: streamStartDates(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text("");
+                      }
+                      if (!snapshot.hasData) {
+                        return Text("");
+                      }
+                      if (snapshot.data?[0] == false) {
+                        return Text("");
+                      }
 
-                          List<String> warningListStrings = [];
-
-                          for (TextEditingController object in warningList) {
-                            if (object.text != "") {
-                              warningListStrings.add(object.text);
-                            }
-                          }
-
-                          // Adds the car to the backend
-                          backend_edit_car(
-                              lPlate: lPLateController.text,
-                              rentalStatus: rentalStatusController.text,
-                              currentRental: "",
-                              year: int.parse(yearController.text),
-                              color: colorController.text,
-                              make: makeController.text,
-                              model: modelController.text,
-                              mileage: int.parse(mileageController.text),
-                              repairStatus: "",
-                              warningLightIndicators: warningListStrings,
-                              VIN: vinController.text,
-                              carType: carTypeController.text,
-                              carId: carID,
-                          );
+                      return RenterInfo(
+                        renterNameController: renterNameController,
+                        renterEmailController: renterEmailController,
+                        renterPhoneController: renterPhoneController,
+                        renterRateController: renterRateController,
+                        initialStartDate: snapshot.data?[1],
+                        initialReturnDate: snapshot.data?[2],
+                        initialActualReturnDate: snapshot.data?[3],
+                        startDateChanged: (DateTime d) {
+                          startDate = d;
                         },
-                        child: SizedBox(
-                            width: 80,
-                            height: 30,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Save Edits",
-                                  style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                                ),
-                              ],
-                            )
-                        )
-                    ),
+                        returnDateChanged: (DateTime d) {
+                          returnDate = d;
+                        },
+                        actualReturnDateChanged: (DateTime d) {
+                          actualReturnDate = d;
+                        },
+                      );
 
-                  ],
-
+                    }
                 ),
+
+
+                // StreamBuilder(
+                //     stream: streamRentalStatus(),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasError) {
+                //         return Text("");
+                //       }
+                //       if (!snapshot.hasData) {
+                //         return Text("");
+                //       }
+                //       if (snapshot.data == false) {
+                //         return Text("");
+                //       }
+                //       return StreamBuilder(
+                //           stream: streamStartDates(),
+                //           builder: (context, snapshot) {
+                //             if (!snapshot.hasData) {
+                //               return Text("No Data");
+                //             }
+                //
+                //             return RenterInfo(
+                //               renterNameController: renterNameController,
+                //               renterEmailController: renterEmailController,
+                //               renterPhoneController: renterPhoneController,
+                //               renterRateController: renterRateController,
+                //               initialStartDate: snapshot.data?[0],
+                //               initialReturnDate: snapshot.data?[1],
+                //               initialActualReturnDate: snapshot.data?[2],
+                //               startDateChanged: (DateTime d) {
+                //                 startDate = d;
+                //               },
+                //               returnDateChanged: (DateTime d) {
+                //                 returnDate = d;
+                //               },
+                //               actualReturnDateChanged: (DateTime d) {
+                //                 actualReturnDate = d;
+                //               },
+                //             );
+                //           }
+                //       );
+                //     }
+                // ),
                 SizedBox(height: 100,)
               ],
             ),

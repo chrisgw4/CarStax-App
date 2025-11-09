@@ -1,3 +1,4 @@
+import "package:car_stax/main.dart";
 import "package:flutter/material.dart";
 
 ThemeData dark_mode = ThemeData(
@@ -6,7 +7,7 @@ ThemeData dark_mode = ThemeData(
     surface: Colors.grey.shade900,
     primary: Colors.grey.shade800,
     secondary: Colors.grey.shade700,
-    tertiary: Colors.grey.shade600,
+    tertiary: "#48B89F".toColor(),
     inversePrimary: Colors.grey.shade300,
     inverseSurface: Colors.white
   ),
