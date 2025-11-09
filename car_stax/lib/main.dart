@@ -6,6 +6,7 @@ import 'package:car_stax/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:car_stax/auth/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 
 
 extension HexColorExtension on String {
@@ -20,6 +21,10 @@ extension HexColorExtension on String {
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure binding is initialized
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // Lock to portrait mode
+  ]);
   runApp(const ProviderScope(
       child: MyApp()
   )
@@ -37,7 +42,7 @@ class MyApp extends ConsumerWidget {
     final authState = ref.watch(authProvider);
 
     return MaterialApp(       // <-- MaterialApp provides Directionality
-
+      debugShowCheckedModeBanner: false,
       title: 'My App',
       theme: light_mode,
       darkTheme: dark_mode,
