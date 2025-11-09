@@ -11,7 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../components/my_button.dart';
 import '../main.dart';
 
-
 bool is_logged_in = false;
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -27,9 +26,7 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-
   bool attempting_login = false;
-
 
   final TextEditingController emailController = TextEditingController();
 
@@ -37,28 +34,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   final TextEditingController loginFailedText = TextEditingController();
 
-
-  Stream<String> textControllerListener(TextEditingController controller) async* { // <- here
+  Stream<String> textControllerListener(
+    TextEditingController controller,
+  ) async* {
+    // <- here
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
       yield controller.value.text;
     }
   }
 
-
   void forgotPassword() async {
     print("Run Forgot Password Code");
 
-    Future openDialog() => showDialog(
-        context: context,
-        builder: (context) => ForgotPassword()
-    );
+    Future openDialog() =>
+        showDialog(context: context, builder: (context) => ForgotPassword());
 
     openDialog();
   }
 
   void login() async {
-
     if (is_logged_in) {
       return;
     }
@@ -86,16 +81,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     showDialog(
       context: context,
       barrierDismissible: false, // Make it so it doesn't disappear on tap
-      builder: (context) => const Center(child: CircularProgressIndicator(),
-      ), //center
+      builder: (context) =>
+          const Center(child: CircularProgressIndicator()), //center
     );
 
-    ref.read(authProvider.notifier).login(emailController.text, passwordController.text);
+    ref
+        .read(authProvider.notifier)
+        .login(emailController.text, passwordController.text);
 
     // var response = await backend_login(emailController.text, passwordController.text);
 
     // Map<String, dynamic> return_value = jsonDecode(response.body);
-
 
     if (context.mounted) {
       Navigator.pop(context);
@@ -122,7 +118,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     //       }
     //   }
 
-
     attempting_login = false;
     print("Attempting Login");
 
@@ -135,140 +130,166 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final screenWidth = mediaQueryData.size.width;
     final screenHeight = mediaQueryData.size.height;
     return Scaffold(
-
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(0.0),
           child: Stack(
-           children: [
-             Container(
-
-               decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]), ),
-               height: screenHeight,
-               width: screenWidth,
-             ),
-              Column(
-                children: [SizedBox(height:screenHeight/10 ),Image(image: AssetImage("assets/images/Carstax Title Logo.png"),),],
-              ),
-
+            children: [
               Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF22577A), Color(0xFF6CDD99)],
+                  ),
+                ),
+                height: screenHeight,
+                width: screenWidth,
+              ),
+              Column(
+                children: [
+                  SizedBox(height: screenHeight / 10),
+                  Image(
+                    image: AssetImage("assets/images/Carstax Title Logo.png"),
+                  ),
+                ],
+              ),
 
+              SingleChildScrollView(
                 child: Column(
-                children: [
-                  SizedBox(height: screenHeight/3),
-                  Container(
-                    height: screenHeight- screenHeight/3,
-                    decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface,borderRadius: BorderRadius.only(topLeft: (Radius.circular(30)), topRight: (Radius.circular(30)) )),
-                    child: Column(children: [
+                  children: [
+                    SizedBox(height: screenHeight / 3),
+                    Container(
+                      height: screenHeight - screenHeight / 3,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.only(
+                          topLeft: (Radius.circular(30)),
+                          topRight: (Radius.circular(30)),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(25.0),
 
-              Padding(padding: EdgeInsets.all(25.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  "Sign In",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                  ),
+                                ),
+                                SizedBox(height: 30),
+                                // Email text input
+                                MyTextField(
+                                  hintText: "Email",
+                                  obscureText: false,
+                                  controller: emailController,
+                                ),
 
-              child: Column(
-                children: [
-                  Text(
-                  "Sign In",
-                  style:  TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
+                                // Separator
+                                SizedBox(height: 10),
 
+                                StreamBuilder(
+                                  stream: textControllerListener(
+                                    passwordController,
+                                  ),
+                                  builder:
+                                      (
+                                        BuildContext context,
+                                        AsyncSnapshot<String> snapshot,
+                                      ) {
+                                        // Password text input
+                                        return MyTextField(
+                                          hintText: "Password",
+                                          obscureText: true,
+                                          controller: passwordController,
+                                        );
+                                      },
+                                ),
 
-                  ),),
-                  SizedBox(height: 30),
-              // Email text input
-              MyTextField(
-                hintText: "Email",
-                obscureText: false,
-                controller: emailController,
-              ),
+                                // Separator
+                                const SizedBox(height: 10),
 
-              // Separator
-              SizedBox(height: 10,),
+                                StreamBuilder<String>(
+                                  stream: textControllerListener(
+                                    loginFailedText,
+                                  ),
+                                  builder:
+                                      (
+                                        BuildContext context,
+                                        AsyncSnapshot<String> snapshot,
+                                      ) {
+                                        if (snapshot.hasError) {
+                                          return const Text('Error');
+                                        } else {
+                                          if (snapshot.data == null) {
+                                            return Text("");
+                                          }
+                                          return Text(
+                                            (snapshot.data) as String,
+                                          );
+                                        }
+                                      },
+                                ),
 
-              StreamBuilder(
-                  stream: textControllerListener(passwordController),
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    // Password text input
-                    return MyTextField(
-                        hintText: "Password",
-                        obscureText: true,
-                        controller: passwordController
-                    );
-                  }
-              ),
+                                // forgot password
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: forgotPassword,
+                                      child: Text(
+                                        "Forgot Password?",
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
 
+                                const SizedBox(height: 5),
 
-              // Separator
-              const SizedBox(height: 10,),
+                                // sign in button
+                                MyButton(text: "Login", onTap: login),
 
-
-              StreamBuilder<String>(
-                  stream: textControllerListener(loginFailedText),
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    if (snapshot.hasError) {
-                      return const Text('Error');
-                    } else {
-                      if (snapshot.data == null)
-                        {
-                          return Text("");
-                        }
-                      return Text((snapshot.data) as String);
-                    }
-                  }),
-
-              // forgot password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: forgotPassword,
-                    child: Text("Forgot Password?",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
+                                const SizedBox(height: 10),
+                                // don't have an account? register here
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Don't have an account?",
+                                      style: TextStyle(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.inversePrimary,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: widget.onTap,
+                                      child: const Text(
+                                        " Register Here",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  )
-
-                ],
+                  ],
+                ),
               ),
-
-              const SizedBox(height: 5,),
-
-              // sign in button
-              MyButton(text: "Login", onTap: login,),
-
-              const SizedBox(height: 10,),
-              // don't have an account? register here
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Don't have an account?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: const Text(
-                      " Register Here",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              )
-                  ]
-              )
-              )
-                      ]
-                    )
-                  )
-
-                ]
-
-              )
-
-             )
             ],
           ),
         ),
@@ -276,6 +297,3 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     );
   }
 }
-
-
-

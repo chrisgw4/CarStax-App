@@ -156,323 +156,335 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ],
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
 
-                children: [
-                  SizedBox(height: screenHeight / 4),
-                  Container(
-                    height: screenHeight - screenHeight / 4,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.only(
-                        topLeft: (Radius.circular(30)),
-                        topRight: (Radius.circular(30)),
+                  children: [
+                    SizedBox(height: screenHeight / 4),
+                    Container(
+                      height: screenHeight - screenHeight / 4,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surface,
+                        borderRadius: BorderRadius.only(
+                          topLeft: (Radius.circular(30)),
+                          topRight: (Radius.circular(30)),
+                        ),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(25.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF22577A),
+                                                    Color(0xFF6CDD99),
+                                                  ],
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              padding: EdgeInsets.all(
+                                                indUserBorderSize,
+                                              ),
+
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                ),
+                                                width: indUserWidth,
+                                                height: indUserHeight,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(height: 20),
+                                                    Image(
+                                                      image: NetworkImage(
+                                                        "https://farrukhanwar.site/assets/solo-Bto2POrv.png",
+                                                      ),
+                                                      width: 40,
+                                                    ),
+                                                    Text("Individual User"),
+                                                    SizedBox(height: 5),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            compUserBorderSize = 0;
+                                            compUserHeight = 100;
+                                            compUserWidth = 110;
+                                            indUserHeight = 110;
+                                            indUserWidth = 110;
+                                            indUserBorderSize = 5;
+                                            companyHeight = 100;
+                                            companyWidth = 110;
+                                            companyBorderSize = 0;
+                                          });
+                                          userType = "solo";
+
+                                          print(userType);
+                                        },
+                                      ),
+
+                                      SizedBox(width: 10),
+
+                                      GestureDetector(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF22577A),
+                                                    Color(0xFF6CDD99),
+                                                  ],
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              padding: EdgeInsets.all(
+                                                compUserBorderSize,
+                                              ),
+
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                ),
+                                                width: compUserWidth,
+                                                height: compUserHeight,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(height: 20),
+                                                    Image(
+                                                      image: NetworkImage(
+                                                        "https://farrukhanwar.site/assets/join_company-DttSnnG5.png",
+                                                      ),
+                                                      width: 40,
+                                                    ),
+                                                    Text("Join Company"),
+                                                    SizedBox(height: 5),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            compUserBorderSize = 5;
+                                            compUserHeight = 110;
+                                            compUserWidth = 110;
+                                            indUserHeight = 100;
+                                            indUserWidth = 110;
+                                            indUserBorderSize = 0;
+                                            companyHeight = 100;
+                                            companyWidth = 110;
+                                            companyBorderSize = 0;
+                                          });
+                                          userType = "company_member";
+                                          print(userType);
+                                        },
+                                      ),
+                                      SizedBox(width: 10),
+                                      GestureDetector(
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Color(0xFF22577A),
+                                                    Color(0xFF6CDD99),
+                                                  ],
+                                                ),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(10),
+                                                ),
+                                              ),
+                                              padding: EdgeInsets.all(
+                                                companyBorderSize,
+                                              ),
+
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(10),
+                                                      ),
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                ),
+                                                width: companyWidth,
+                                                height: companyHeight,
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(height: 20),
+                                                    Image(
+                                                      image: NetworkImage(
+                                                        "https://farrukhanwar.site/assets/create_company-DCiy0iUX.png",
+                                                      ),
+                                                      width: 40,
+                                                    ),
+                                                    Text("Create Company"),
+                                                    SizedBox(height: 5),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          setState(() {
+                                            compUserBorderSize = 0;
+                                            compUserHeight = 100;
+                                            compUserWidth = 110;
+                                            indUserHeight = 100;
+                                            indUserWidth = 110;
+                                            indUserBorderSize = 0;
+                                            companyHeight = 110;
+                                            companyWidth = 110;
+                                            companyBorderSize = 5;
+                                          });
+                                          userType = "company_admin";
+                                          print(userType);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+
+                                  SizedBox(height: 20),
+
+                                  StreamBuilder(
+                                    stream: userTypeListener(),
+                                    builder: (context, snapshot) {
+                                      // Show Company Name
+                                      if (snapshot.data == "company_member" ||
+                                          snapshot.data == "company_admin") {
+                                        if (companyNameController.text == "N/A")
+                                          companyNameController.text = "";
+                                        return RegisterInfoCompanyName(
+                                          firstNameController:
+                                              firstNameController,
+                                          lastNameController:
+                                              lastNameController,
+                                          companyNameController:
+                                              companyNameController,
+                                          emailController: emailController,
+                                          passwordController:
+                                              passwordController,
+                                          confirmPasswordController:
+                                              confirmPasswordController,
+                                        );
+                                      }
+
+                                      // Do not show company name
+                                      compUserBorderSize = 0;
+                                      compUserHeight = 100;
+                                      companyNameController.text = "N/A";
+                                      return RegisterInfo(
+                                        firstNameController:
+                                            firstNameController,
+                                        lastNameController: lastNameController,
+                                        emailController: emailController,
+                                        passwordController: passwordController,
+                                        confirmPasswordController:
+                                            confirmPasswordController,
+                                      );
+                                    },
+                                  ),
+
+                                  const SizedBox(height: 10),
+
+                                  StreamBuilder<String>(
+                                    stream: textControllerListener(
+                                      registerSuccessText,
+                                    ),
+                                    builder:
+                                        (
+                                          BuildContext context,
+                                          AsyncSnapshot<String> snapshot,
+                                        ) {
+                                          if (snapshot.hasError) {
+                                            return const Text('Error');
+                                          } else {
+                                            if (snapshot.data == null) {
+                                              return Text("");
+                                            }
+                                            return Text(
+                                              (snapshot.data) as String,
+                                            );
+                                          }
+                                        },
+                                  ),
+
+                                  const SizedBox(height: 10),
+
+                                  // register button
+                                  MyButton(text: "Register", onTap: register),
+
+                                  const SizedBox(height: 10),
+                                  // don't have an account? register here
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Already have an account?",
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: widget.onTap,
+                                        child: const Text(
+                                          " Login Here",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                          ],
+                        ),
                       ),
                     ),
-                    child: SingleChildScrollView(child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(25.0),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Color(0xFF22577A),
-                                                Color(0xFF6CDD99),
-                                              ],
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.all(
-                                            indUserBorderSize,
-                                          ),
-
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                            width: indUserWidth,
-                                            height: indUserHeight,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(height: 20),
-                                                Image(
-                                                  image: NetworkImage(
-                                                    "https://farrukhanwar.site/assets/solo-Bto2POrv.png",
-                                                  ),
-                                                  width: 40,
-                                                ),
-                                                Text("Individual User"),
-                                                SizedBox(height: 5),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        compUserBorderSize = 0;
-                                        compUserHeight = 100;
-                                        compUserWidth = 110;
-                                        indUserHeight = 110;
-                                        indUserWidth = 110;
-                                        indUserBorderSize = 5;
-                                        companyHeight = 100;
-                                        companyWidth = 110;
-                                        companyBorderSize = 0;
-                                      });
-                                      userType = "solo";
-
-                                      print(userType);
-                                    },
-                                  ),
-
-                                  SizedBox(width: 10),
-
-                                  GestureDetector(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Color(0xFF22577A),
-                                                Color(0xFF6CDD99),
-                                              ],
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.all(
-                                            compUserBorderSize,
-                                          ),
-
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                            width: compUserWidth,
-                                            height: compUserHeight,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(height: 20),
-                                                Image(
-                                                  image: NetworkImage(
-                                                    "https://farrukhanwar.site/assets/join_company-DttSnnG5.png",
-                                                  ),
-                                                  width: 40,
-                                                ),
-                                                Text("Join Company"),
-                                                SizedBox(height: 5),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        compUserBorderSize = 5;
-                                        compUserHeight = 110;
-                                        compUserWidth = 110;
-                                        indUserHeight = 100;
-                                        indUserWidth = 110;
-                                        indUserBorderSize = 0;
-                                        companyHeight = 100;
-                                        companyWidth = 110;
-                                        companyBorderSize = 0;
-                                      });
-                                      userType = "company_member";
-                                      print(userType);
-                                    },
-                                  ),
-                                  SizedBox(width: 10),
-                                  GestureDetector(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Color(0xFF22577A),
-                                                Color(0xFF6CDD99),
-                                              ],
-                                            ),
-                                            borderRadius: BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          padding: EdgeInsets.all(
-                                            companyBorderSize,
-                                          ),
-
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10),
-                                              ),
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                            ),
-                                            width: companyWidth,
-                                            height: companyHeight,
-                                            child: Column(
-                                              children: [
-                                                SizedBox(height: 20),
-                                                Image(
-                                                  image: NetworkImage(
-                                                    "https://farrukhanwar.site/assets/create_company-DCiy0iUX.png",
-                                                  ),
-                                                  width: 40,
-                                                ),
-                                                Text("Create Company"),
-                                                SizedBox(height: 5),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        compUserBorderSize = 0;
-                                        compUserHeight = 100;
-                                        compUserWidth = 110;
-                                        indUserHeight = 100;
-                                        indUserWidth = 110;
-                                        indUserBorderSize = 0;
-                                        companyHeight = 110;
-                                        companyWidth = 110;
-                                        companyBorderSize = 5;
-                                      });
-                                      userType = "company_admin";
-                                      print(userType);
-                                    },
-                                  ),
-                                ],
-                              ),
-
-                              SizedBox(height: 20),
-
-                              StreamBuilder(
-                                stream: userTypeListener(),
-                                builder: (context, snapshot) {
-                                  // Show Company Name
-                                  if (snapshot.data == "company_member" ||
-                                      snapshot.data == "company_admin") {
-                                    if (companyNameController.text == "N/A")
-                                      companyNameController.text = "";
-                                    return RegisterInfoCompanyName(
-                                      firstNameController: firstNameController,
-                                      lastNameController: lastNameController,
-                                      companyNameController:
-                                          companyNameController,
-                                      emailController: emailController,
-                                      passwordController: passwordController,
-                                      confirmPasswordController:
-                                          confirmPasswordController,
-                                    );
-                                  }
-
-                                  // Do not show company name
-                                  compUserBorderSize = 0;
-                                  compUserHeight = 100;
-                                  companyNameController.text = "N/A";
-                                  return RegisterInfo(
-                                    firstNameController: firstNameController,
-                                    lastNameController: lastNameController,
-                                    emailController: emailController,
-                                    passwordController: passwordController,
-                                    confirmPasswordController:
-                                        confirmPasswordController,
-                                  );
-                                },
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              StreamBuilder<String>(
-                                stream: textControllerListener(
-                                  registerSuccessText,
-                                ),
-                                builder:
-                                    (
-                                      BuildContext context,
-                                      AsyncSnapshot<String> snapshot,
-                                    ) {
-                                      if (snapshot.hasError) {
-                                        return const Text('Error');
-                                      } else {
-                                        if (snapshot.data == null) {
-                                          return Text("");
-                                        }
-                                        return Text((snapshot.data) as String);
-                                      }
-                                    },
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              // register button
-                              MyButton(text: "Register", onTap: register),
-
-                              const SizedBox(height: 10),
-                              // don't have an account? register here
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Already have an account?",
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.inversePrimary,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: widget.onTap,
-                                    child: const Text(
-                                      " Login Here",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 20,)
-                      ],
-                    ),
-                  ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
