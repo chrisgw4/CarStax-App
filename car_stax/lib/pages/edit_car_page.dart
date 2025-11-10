@@ -382,7 +382,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   rentalStatus: rentalStatusController.text,
                   currentRental: "",
                   year: int.parse(yearController.text),
-                  color: color,
+                  color: colorController.text,
                   make: makeController.text,
                   model: modelController.text,
                   mileage: int.parse(mileageController.text),
@@ -426,7 +426,12 @@ class _EditCarPageState extends State<EditCarPage> {
                   );
                 }
               }
+
+              // Go back to the home page
+              Navigator.pop(context);
+              Navigator.pop(context);
             }
+
         ),
       ),
       appBar: AppBar(
