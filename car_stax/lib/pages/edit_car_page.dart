@@ -376,6 +376,9 @@ class _EditCarPageState extends State<EditCarPage> {
                   warningListStrings.add(object.text);
                 }
               }
+              // Go back to the home page
+              Navigator.pop(context);
+              Navigator.pop(context);
 
               backend_edit_car(
                   lPlate: lPLateController.text,
@@ -427,9 +430,7 @@ class _EditCarPageState extends State<EditCarPage> {
                 }
               }
 
-              // Go back to the home page
-              Navigator.pop(context);
-              Navigator.pop(context);
+
             }
 
         ),
