@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'package:car_stax/auth/auth.dart';
 import 'package:car_stax/backend/backend_functions.dart';
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/legacy.dart';
 
 enum AuthState { unknown, authenticated, unauthenticated }
 
