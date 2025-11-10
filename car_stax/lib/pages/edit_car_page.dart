@@ -76,7 +76,7 @@ class _EditCarPageState extends State<EditCarPage> {
     modelController.text = model;
     colorController.text = color;
     vinController.text = vin;
-    carTypeController.text = carType;
+    carTypeController.text = carType.substring(0,1).toUpperCase() + carType.substring(1);
     rentalStatusController.text = rentalStatus.substring(0,1).toUpperCase() + rentalStatus.substring(1);
 
     if (rentalStatus == "rented") {
@@ -93,6 +93,56 @@ class _EditCarPageState extends State<EditCarPage> {
     else {
       setState(() {
         selectedStatus = RentalStatus.maintenance;
+      });
+    }
+
+    if (carType == "sedan") {
+      setState(() {
+        selectedCar = CarType.sedan;
+
+      });
+      loadRenter();
+    }
+    else if (carType == "truck") {
+      setState(() {
+        selectedCar = CarType.truck;
+      });
+    }
+    else if (carType == "suv") {
+      setState(() {
+        selectedCar = CarType.suv;
+      });
+    }
+    else if (carType == "coupe") {
+      setState(() {
+        selectedCar = CarType.coupe;
+
+      });
+    }
+    else if (carType == "convertible") {
+      setState(() {
+        selectedCar = CarType.convertible;
+
+      });
+    }
+    else if (carType == "hatchback") {
+      setState(() {
+        selectedCar = CarType.hatchback;
+      });
+    }
+    else if (carType == "van") {
+      setState(() {
+        selectedCar = CarType.van;
+      });
+    }
+    else if (carType == "motorcycle") {
+      setState(() {
+        selectedCar = CarType.motorcycle;
+      });
+    }
+    else {
+      setState(() {
+        selectedCar = CarType.other;
       });
     }
 
