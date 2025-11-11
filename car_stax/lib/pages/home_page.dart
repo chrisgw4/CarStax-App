@@ -25,7 +25,7 @@ class HomePage extends ConsumerWidget {
             decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF48B89F),Color(0xFF38A3A5) ]),borderRadius: BorderRadius.circular(15.0) ),
            ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
         ),
         actions: <Widget>[
           IconButton(
@@ -62,7 +62,7 @@ class HomePage extends ConsumerWidget {
 
 
           ),
-          padding: EdgeInsets.only(left: 48, right: 48,),
+          padding: EdgeInsets.only(left: 12, right: 12,),
           child: Column(
             // Centers Text
             crossAxisAlignment: CrossAxisAlignment.center,

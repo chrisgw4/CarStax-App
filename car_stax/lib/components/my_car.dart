@@ -2,6 +2,7 @@ import "package:car_stax/backend/backend_functions.dart";
 import "package:car_stax/pages/edit_car_page.dart";
 import "package:car_stax/pages/view_car_page.dart";
 import "package:flutter/material.dart";
+import 'package:simple_shadow/simple_shadow.dart';
 
 class MyCar extends StatelessWidget {
   MyCar({
@@ -181,35 +182,22 @@ class MyCar extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(15.0),
+          border: Border.all(color: Theme.of(context).colorScheme.secondary, width: 2)
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(screenWidth/51.5),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: screenWidth / 28),
-                  Column(
-                    children: [
-                      Container(
-                        child: Stack(
-                          children: [
-                            Image.network(image, color: carColor),
-                            Image(image: AssetImage(wheel)),
-                          ],
-                        ),
-                        height: screenHeight / 9,
-                      ),
-                      Row(children: []),
-                    ],
-                  ),
-                  SizedBox(width: screenWidth / 17),
+
                   Expanded(
                     child: Column(
                       children: [
+                        SizedBox(height: screenHeight / 40,),
                         Text(
                           make + " " + model,
                           textAlign: TextAlign.center,
@@ -227,98 +215,206 @@ class MyCar extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 15),
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                        SizedBox(height: screenHeight / 30,),
 
-              Row(
-                children: [
-                  SizedBox(width: screenWidth / 50),
-                  Container(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(width: screenWidth / 82),
-                        Container(
-                          child: Image.network(rentalImage),
-                          height: screenHeight / 36,
-                        ),
-                        SizedBox(width: screenWidth / 82),
-                        Text(
-                          rentalStatus[0].toUpperCase() +
-                              rentalStatus.substring(1),
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(width: screenWidth / 50),
-                      ],
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: rentalColor,
-                    ),
-                    height: screenHeight / 27,
-                  ),
-
-                  Spacer(),
-
-                  Container(
-                    child: Row(
-                      children: [
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  child: Image(
-                                    image: AssetImage(
-                                      "assets/images/license plate.png",
-                                    ),
-                                    height: screenHeight / 40,
-                                  ),
+                            SizedBox(width: screenWidth / 38),
+                            // SizedBox(width: screenWidth / 82),
+                            Container(
+                              child: Image(
+                                image: AssetImage(
+                                  "assets/images/license plate.png",
                                 ),
-                                SizedBox(width: screenWidth / 30),
-                                Text(
-                                  licensePlate,
-                                  style: TextStyle(
-                                    fontSize: screenHeight / 60,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: screenWidth / 30),
-                              ],
+                                height: screenHeight / 40,
+                              ),
                             ),
-                            SizedBox(height: screenHeight / 90),
-                            Row(
-                              children: [
-                                Container(
-                                  child: Image(
-                                    image: AssetImage(
-                                      "assets/images/mileage.png",
-                                    ),
-                                    height: screenHeight / 40,
-                                  ),
-                                ),
-                                SizedBox(width: screenWidth / 30),
-                                Text(
-                                  " " + mileage.toString() + " miles",
-                                  style: TextStyle(
-                                    fontSize: screenHeight / 60,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: screenWidth / 30),
-                              ],
+                            SizedBox(width: screenWidth / 30),
+                            Text(
+                              licensePlate,
+                              style: TextStyle(
+                                fontSize: screenHeight / 60,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            SizedBox(width: screenWidth / 10,),
+                          ],
+                        ),
+                        SizedBox(height: screenHeight / 100,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: screenWidth / 30),
+                            Container(
+                              child: Image(
+                                image: AssetImage(
+                                  "assets/images/mileage.png",
+                                ),
+                                height: screenHeight / 40,
+                              ),
+                            ),
+                            SizedBox(width: screenWidth / 30),
+                            Text(
+                              " " + mileage.toString() + " miles",
+                              style: TextStyle(
+                                fontSize: screenHeight / 60,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
                           ],
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(width: screenWidth / 28),
+                  Column(
+                    children: [
+                      Container(
+                        child: Stack(
+                          children: [
+                            SimpleShadow(
+                              color: Colors.black,
+                              opacity: 1,
+                              sigma: 1,
+                              offset: const Offset(0, 1),
+                              child: Image.network(image),
+                            ),
+                            SimpleShadow(
+                              color: Colors.black,
+                              opacity: 1,
+                              sigma: 1,
+                              offset: const Offset(0, -1),
+                              child: Image.network(image),
+                            ),
+                            Image.network(image, color: carColor),
+                            Image(image: AssetImage(wheel)),
+                          ],
+                        ),
+                        height: screenHeight / 9,
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(width: screenWidth / 82),
+                            Container(
+                              child: Image.network(rentalImage),
+                              height: screenHeight / 36,
+                            ),
+                            SizedBox(width: screenWidth / 82),
+                            Text(
+                              rentalStatus[0].toUpperCase() +
+                                  rentalStatus.substring(1),
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(width: screenWidth / 50),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: rentalColor,
+                        ),
+                        height: screenHeight / 27,
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: screenWidth / 17),
+
+                ],
+              ),
+
+              Row(
+                children: [
+                  // SizedBox(width: screenWidth / 50),
+                  // Container(
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children: [
+                  //       SizedBox(width: screenWidth / 82),
+                  //       Container(
+                  //         child: Image.network(rentalImage),
+                  //         height: screenHeight / 36,
+                  //       ),
+                  //       SizedBox(width: screenWidth / 82),
+                  //       Text(
+                  //         rentalStatus[0].toUpperCase() +
+                  //             rentalStatus.substring(1),
+                  //         style: TextStyle(
+                  //           fontSize: 18,
+                  //           fontWeight: FontWeight.bold,
+                  //         ),
+                  //       ),
+                  //       SizedBox(width: screenWidth / 50),
+                  //     ],
+                  //   ),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     color: rentalColor,
+                  //   ),
+                  //   height: screenHeight / 27,
+                  // ),
+
+                  // Spacer(),
+
+                  // Container(
+                  //   child: Row(
+                  //     children: [
+                  //       Column(
+                  //         children: [
+                  //           // Row(
+                  //           //   children: [
+                  //           //     Container(
+                  //           //       child: Image(
+                  //           //         image: AssetImage(
+                  //           //           "assets/images/license plate.png",
+                  //           //         ),
+                  //           //         height: screenHeight / 40,
+                  //           //       ),
+                  //           //     ),
+                  //           //     SizedBox(width: screenWidth / 30),
+                  //           //     Text(
+                  //           //       licensePlate,
+                  //           //       style: TextStyle(
+                  //           //         fontSize: screenHeight / 60,
+                  //           //         fontWeight: FontWeight.bold,
+                  //           //       ),
+                  //           //     ),
+                  //           //     SizedBox(width: screenWidth / 30),
+                  //           //   ],
+                  //           // ),
+                  //           // SizedBox(height: screenHeight / 90),
+                  //           // Row(
+                  //           //   children: [
+                  //           //     Container(
+                  //           //       child: Image(
+                  //           //         image: AssetImage(
+                  //           //           "assets/images/mileage.png",
+                  //           //         ),
+                  //           //         height: screenHeight / 40,
+                  //           //       ),
+                  //           //     ),
+                  //           //     SizedBox(width: screenWidth / 30),
+                  //           //     Text(
+                  //           //       " " + mileage.toString() + " miles",
+                  //           //       style: TextStyle(
+                  //           //         fontSize: screenHeight / 60,
+                  //           //         fontWeight: FontWeight.bold,
+                  //           //       ),
+                  //           //     ),
+                  //           //     SizedBox(width: screenWidth / 30),
+                  //           //   ],
+                  //           // ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
 

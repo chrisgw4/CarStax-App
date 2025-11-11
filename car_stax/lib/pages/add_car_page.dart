@@ -153,7 +153,7 @@ class _AddCarPageState extends State<AddCarPage> {
           gradient: LinearGradient(
             colors: [Color(0xFF22577A), Color(0xFF6CDD99)],
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
         ),
         child: FloatingActionButton(
           tooltip: 'Add Car',
@@ -215,6 +215,7 @@ class _AddCarPageState extends State<AddCarPage> {
       ),
 
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         title: Text("Add a Car"),
         centerTitle: true,
         leading: BackButton(

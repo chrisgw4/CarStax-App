@@ -210,6 +210,27 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 ),
 
                                 // Separator
+                                const SizedBox(height: 2),
+
+                                // forgot password
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: forgotPassword,
+                                      child: Text(
+                                        "Forgot Password?",
+                                        style: TextStyle(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.inversePrimary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                // Separator
                                 const SizedBox(height: 10),
 
                                 StreamBuilder<String>(
@@ -234,23 +255,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                       },
                                 ),
 
-                                // forgot password
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    GestureDetector(
-                                      onTap: forgotPassword,
-                                      child: Text(
-                                        "Forgot Password?",
-                                        style: TextStyle(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.inversePrimary,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+
 
                                 const SizedBox(height: 5),
 

@@ -388,7 +388,7 @@ class _EditCarPageState extends State<EditCarPage> {
         height: 60,
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]),
-          borderRadius: BorderRadius.circular(12),
+
         ),
         child: FloatingActionButton(
             tooltip: 'Edit Car',
@@ -408,11 +408,8 @@ class _EditCarPageState extends State<EditCarPage> {
                   warningListStrings.add(object.text);
                 }
               }
-              // Go back to the home page
-              Navigator.pop(context);
-              Navigator.pop(context);
 
-              backend_edit_car(
+              await backend_edit_car(
                   lPlate: lPLateController.text,
                   rentalStatus: rentalStatusController.text,
                   currentRental: "",
@@ -435,7 +432,7 @@ class _EditCarPageState extends State<EditCarPage> {
                 print(renter);
 
                 if (has_renter) {
-                  backend_edit_renter(
+                  await backend_edit_renter(
                       renterID: renter["rentals"][0]["_id"],
                       renterName: renterNameController.text,
                       renterEmail: renterEmailController.text,
@@ -448,7 +445,7 @@ class _EditCarPageState extends State<EditCarPage> {
                   );
                 }
                 else {
-                  backend_add_renter(
+                  await backend_add_renter(
                       carID: carID,
                       renterName: renterNameController.text,
                       renterEmail: renterEmailController.text,
@@ -461,7 +458,9 @@ class _EditCarPageState extends State<EditCarPage> {
                   );
                 }
               }
-
+              // Go back to the home page
+              Navigator.pop(context);
+              Navigator.pop(context);
 
             }
 
@@ -472,12 +471,15 @@ class _EditCarPageState extends State<EditCarPage> {
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
         ),
         leading: BackButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF48B89F),Color(0xFF38A3A5) ]),borderRadius: BorderRadius.circular(15.0) ),
         ),
       ),
 

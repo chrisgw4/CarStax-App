@@ -130,7 +130,10 @@ class ViewCarPage extends StatelessWidget {
           ),
           backgroundColor: Theme.of(context).colorScheme.tertiary,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15)),
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF48B89F),Color(0xFF38A3A5) ]),borderRadius: BorderRadius.circular(15.0) ),
           ),
 
         ),
