@@ -127,21 +127,17 @@ class _AddCarPageState extends State<AddCarPage> {
   late DateTime returnDate;
   late DateTime actualReturnDate;
 
-
   Stream<bool> streamRentalStatus() async* {
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
 
       if (selectedStatus?.label == "Rented") {
         yield true;
-      }
-      else {
+      } else {
         yield false;
       }
-
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -154,71 +150,69 @@ class _AddCarPageState extends State<AddCarPage> {
         width: 80,
         height: 60,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Color(0xFF22577A),Color(0xFF6CDD99) ]),
+          gradient: LinearGradient(
+            colors: [Color(0xFF22577A), Color(0xFF6CDD99)],
+          ),
           borderRadius: BorderRadius.circular(12),
         ),
         child: FloatingActionButton(
-            tooltip: 'Add Car',
-            backgroundColor: Colors.transparent,
-            child: Text("Add Car"),
-            onPressed: () async {
-              print("Pressed add");
-              if (yearController.text == "")
-                return;
-              if (mileageController.text == "")
-                return;
+          tooltip: 'Add Car',
+          backgroundColor: Colors.transparent,
+          child: Text("Add Car"),
+          onPressed: () async {
+            print("Pressed add");
+            if (yearController.text == "") return;
+            if (mileageController.text == "") return;
 
-              List<String> warningListStrings = [];
+            List<String> warningListStrings = [];
 
-              for (TextEditingController object in warningList) {
-                if (object.text != "") {
-                  warningListStrings.add(object.text);
-                }
+            for (TextEditingController object in warningList) {
+              if (object.text != "") {
+                warningListStrings.add(object.text);
               }
-
-              // Adds the car to the backend
-              var response = await backend_add_car(
-                  lPlate: lPLateController.text,
-                  rentalStatus: rentalStatusController.text,
-                  currentRental: "",
-                  year: int.parse(yearController.text),
-                  color: colorController.text,
-                  make: makeController.text,
-                  model: modelController.text,
-                  mileage: int.parse(mileageController.text),
-                  repairStatus: "",
-                  warningLightIndicators: warningListStrings,
-                  VIN: vinController.text,
-                  carType: carTypeController.text
-              );
-
-
-              var responseRenter;
-              if (selectedStatus?.label == "Rented") {
-                responseRenter = await backend_add_renter(
-                    carID: response["car"]["_id"],
-                    renterName: renterNameController.text,
-                    renterEmail: renterEmailController.text,
-                    renterPhone: renterPhoneController.text,
-                    dateRentedOut: "${startDate.month}/${startDate.day}/${startDate.year}",
-                    expectedReturnDate: "${returnDate.month}/${returnDate.day}/${returnDate.year}",
-                    actualReturnDate: "${actualReturnDate.month}/${actualReturnDate.day}/${actualReturnDate.year}",
-                    rentalRatePerDay: renterRateController.text,
-                    notes: "");
-              }
-
-
-              // Leave the add car page after successfully adding car to database
-              if (response["success"] == true)
-              {
-                Navigator.pop(context);
-              }
-
-
             }
+
+            // Adds the car to the backend
+            var response = await backend_add_car(
+              lPlate: lPLateController.text,
+              rentalStatus: rentalStatusController.text,
+              currentRental: "",
+              year: int.parse(yearController.text),
+              color: colorController.text,
+              make: makeController.text,
+              model: modelController.text,
+              mileage: int.parse(mileageController.text),
+              repairStatus: "",
+              warningLightIndicators: warningListStrings,
+              VIN: vinController.text,
+              carType: carTypeController.text,
+            );
+
+            var responseRenter;
+            if (selectedStatus?.label == "Rented") {
+              responseRenter = await backend_add_renter(
+                carID: response["car"]["_id"],
+                renterName: renterNameController.text,
+                renterEmail: renterEmailController.text,
+                renterPhone: renterPhoneController.text,
+                dateRentedOut:
+                    "${startDate.month}/${startDate.day}/${startDate.year}",
+                expectedReturnDate:
+                    "${returnDate.month}/${returnDate.day}/${returnDate.year}",
+                actualReturnDate:
+                    "${actualReturnDate.month}/${actualReturnDate.day}/${actualReturnDate.year}",
+                rentalRatePerDay: renterRateController.text,
+                notes: "",
+              );
+            }
+
+            // Leave the add car page after successfully adding car to database
+            if (response["success"] == true) {
+              Navigator.pop(context);
+            }
+          },
         ),
       ),
-
 
       appBar: AppBar(
         title: Text("Add a Car"),
@@ -230,7 +224,12 @@ class _AddCarPageState extends State<AddCarPage> {
         ),
         //backgroundColor: Theme.of(context).colorScheme.tertiary,
         flexibleSpace: Container(
-          decoration: BoxDecoration(gradient: LinearGradient(colors: [Color(0xFF48B89F),Color(0xFF38A3A5) ]),borderRadius: BorderRadius.circular(15.0) ),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF48B89F), Color(0xFF38A3A5)],
+            ),
+            borderRadius: BorderRadius.circular(15.0),
+          ),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
@@ -325,59 +324,55 @@ class _AddCarPageState extends State<AddCarPage> {
 
                 SizedBox(height: 10),
 
-
                 SizedBox(height: 10),
                 Row(
                   children: [
                     Expanded(
-                        child: Column(
-                            children: [
-                              Text("Color", style: TextStyle(fontSize: 16)),
-                              MyTextField(
-                                hintText: "Black",
-                                obscureText: false,
-                                controller: colorController,
-                              ),
-                            ]
-                        )
+                      child: Column(
+                        children: [
+                          Text("Color", style: TextStyle(fontSize: 16)),
+                          MyTextField(
+                            hintText: "Black",
+                            obscureText: false,
+                            controller: colorController,
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 10),
                     Expanded(
-                        child: Column(
-                          children: [
-                            Text("Car Type", style: TextStyle(fontSize: 16)),
-                            DropdownMenu<CarType>(
-                              controller: carTypeController,
+                      child: Column(
+                        children: [
+                          Text("Car Type", style: TextStyle(fontSize: 16)),
+                          DropdownMenu<CarType>(
+                            controller: carTypeController,
 
-                              textAlign: TextAlign.center,
-                              width: 200,
+                            textAlign: TextAlign.center,
+                            width: 200,
 
-                              inputDecorationTheme: const InputDecorationTheme(
-                                filled: true,
+                            inputDecorationTheme: const InputDecorationTheme(
+                              filled: true,
 
-                                prefixIconConstraints: BoxConstraints(
-                                  minHeight: 40,
-                                  minWidth: 40,
-                                ),
-
-                                contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                              prefixIconConstraints: BoxConstraints(
+                                minHeight: 40,
+                                minWidth: 40,
                               ),
-                              onSelected: (CarType? icon) {
-                                setState(() {
-                                  selectedCar = icon;
-                                });
-                              },
-                              dropdownMenuEntries: CarType.entries,
-                              leadingIcon: ImageIcon(selectedCar?.icon),
+
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 5.0,
+                              ),
                             ),
-                          ],
-                        )
+                            onSelected: (CarType? icon) {
+                              setState(() {
+                                selectedCar = icon;
+                              });
+                            },
+                            dropdownMenuEntries: CarType.entries,
+                            leadingIcon: ImageIcon(selectedCar?.icon),
+                          ),
+                        ],
+                      ),
                     ),
-
-
-
-
-
                   ],
                 ),
 
@@ -407,107 +402,49 @@ class _AddCarPageState extends State<AddCarPage> {
                   dropdownMenuEntries: RentalStatus.entries,
                   leadingIcon: ImageIcon(selectedStatus?.icon),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 ElevatedButton(
-                    onPressed: openDialog,
-                    child: Text(
-                      "Add Issues",
-                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                    )
+                  onPressed: openDialog,
+                  child: Text(
+                    "Add Issues",
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
                 ),
 
                 StreamBuilder(
-                    stream: streamRentalStatus(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text("");
-                      }
-                      if (!snapshot.hasData) {
-                        return Text("");
-                      }
-                      if (snapshot.data == false) {
-                        return Text("");
-                      }
-
-                      return RenterInfo(
-                        renterNameController: renterNameController,
-                        renterEmailController: renterEmailController,
-                        renterPhoneController: renterPhoneController,
-                        renterRateController: renterRateController,
-                        startDateChanged: (DateTime d) {
-                          startDate = d;
-                        },
-                        returnDateChanged: (DateTime d) {
-                          returnDate = d;
-                        },
-                        actualReturnDateChanged: (DateTime d) {
-                          actualReturnDate = d;
-                        },
-                      );
+                  stream: streamRentalStatus(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("");
                     }
+                    if (!snapshot.hasData) {
+                      return Text("");
+                    }
+                    if (snapshot.data == false) {
+                      return Text("");
+                    }
+
+                    return RenterInfo(
+                      renterNameController: renterNameController,
+                      renterEmailController: renterEmailController,
+                      renterPhoneController: renterPhoneController,
+                      renterRateController: renterRateController,
+                      startDateChanged: (DateTime d) {
+                        startDate = d;
+                      },
+                      returnDateChanged: (DateTime d) {
+                        returnDate = d;
+                      },
+                      actualReturnDateChanged: (DateTime d) {
+                        actualReturnDate = d;
+                      },
+                    );
+                  },
                 ),
 
-                // Add Car Button
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     ElevatedButton(
-                //         style: ElevatedButton.styleFrom(
-                //           backgroundColor: Theme.of(context).colorScheme.tertiary,
-                //         ),
-                //         onPressed: () async {
-                //           if (yearController.text == "")
-                //             return;
-                //           if (mileageController.text == "")
-                //             return;
-                //
-                //           List<String> warningListStrings = [];
-                //
-                //           for (TextEditingController object in warningList) {
-                //             if (object.text != "") {
-                //               warningListStrings.add(object.text);
-                //             }
-                //           }
-                //
-                //           // Adds the car to the backend
-                //           var response = await backend_add_car(
-                //               lPlate: lPLateController.text,
-                //               rentalStatus: rentalStatusController.text,
-                //               currentRental: "",
-                //               year: int.parse(yearController.text),
-                //               color: colorController.text,
-                //               make: makeController.text,
-                //               model: modelController.text,
-                //               mileage: int.parse(mileageController.text),
-                //               repairStatus: "",
-                //               warningLightIndicators: warningListStrings,
-                //               VIN: vinController.text,
-                //               carType: carTypeController.text
-                //           );
-                //
-                //           // Leave the add car page after successfully adding car to database
-                //           if (response["success"] == true)
-                //             {
-                //               Navigator.pop(context);
-                //             }
-                //         },
-                //         child: SizedBox(
-                //           width: 80,
-                //           height: 30,
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: [
-                //               Text(
-                //                 "Add Car",
-                //                 style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                //               ),
-                //             ],
-                //           )
-                //         )
-                //     ),
-                //   ],
-                // ),
-                SizedBox(height: 100,)
+                SizedBox(height: 100),
               ],
             ),
           ),
@@ -523,10 +460,64 @@ class _AddCarPageState extends State<AddCarPage> {
     }
   }
 
+  GlobalKey<AnimatedListState> warningListKey = GlobalKey<AnimatedListState>();
+
+  void removeItem(int index) {
+    final removedItem = warningList[index];
+    warningList.removeAt(index);
+
+    warningListKey.currentState?.removeItem(
+      index,
+          (context, animation) => buildItem(removedItem, animation),
+    );
+  }
+
+  Widget buildItem(controller, Animation<double> animation, ) {
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                final index = warningList.indexOf(controller);
+                if (index != -1) removeItem(index);
+
+                // warningListKey.currentState?.removeItem(index,
+                //     (context, animation) {
+                //       animation.addStatusListener((status) {
+                //         if (status == AnimationStatus.dismissed) {
+                //           warningList.remove(controller);
+                //         }
+                //       });
+                //         return buildItem(controller, animation);
+                //       });
+                    },
+                //)
+              //},
+              icon: Icon(Icons.delete, color: Colors.red[900]),
+            ),
+
+            Expanded(
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  labelText: 'Field ${warningList.indexOf(controller) + 1}',
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      )
+    );
+
+  }
+
   Future openDialog() => showDialog(
     context: context,
     builder: (context) => Dialog(
-
       child: StatefulBuilder(
         builder: (context, setDialogState) {
           return Container(
@@ -537,41 +528,26 @@ class _AddCarPageState extends State<AddCarPage> {
               child: Column(
                 children: [
                   Expanded(
-                      child: StreamBuilder(
-                          stream: warningListSizeListener(),
-                          builder: (context, snapshot) {
-                            return ListView.builder(
-                              itemCount: warningList.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Row(
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              warningList.remove(warningList[index]);
-                                            },
-                                            icon: Icon(Icons.delete,
-                                              color: Colors.red[900],)
-                                        ),
-                                        Expanded(child: TextField(
-                                          controller: warningList[index],
-                                          decoration: InputDecoration(
-                                            labelText: 'Field ${index + 1}',
-                                            border: const OutlineInputBorder(),
-                                          ),
-                                        )),
-                                      ],
-                                    )
-                                );
+                    child: StreamBuilder(
+                      stream: warningListSizeListener(),
+                      builder: (context, snapshot) {
+                        return AnimatedList(
+                          key: warningListKey,
+                          initialItemCount: warningList.length,
+                          itemBuilder:
+                              (
+                                BuildContext context,
+                                int index,
+                                Animation<double> animation,
+                              ) {
+                                  return buildItem(warningList[index], animation);
                               },
-                            );
-                          }
-                      )
-
+                        );
+                      },
+                    ),
                   ),
 
-                  SizedBox(height: 10,),
+                  SizedBox(height: 10),
 
                   // Buttons
                   Row(
@@ -579,33 +555,44 @@ class _AddCarPageState extends State<AddCarPage> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
                         ),
                         onPressed: () {
                           setDialogState(() {
                             warningList.add(TextEditingController());
+                            warningListKey.currentState?.insertItem(
+                              warningList.length-1,
+                            );
                           });
                         },
                         child: Text(
                           "Add Field",
-                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
                         ),
                       ),
 
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.tertiary,
                         ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          "Close",
-                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+                          "Save",
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

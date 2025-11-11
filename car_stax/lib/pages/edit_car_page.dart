@@ -251,6 +251,50 @@ class _EditCarPageState extends State<EditCarPage> {
     }
   }
 
+  GlobalKey<AnimatedListState> warningListKey = GlobalKey<AnimatedListState>();
+
+  void removeItem(int index) {
+    final removedItem = warningList[index];
+    warningList.removeAt(index);
+
+    warningListKey.currentState?.removeItem(
+      index,
+          (context, animation) => buildItem(removedItem, animation),
+    );
+  }
+
+  Widget buildItem(controller, Animation<double> animation, ) {
+    return SizeTransition(
+        sizeFactor: animation,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  final index = warningList.indexOf(controller);
+                  if (index != -1)
+                    removeItem(index);
+                },
+                icon: Icon(Icons.delete, color: Colors.red[900]),
+              ),
+
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    labelText: 'Field ${warningList.indexOf(controller) + 1}',
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+    );
+
+  }
+
 
   Future openDialog() => showDialog(
     context: context,
@@ -271,31 +315,16 @@ class _EditCarPageState extends State<EditCarPage> {
                     child: StreamBuilder(
                         stream: warningListSizeListener(),
                         builder: (context, snapshot) {
-                          return ListView.builder(
-                            itemCount: warningList.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {
-                                            warningList.remove(warningList[index]);
-                                          },
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red[900],)
-                                      ),
-                                      Expanded(child: TextField(
-                                        controller: warningList[index],
-                                        decoration: InputDecoration(
-                                          labelText: 'Field ${index + 1}',
-                                          border: const OutlineInputBorder(),
-                                        ),
-                                      )),
-                                    ],
-                                  )
-                              );
+                          return AnimatedList(
+                            key: warningListKey,
+                            initialItemCount: warningList.length,
+                            itemBuilder:
+                                (
+                                BuildContext context,
+                                int index,
+                                Animation<double> animation,
+                                ) {
+                              return buildItem(warningList[index], animation);
                             },
                           );
                         }
@@ -315,6 +344,9 @@ class _EditCarPageState extends State<EditCarPage> {
                         onPressed: () {
                           setDialogState(() {
                             warningList.add(TextEditingController());
+                            warningListKey.currentState?.insertItem(
+                              warningList.length-1,
+                            );
                           });
                         },
                         child: Text(
@@ -331,7 +363,7 @@ class _EditCarPageState extends State<EditCarPage> {
                           Navigator.pop(context);
                         },
                         child: Text(
-                          "Close",
+                          "Save",
                           style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                         ),
                       ),
