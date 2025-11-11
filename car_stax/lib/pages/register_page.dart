@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:car_stax/backend/backend_functions.dart';
 import 'package:car_stax/components/register_info_company_name.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
 
   final TextEditingController confirmPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   String success_text = "";
 
@@ -36,6 +38,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String userType = "solo";
 
+  // Initialize these to a non-zero fixed value, but they will be overwritten
+  // by screenWidth in the build method.
   double indUserBorderSize = 5;
   double compUserBorderSize = 0;
   double companyBorderSize = 0;
@@ -49,11 +53,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Curve curveType = Curves.linear;
 
-
-
   Stream<String> textControllerListener(
-    TextEditingController controller,
-  ) async* {
+      TextEditingController controller,
+      ) async* {
     // <- here
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
@@ -119,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // Check the response of the Register API
     if (response["success"] == true) {
       success_text =
-          "Account created successfully, please check your email for a verification link.";
+      "Account created successfully, please check your email for a verification link.";
       registerSuccessText.text = success_text;
     } else if (response["success"] == false) {
       success_text = "Account failed to create.";
@@ -132,12 +134,72 @@ class _RegisterPageState extends State<RegisterPage> {
     return;
   }
 
+  // --- START OF FIX ---
+  @override
+  void initState() {
+    super.initState();
+    // This is necessary to initialize the dimensions based on the default selected button
+    // The actual scaling will happen in the build method.
+    // If we only use fixed values here, the buttons will briefly appear small before the build scales them.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Force an initial build after screen size is known if necessary,
+      // but typically the build call below handles it.
+    });
+  }
+
+  void _calculateInitialSizes(double screenWidth, double borderSize) {
+    double pickedButtonSize = screenWidth / 3.74545454545;
+    double buttonSize = screenWidth / 4.12;
+
+    // Set initial dimensions based on the default selected userType ("solo")
+    if (userType == "solo") {
+      indUserBorderSize = borderSize;
+      indUserHeight = pickedButtonSize;
+      indUserWidth = pickedButtonSize;
+      compUserBorderSize = 0;
+      compUserHeight = buttonSize;
+      compUserWidth = buttonSize;
+      companyBorderSize = 0;
+      companyHeight = buttonSize;
+      companyWidth = buttonSize;
+    } else if (userType == "company_member") {
+      indUserBorderSize = 0;
+      indUserHeight = buttonSize;
+      indUserWidth = buttonSize;
+      compUserBorderSize = borderSize;
+      compUserHeight = pickedButtonSize;
+      compUserWidth = pickedButtonSize;
+      companyBorderSize = 0;
+      companyHeight = buttonSize;
+      companyWidth = buttonSize;
+    } else if (userType == "company_admin") {
+      indUserBorderSize = 0;
+      indUserHeight = buttonSize;
+      indUserWidth = buttonSize;
+      compUserBorderSize = 0;
+      compUserHeight = buttonSize;
+      compUserWidth = buttonSize;
+      companyBorderSize = borderSize;
+      companyHeight = pickedButtonSize;
+      companyWidth = pickedButtonSize;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
     final screenWidth = mediaQueryData.size.width;
     final screenHeight = mediaQueryData.size.height;
     Curve curveType = Curves.fastOutSlowIn;
+
+
+    double borderSize = screenWidth / 80;
+    double pickedButtonSize = screenWidth / 3.74545454545;
+    double buttonSize = screenWidth / 4.12;
+
+
+    _calculateInitialSizes(screenWidth, borderSize);
+
     int animateTime = 500;
     return Scaffold(
       body: Center(
@@ -173,8 +235,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).colorScheme.surface,
                         borderRadius: BorderRadius.only(
-                          topLeft: (Radius.circular(30)),
-                          topRight: (Radius.circular(30)),
+                          topLeft: (Radius.circular(screenWidth / 15)), // Scaled border radius
+                          topRight: (Radius.circular(screenWidth / 15)), // Scaled border radius
                         ),
                       ),
                       child: SingleChildScrollView(
@@ -191,65 +253,66 @@ class _RegisterPageState extends State<RegisterPage> {
                                         child: Column(
                                           children: [
                                             Container(
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                  colors: [
-                                                    Color(0xFF22577A),
-                                                    Color(0xFF6CDD99),
-                                                  ],
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(10),
-                                                ),
-                                              ),
-                                              padding: EdgeInsets.all(
-                                                indUserBorderSize,
-                                              ),
-
-                                              child: AnimatedSize(
-                                                alignment: Alignment.center,
-                                                curve: curveType,
-                                                duration: Duration(milliseconds: animateTime),
-                                                child: Container(
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Color(0xFF22577A),
+                                                      Color(0xFF6CDD99),
+                                                    ],
+                                                  ),
+                                                  borderRadius: BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                ),
+                                                padding: EdgeInsets.all(
+                                                  indUserBorderSize,
+                                                ),
+
+                                                child: AnimatedSize(
+                                                  alignment: Alignment.center,
+                                                  curve: curveType,
+                                                  duration: Duration(milliseconds: animateTime),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
                                                       BorderRadius.all(
                                                         Radius.circular(10),
                                                       ),
-                                                  color: Theme.of(
-                                                    context,
-                                                  ).colorScheme.primary,
-                                                ),
-                                                width: indUserWidth,
-                                                height: indUserHeight,
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 15),
-                                                    Image(
-                                                      image: NetworkImage(
-                                                        "https://farrukhanwar.site/assets/solo-Bto2POrv.png",
-                                                      ),
-                                                      color: Theme.of(context).colorScheme.inverseSurface,
-                                                      width: 40,
+                                                      color: Theme.of(
+                                                        context,
+                                                      ).colorScheme.primary,
                                                     ),
-                                                    Text("Individual User"),
-                                                    SizedBox(height: 5),
-                                                  ],
-                                                ),
-                                              ),
-                                            )),
+                                                    width: indUserWidth,
+                                                    height: indUserHeight,
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(height: 15),
+                                                        Image(
+                                                          image: NetworkImage(
+                                                            "https://farrukhanwar.site/assets/solo-Bto2POrv.png",
+                                                          ),
+                                                          color: Theme.of(context).colorScheme.inverseSurface,
+                                                          width: 40,
+                                                        ),
+                                                        Text("Individual User"),
+                                                        SizedBox(height: 5),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )),
                                           ],
                                         ),
                                         onTap: () {
                                           setState(() {
+
                                             compUserBorderSize = 0;
-                                            compUserHeight = 100;
-                                            compUserWidth = 100;
-                                            indUserHeight = 110;
-                                            indUserWidth = 110;
-                                            indUserBorderSize = 5;
-                                            companyHeight = 100;
-                                            companyWidth = 100;
+                                            compUserHeight = buttonSize;
+                                            compUserWidth = buttonSize;
+                                            indUserHeight = pickedButtonSize;
+                                            indUserWidth = pickedButtonSize;
+                                            indUserBorderSize = borderSize;
+                                            companyHeight = buttonSize;
+                                            companyWidth = buttonSize;
                                             companyBorderSize = 0;
                                           });
                                           userType = "solo";
@@ -285,9 +348,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 duration: Duration(milliseconds: animateTime), child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                        Radius.circular(10),
-                                                      ),
+                                                  BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
                                                   color: Theme.of(
                                                     context,
                                                   ).colorScheme.primary,
@@ -309,19 +372,20 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   ],
                                                 ),
                                               ),
-                                            ),
+                                              ),
                                             )],
                                         ),
                                         onTap: () {
                                           setState(() {
-                                            compUserBorderSize = 5;
-                                            compUserHeight = 110;
-                                            compUserWidth = 110;
-                                            indUserHeight = 100;
-                                            indUserWidth = 100;
+
+                                            compUserBorderSize = borderSize;
+                                            compUserHeight = pickedButtonSize;
+                                            compUserWidth = pickedButtonSize;
+                                            indUserHeight = buttonSize;
+                                            indUserWidth = buttonSize;
                                             indUserBorderSize = 0;
-                                            companyHeight = 100;
-                                            companyWidth = 100;
+                                            companyHeight = buttonSize;
+                                            companyWidth = buttonSize;
                                             companyBorderSize = 0;
                                           });
                                           userType = "company_member";
@@ -354,9 +418,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                                 duration: Duration(milliseconds: animateTime), child: Container(
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.all(
-                                                        Radius.circular(10),
-                                                      ),
+                                                  BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
                                                   color: Theme.of(
                                                     context,
                                                   ).colorScheme.primary,
@@ -378,20 +442,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   ],
                                                 ),
                                               ),
-                                            ),
+                                              ),
                                             )],
                                         ),
                                         onTap: () {
                                           setState(() {
+
                                             compUserBorderSize = 0;
-                                            compUserHeight = 100;
-                                            compUserWidth = 100;
-                                            indUserHeight = 100;
-                                            indUserWidth = 100;
+                                            compUserHeight = buttonSize;
+                                            compUserWidth = buttonSize;
+                                            indUserHeight = buttonSize;
+                                            indUserWidth = buttonSize;
                                             indUserBorderSize = 0;
-                                            companyHeight = 110;
-                                            companyWidth = 110;
-                                            companyBorderSize = 5;
+                                            companyHeight = pickedButtonSize;
+                                            companyWidth = pickedButtonSize;
+                                            companyBorderSize = borderSize;
                                           });
                                           userType = "company_admin";
                                           print(userType);
@@ -399,6 +464,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       ),
                                     ],
                                   ),
+
 
                                   SizedBox(height: 20),
 
@@ -412,31 +478,33 @@ class _RegisterPageState extends State<RegisterPage> {
                                           companyNameController.text = "";
                                         return RegisterInfoCompanyName(
                                           firstNameController:
-                                              firstNameController,
+                                          firstNameController,
                                           lastNameController:
-                                              lastNameController,
+                                          lastNameController,
                                           companyNameController:
-                                              companyNameController,
+                                          companyNameController,
                                           emailController: emailController,
                                           passwordController:
-                                              passwordController,
+                                          passwordController,
                                           confirmPasswordController:
-                                              confirmPasswordController,
+                                          confirmPasswordController,
                                         );
                                       }
 
                                       // Do not show company name
+                                      // The fixed initial values must be set here to prevent flutter errors
+                                      // when the StreamBuilder is evaluated.
                                       compUserBorderSize = 0;
-                                      compUserHeight = 100;
+                                      compUserHeight = buttonSize;
                                       companyNameController.text = "N/A";
                                       return RegisterInfo(
                                         firstNameController:
-                                            firstNameController,
+                                        firstNameController,
                                         lastNameController: lastNameController,
                                         emailController: emailController,
                                         passwordController: passwordController,
                                         confirmPasswordController:
-                                            confirmPasswordController,
+                                        confirmPasswordController,
                                       );
                                     },
                                   ),
@@ -449,20 +517,20 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ),
                                     builder:
                                         (
-                                          BuildContext context,
-                                          AsyncSnapshot<String> snapshot,
+                                        BuildContext context,
+                                        AsyncSnapshot<String> snapshot,
                                         ) {
-                                          if (snapshot.hasError) {
-                                            return const Text('Error');
-                                          } else {
-                                            if (snapshot.data == null) {
-                                              return Text("");
-                                            }
-                                            return Text(
-                                              (snapshot.data) as String,
-                                            );
-                                          }
-                                        },
+                                      if (snapshot.hasError) {
+                                        return const Text('Error');
+                                      } else {
+                                        if (snapshot.data == null) {
+                                          return Text("");
+                                        }
+                                        return Text(
+                                          (snapshot.data) as String,
+                                        );
+                                      }
+                                    },
                                   ),
 
                                   const SizedBox(height: 10),

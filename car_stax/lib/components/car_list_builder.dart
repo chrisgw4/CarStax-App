@@ -18,7 +18,7 @@ class CarListBuilderStf extends StatefulWidget {
 class _CarListBuilderStfState extends State<CarListBuilderStf> {
   late Db db;
   Stream? changeStream;
-  Stream? stream;
+  Stream? changeStreamRental;
   bool allowStream = true;
 
   @override
@@ -35,6 +35,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
     await db.open();
 
     final collection = db.collection('cars');
+    final collection2 = db.collection('rentals');
 
     final pipeline = [
       {
@@ -50,8 +51,14 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
     // Checks for deletions
     changeStream = collection.watch(pipeline);
+    changeStreamRental = collection2.watch(pipeline);
 
     var controller2 = changeStream?.listen((changeEvent) async {
+      allowStream = true;
+      print("Change Happened");
+    });
+
+    var controller = changeStreamRental?.listen((changeEvent) async {
       allowStream = true;
       print("Change Happened");
     });

@@ -35,6 +35,8 @@ class MyCar extends StatelessWidget {
   Color carColor = Colors.black;
   Color rentalColor = Colors.green;
   String rentalImage = "";
+  DateTime startDate = DateTime.now();
+  DateTime returnDate = DateTime.now();
   final List<dynamic> warningLightIndicators;
 
   Future<dynamic> getRenter() async {
@@ -174,19 +176,6 @@ class MyCar extends StatelessWidget {
               warningList: warningLightIndicators,
               carID: carID,
             ),
-            // builder: (context) => EditCarPage(
-            //   licensePlate: licensePlate,
-            //   year: year,
-            //   mileage: mileage,
-            //   make: make,
-            //   model: model,
-            //   color: color,
-            //   vin: VIN,
-            //   carType: carType,
-            //   rentalStatus: rentalStatus,
-            //   warningList: warningLightIndicators,
-            //   carID: carID,
-            // ),
           ),
         );
       },
@@ -214,37 +203,7 @@ class MyCar extends StatelessWidget {
                         ),
                         height: screenHeight / 9,
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(width: screenWidth / 82),
-                                Container(
-                                  child: Image.network(rentalImage),
-                                  height: screenHeight / 46,
-                                ),
-                                SizedBox(width: screenWidth / 82),
-                                Text(
-                                  rentalStatus[0].toUpperCase() +
-                                      rentalStatus.substring(1),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(width: screenWidth / 82),
-                              ],
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: rentalColor,
-                            ),
-                            height: screenHeight / 37,
-                          ),
-                        ],
-                      ),
+                      Row(children: []),
                     ],
                   ),
                   SizedBox(width: screenWidth / 17),
@@ -254,7 +213,7 @@ class MyCar extends StatelessWidget {
                         Text(
                           make + " " + model,
                           textAlign: TextAlign.center,
-                          overflow: null,
+
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -265,63 +224,95 @@ class MyCar extends StatelessWidget {
                               " " +
                               carType[0].toUpperCase() +
                               carType.substring(1),
-                          overflow: null,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
-
-                    //Text(make + " " + model,overflow: null  ,style: TextStyle(fontSize: 25 ),),
                   ),
                 ],
               ),
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(width: screenWidth / 3),
+                  SizedBox(width: screenWidth / 50),
                   Container(
                     child: Row(
-                      spacing: screenWidth / 90,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(width: screenWidth / 82),
+                        Container(
+                          child: Image.network(rentalImage),
+                          height: screenHeight / 36,
+                        ),
+                        SizedBox(width: screenWidth / 82),
+                        Text(
+                          rentalStatus[0].toUpperCase() +
+                              rentalStatus.substring(1),
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(width: screenWidth / 50),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: rentalColor,
+                    ),
+                    height: screenHeight / 27,
+                  ),
+
+                  Spacer(),
+
+                  Container(
+                    child: Row(
                       children: [
                         Column(
-                          spacing: screenHeight / 90,
                           children: [
-                            Container(
-                              child: Image(
-                                image: AssetImage(
-                                  "assets/images/license plate.png",
+                            Row(
+                              children: [
+                                Container(
+                                  child: Image(
+                                    image: AssetImage(
+                                      "assets/images/license plate.png",
+                                    ),
+                                    height: screenHeight / 40,
+                                  ),
                                 ),
-                                height: screenHeight / 40,
-                              ),
+                                SizedBox(width: screenWidth / 30),
+                                Text(
+                                  licensePlate,
+                                  style: TextStyle(
+                                    fontSize: screenHeight / 60,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth / 30),
+                              ],
                             ),
-
-                            Container(
-                              child: Image(
-                                image: AssetImage("assets/images/mileage.png"),
-                                height: screenHeight / 40,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        Column(
-                          spacing: screenHeight / 90,
-                          children: [
-                            Text(
-                              licensePlate,
-                              style: TextStyle(
-                                fontSize: screenHeight / 60,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            Text(
-                              mileage.toString() + " miles",
-                              style: TextStyle(
-                                fontSize: screenHeight / 60,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            SizedBox(height: screenHeight / 90),
+                            Row(
+                              children: [
+                                Container(
+                                  child: Image(
+                                    image: AssetImage(
+                                      "assets/images/mileage.png",
+                                    ),
+                                    height: screenHeight / 40,
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth / 30),
+                                Text(
+                                  " " + mileage.toString() + " miles",
+                                  style: TextStyle(
+                                    fontSize: screenHeight / 60,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(width: screenWidth / 30),
+                              ],
                             ),
                           ],
                         ),
@@ -330,11 +321,12 @@ class MyCar extends StatelessWidget {
                   ),
                 ],
               ),
+
               SizedBox(height: screenHeight / 80),
               if (rentalStatus == "maintenance")
                 Row(
                   children: [
-                    SizedBox(width: screenWidth / 28),
+                    SizedBox(width: screenWidth / 35),
                     Container(
                       child: Image(
                         image: AssetImage("assets/images/warning.png"),
@@ -355,58 +347,219 @@ class MyCar extends StatelessWidget {
               if (rentalStatus == "rented")
                 Row(
                   children: [
-                    SizedBox(width: screenWidth / 28),
                     Container(
                       child: Image(
                         image: AssetImage("assets/images/car key.png"),
                       ),
-                      height: screenHeight / 20,
+                      height: screenHeight / 15,
                     ),
                     FutureBuilder(
-                    future: getRenter(), 
-                      builder: (context,snapshot)
-                        {
-                          if(snapshot.hasError)
-                            {
-                              return Text("");
-                            }
-                          if(!snapshot.hasData)
-                            {
-                              return Text("");
-                            }
-                          if(snapshot.data=="")
-                            {
-                              return Text("");
-                            }
-                          print(snapshot.data);
-                          return Text(snapshot.data["rentals"][0]["renterName"], style: TextStyle(
-                            fontSize: screenHeight / 60,
-                            fontWeight: FontWeight.bold,
-                          ),);
+                      future: getRenter(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text("");
+                        }
+                        if (!snapshot.hasData) {
+                          return Text("");
+                        }
+                        if (snapshot.data == "") {
+                          return Text("");
+                        }
+                        startDate = DateTime.parse(
+                          snapshot.data["rentals"][0]["dateRentedOut"],
+                        );
+                        returnDate = DateTime.parse(
+                          snapshot.data["rentals"][0]["expectedReturnDate"],
+                        );
+                        print(returnDate);
+                        print(DateTime.now().isAfter(returnDate));
+                        return Flexible(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  snapshot.data["rentals"][0]["renterName"],
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: screenHeight /48,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
 
-                        }),
-                    
+                              if (DateTime.now().isAfter(returnDate))
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(width: screenWidth / 82),
+                                      Container(
+                                        child: Image(
+                                          image: AssetImage(
+                                            "assets/images/Late.png",
+                                          ),
+                                        ),
+                                        height: screenHeight / 36,
+                                      ),
+                                      SizedBox(width: screenWidth / 82),
+                                      Text(
+                                        "Overdue",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(width: screenWidth / 82),
+                                      Spacer(),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.red,
+                                  ),
+                                  height: screenHeight / 27,
+                                )
+                              else if (!(DateTime.now().isAfter(returnDate)))
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+
+                                    children: [
+                                      SizedBox(width: screenWidth / 82),
+                                      Container(
+                                        child: Image(
+                                          image: AssetImage(
+                                            "assets/images/On Time.png",
+                                          ),
+                                        ),
+                                        height: screenHeight / 36,
+                                      ),
+                                      SizedBox(width: screenWidth / 82),
+                                      Text(
+                                        "On Time",
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(width: screenWidth / 82),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green,
+                                  ),
+                                  height: screenHeight / 27,
+                                ),
+                              SizedBox(width: screenWidth / 30),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
-              SizedBox(height: 5),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text("Year: " + year.toString()),
-              //     SizedBox(width: 20),
-              //     Text("Mileage: " + mileage.toString()),
-              //   ],
-              // ),
-              // SizedBox(height: 5),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [Text("VIN: " + VIN)],
-              // ),
-              // SizedBox(height: 5),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [Text("Rental Status: " + rentalStatus)],
-              // ),
+              if (rentalStatus == "rented")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(width: screenWidth / 20),
+                    Image(
+                      height: screenHeight / 20,
+                      image: AssetImage("assets/images/Calender.png"),
+                    ),
+                    FutureBuilder(
+                      future: getRenter(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text("");
+                        }
+                        if (!snapshot.hasData) {
+                          return Text("");
+                        }
+                        if (snapshot.data == "") {
+                          return Text("");
+                        }
+                        startDate = DateTime.parse(
+                          snapshot.data["rentals"][0]["dateRentedOut"],
+                        );
+                        returnDate = DateTime.parse(
+                          snapshot.data["rentals"][0]["expectedReturnDate"],
+                        );
+                        print(returnDate);
+                        print(DateTime.now().isAfter(returnDate));
+                        return Flexible(
+                          child: Row(
+                            children: [
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+
+                                  children: [
+                                    SizedBox(width: screenWidth / 82),
+                                    Text(
+                                      startDate.month.toString() +
+                                          "/" +
+                                          startDate.day.toString() +
+                                          "/" +
+                                          startDate.year.toString(),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: screenWidth / 82),
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.lightGreen[50],
+                                ),
+                                height: screenHeight / 37,
+                              ),
+                              Text(
+                                " To ",
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+
+                                  children: [
+                                    SizedBox(width: screenWidth / 82),
+                                    Text(
+                                      returnDate.month.toString() +
+                                          "/" +
+                                          returnDate.day.toString() +
+                                          "/" +
+                                          returnDate.year.toString(),
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: screenWidth / 82),
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.lightGreen[50],
+                                ),
+                                height: screenHeight / 37,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
