@@ -183,7 +183,15 @@ class MyCar extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
-          borderRadius: BorderRadius.circular(15.0),
+          borderRadius: BorderRadius.circular(45.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withAlpha(175), // Shadow color
+                spreadRadius: 0.5, // How far the shadow spreads
+                blurRadius: 2.5, // How blurred the shadow is
+                offset: Offset(0, 3), // Changes position of shadow (dx, dy)
+              ),
+            ],
           border: Border.all(color: Theme.of(context).colorScheme.secondary, width: 2)
         ),
         child: Padding(
@@ -238,7 +246,6 @@ class MyCar extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(width: screenWidth / 10,),
                           ],
                         ),
                         SizedBox(height: screenHeight / 100,),

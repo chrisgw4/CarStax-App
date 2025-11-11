@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:car_stax/components/car_list_builder.dart';
 import 'package:car_stax/components/my_car.dart';
 import 'package:car_stax/pages/car_list_page.dart';
@@ -45,13 +47,23 @@ class HomePage extends ConsumerWidget {
         leading: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            BackButton(
-              onPressed: () {
-                // is_logged_in = false;
-                // Navigator.of(context).pop();
-                ref.read(authProvider.notifier).logout();
-              },
-            ),
+            Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(math.pi),
+              child: IconButton(
+                onPressed: () {
+                  ref.read(authProvider.notifier).logout();
+                },
+                icon: Icon(Icons.logout,),
+              ),
+              
+            )
+            
+            // BackButton(
+            //   onPressed: () {
+            //     ref.read(authProvider.notifier).logout();
+            //   },
+            // ),
           ],
         )
       ),
