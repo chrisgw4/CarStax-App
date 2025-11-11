@@ -55,18 +55,18 @@ class MyCar extends StatelessWidget {
     switch (rentalStatus.toLowerCase()) {
       case "available":
         rentalImage = "https://farrukhanwar.site/assets/available-C_NG3xW-.png";
-        rentalColor = Colors.green;
+        rentalColor = Colors.green[400]!;
 
         break;
       case "rented":
         rentalImage = "https://farrukhanwar.site/assets/rented-CFektGni.png";
-        rentalColor = Colors.red;
+        rentalColor = Colors.red[400]!;
 
         break;
       case "maintenance":
         rentalImage =
             "https://farrukhanwar.site/assets/maintenance-CUMVvKMO.png";
-        rentalColor = Colors.yellow;
+        rentalColor = Colors.yellow[300]!;
 
         break;
     }
@@ -325,6 +325,15 @@ class MyCar extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.black),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withAlpha(175), // Shadow color
+                              spreadRadius: 0.5, // How far the shadow spreads
+                              blurRadius: 2.5, // How blurred the shadow is
+                              offset: Offset(0, 3), // Changes position of shadow (dx, dy)
+                            ),
+                          ],
                           color: rentalColor,
                         ),
                         height: screenHeight / 27,
@@ -500,6 +509,8 @@ class MyCar extends StatelessWidget {
                                     children: [
                                       SizedBox(width: screenWidth / 82),
                                       Container(
+
+
                                         child: Image(
                                           image: AssetImage(
                                             "assets/images/Late.png",
@@ -516,12 +527,21 @@ class MyCar extends StatelessWidget {
                                         ),
                                       ),
                                       SizedBox(width: screenWidth / 82),
-                                      Spacer(),
                                     ],
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.red,
+                                    color: Colors.red[400],
+                                    border: Border.all(color: Colors.black),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(175), // Shadow color
+                                        spreadRadius: 0.5, // How far the shadow spreads
+                                        blurRadius: 2.5, // How blurred the shadow is
+                                        offset: Offset(0, 3), // Changes position of shadow (dx, dy)
+                                      ),
+                                    ],
+
                                   ),
                                   height: screenHeight / 27,
                                 )
@@ -553,7 +573,16 @@ class MyCar extends StatelessWidget {
                                   ),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.green,
+                                    color: Colors.green[400],
+                                    border: Border.all(color: Colors.black),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withAlpha(175), // Shadow color
+                                        spreadRadius: 0.5, // How far the shadow spreads
+                                        blurRadius: 2.5, // How blurred the shadow is
+                                        offset: Offset(0, 3), // Changes position of shadow (dx, dy)
+                                      ),
+                                    ],
                                   ),
                                   height: screenHeight / 27,
                                 ),
