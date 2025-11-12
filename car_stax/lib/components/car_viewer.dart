@@ -397,8 +397,8 @@ class CarViewer extends StatelessWidget {
                         returnDate = DateTime.parse(
                           snapshot.data["rentals"][0]["expectedReturnDate"],
                         );
-                        print(returnDate);
-                        print(DateTime.now().isAfter(returnDate));
+                        // print(returnDate);
+                        // print(DateTime.now().isAfter(returnDate));
                         return Flexible(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -534,8 +534,8 @@ class CarViewer extends StatelessWidget {
                       returnDate = DateTime.parse(
                         snapshot.data["rentals"][0]["expectedReturnDate"],
                       );
-                      print(returnDate);
-                      print(DateTime.now().isAfter(returnDate));
+                      // print(returnDate);
+                      // print(DateTime.now().isAfter(returnDate));
                       return Flexible(
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -681,8 +681,8 @@ class CarViewer extends StatelessWidget {
                       returnDate = DateTime.parse(
                         snapshot.data["rentals"][0]["expectedReturnDate"],
                       );
-                      print(returnDate);
-                      print(DateTime.now().isAfter(returnDate));
+                      // print(returnDate);
+                      // print(DateTime.now().isAfter(returnDate));
                       return Flexible(
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -732,8 +732,8 @@ class CarViewer extends StatelessWidget {
                       returnDate = DateTime.parse(
                         snapshot.data["rentals"][0]["expectedReturnDate"],
                       );
-                      print(returnDate);
-                      print(DateTime.now().isAfter(returnDate));
+                      // print(returnDate);
+                      // print(DateTime.now().isAfter(returnDate));
                       return Flexible(
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
