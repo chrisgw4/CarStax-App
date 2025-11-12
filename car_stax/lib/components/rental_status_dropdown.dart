@@ -103,7 +103,10 @@ class _RentalStatusDropdownState extends State<RentalStatusDropdown> {
         menuHeight: 200,
         inputDecorationTheme: const InputDecorationTheme(
           filled: true,
-          border: InputBorder.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide.none,
+          ),
           contentPadding: EdgeInsets.symmetric(vertical: 5.0),
           prefixIconConstraints: BoxConstraints(
             minHeight: 40,

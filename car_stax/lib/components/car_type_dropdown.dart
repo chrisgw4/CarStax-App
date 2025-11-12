@@ -72,6 +72,62 @@ class _CarTypeDropdownState extends State<CarTypeDropdown> {
   CarType? selectedCar;
 
 
+  void initState() {
+    String carType = widget.carTypeController.text.toLowerCase();
+    if (carType == "sedan") {
+      setState(() {
+        selectedCar = CarType.sedan;
+      });
+    }
+    else if (carType == "truck") {
+      setState(() {
+        selectedCar = CarType.truck;
+      });
+    }
+    else if (carType == "suv") {
+      setState(() {
+        selectedCar = CarType.suv;
+      });
+    }
+    else if (carType == "coupe") {
+      setState(() {
+        selectedCar = CarType.coupe;
+
+      });
+    }
+    else if (carType == "convertible") {
+      setState(() {
+        selectedCar = CarType.convertible;
+
+      });
+    }
+    else if (carType == "hatchback") {
+      setState(() {
+        selectedCar = CarType.hatchback;
+      });
+    }
+    else if (carType == "van") {
+      setState(() {
+        selectedCar = CarType.van;
+      });
+    }
+    else if (carType == "motorcycle") {
+      setState(() {
+        selectedCar = CarType.motorcycle;
+      });
+    }
+    else if (carType == "other"){
+      setState(() {
+        selectedCar = CarType.other;
+      });
+    }
+    else {
+      setState(() {
+        selectedCar = CarType.none;
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +155,12 @@ class _CarTypeDropdownState extends State<CarTypeDropdown> {
         menuHeight: 200,
         inputDecorationTheme: const InputDecorationTheme(
           filled: true,
-          border: InputBorder.none, // removes outline
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            borderSide: BorderSide.none,
+          ),
           contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+
           prefixIconConstraints: BoxConstraints(
             minHeight: 40,
             minWidth: 40,
@@ -110,9 +170,10 @@ class _CarTypeDropdownState extends State<CarTypeDropdown> {
           backgroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.primary),
           elevation: WidgetStatePropertyAll(8), // dropdown popup shadow
           shadowColor: WidgetStatePropertyAll(Colors.black.withOpacity(0.25)),
+          surfaceTintColor: WidgetStatePropertyAll(Colors.white),
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
           ),
         ),

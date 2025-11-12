@@ -123,11 +123,7 @@ class HomePage extends ConsumerWidget {
 
                             openDialog();
                           },
-                          onSubmitted: (String newValue) {
-                            print(newValue);
-                            boolList[0] = true;
-                            searchController.text += " ";
-                          },
+
                           hintText: "Search",
                           controller: searchController,
                           backgroundColor: MaterialStatePropertyAll(

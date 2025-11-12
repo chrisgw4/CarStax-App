@@ -187,19 +187,32 @@ class SearchDialog extends StatelessWidget {
 
 
               SizedBox(height: 15),
-
-              SizedBox(
-                width: 220,
-                height: 70,
-                child: MyButton(
-                  text: "Search",
-                  fontSize: 18,
-                  onTap: () {
-                    onSearchPressed();
-                    Navigator.pop(context);
-                  },
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-              ),
+                child: SizedBox(
+                  width: 220,
+                  height: 70,
+                  child: MyButton(
+                    text: "Search",
+                    fontSize: 18,
+                    onTap: () {
+                      onSearchPressed();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              )
+
             ],
           ),
         ),
