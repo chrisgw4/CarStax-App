@@ -229,7 +229,17 @@ class _EditCarPageState extends State<EditCarPage> {
 
     }
   }
+  Stream<bool> streamMaintenanceStatus() async* {
+    while (true) {
+      await Future.delayed(Duration(milliseconds: 50));
 
+      if (selectedStatus?.label == "Maintenance") {
+        yield true;
+      } else {
+        yield false;
+      }
+    }
+  }
   Stream<List<dynamic>> streamStartDates () async* {
     while (true) {
       await Future.delayed(Duration(milliseconds: 10));
@@ -303,33 +313,46 @@ class _EditCarPageState extends State<EditCarPage> {
       child: StatefulBuilder(
         builder: (context, setDialogState) {
           return Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(12),
             child: SizedBox(
               width: 350,
               height: 500,
               child: Column(
-                children: [
-
-
+                children: [ Row(mainAxisAlignment: MainAxisAlignment.center,children: [
+                  Container(
+                    child: Image(
+                      image: AssetImage("assets/images/warning.png"),
+                    ),
+                    height: MediaQuery.of(context).size.height / 35,
+                  ),
+                  Text(
+                    "Issues",
+                    overflow: TextOverflow.fade,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height / 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),]),
+                  SizedBox(height: MediaQuery.of(context).size.height / 90,),
+                  Divider(),
                   Expanded(
                     child: StreamBuilder(
-                        stream: warningListSizeListener(),
-                        builder: (context, snapshot) {
-                          return AnimatedList(
-                            key: warningListKey,
-                            initialItemCount: warningList.length,
-                            itemBuilder:
-                                (
-                                BuildContext context,
-                                int index,
-                                Animation<double> animation,
-                                ) {
-                              return buildItem(warningList[index], animation);
-                            },
-                          );
-                        }
-                    )
-
+                      stream: warningListSizeListener(),
+                      builder: (context, snapshot) {
+                        return AnimatedList(
+                          key: warningListKey,
+                          initialItemCount: warningList.length,
+                          itemBuilder:
+                              (
+                              BuildContext context,
+                              int index,
+                              Animation<double> animation,
+                              ) {
+                            return buildItem(warningList[index], animation);
+                          },
+                        );
+                      },
+                    ),
                   ),
 
                   // Buttons
@@ -339,34 +362,85 @@ class _EditCarPageState extends State<EditCarPage> {
                     children: [
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                          backgroundColor: Colors
+                              .transparent, // Make button background transparent
+                          shadowColor:
+                          Colors.transparent, // Disable default shadow
+                          elevation: 0, // Disable default elevation
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              8.0,
+                            ), // Match container's border radius
+                          ),
                         ),
                         onPressed: () {
                           setDialogState(() {
                             warningList.add(TextEditingController());
                             warningListKey.currentState?.insertItem(
-                              warningList.length-1,
+                              warningList.length - 1,
                             );
                           });
                         },
-                        child: Text(
-                          "Add Field",
-                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                        ),
-                      ),
+
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF22577A), Color(0xFF6CDD99)],
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          height: MediaQuery.of(context).size.height / 25,
+                          width: MediaQuery.of(context).size.width / 4.5,
+                          child: Column(children: [SizedBox(height: 7,),Text(
+                            "Add Field",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize:
+                              MediaQuery.of(context).size.width / 26.5,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),],
+                          ),),),
 
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                          backgroundColor: Colors
+                              .transparent, // Make button background transparent
+                          shadowColor:
+                          Colors.transparent, // Disable default shadow
+                          elevation: 0, // Disable default elevation
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              8.0,
+                            ), // Match container's border radius
+                          ),
                         ),
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text(
-                          "Save",
-                          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                        ),
-                      ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF22577A), Color(0xFF6CDD99)],
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          height: MediaQuery.of(context).size.height / 25,
+                          width: MediaQuery.of(context).size.width / 4.5,
+                          child: Column(children: [SizedBox(height: 7,),Text(
+                            "Save",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize:
+                              MediaQuery.of(context).size.width / 25.5,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),],
+                          ),),),
                     ],
                   )
 
@@ -631,15 +705,41 @@ class _EditCarPageState extends State<EditCarPage> {
                   leadingIcon: ImageIcon(selectedStatus?.icon),
                 ),
                 SizedBox(height: 10,),
-                
-                ElevatedButton(
-                    onPressed: openDialog,
-                    child: Text(
-                      "Add Issues",
-                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                    )
-                ),
 
+                StreamBuilder(
+                  stream: streamMaintenanceStatus(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text("");
+                    }
+                    if (!snapshot.hasData) {
+                      return Text("");
+                    }
+                    if (snapshot.data == false) {
+                      return Text("");
+                    }
+
+                    return  ElevatedButton(
+                        style:ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent, // Make button background transparent
+                          shadowColor: Colors.transparent, // Disable default shadow
+                          elevation: 0, // Disable default elevation
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8.0), // Match container's border radius
+                          ),),
+                        onPressed: openDialog,
+                        child: Container(decoration: BoxDecoration(gradient: LinearGradient(colors:[Color(0xFF22577A), Color(0xFF6CDD99)], end: Alignment.bottomRight ), borderRadius: BorderRadius.circular(10)),height:MediaQuery.of(context).size.height / 15, width:MediaQuery.of(context).size.width /4,child: Column(children: [SizedBox(height:MediaQuery.of(context).size.height / 45),Text(
+                          "Add Issues",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width / 25,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),]),)
+                    );
+                  },
+                ),
                 StreamBuilder(
                     stream: streamStartDates(),
                     builder: (context, snapshot) {

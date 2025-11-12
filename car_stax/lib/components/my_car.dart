@@ -345,97 +345,11 @@ class MyCar extends StatelessWidget {
                 ],
               ),
 
-              Row(
-                children: [
-                  // SizedBox(width: screenWidth / 50),
-                  // Container(
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       SizedBox(width: screenWidth / 82),
-                  //       Container(
-                  //         child: Image.network(rentalImage),
-                  //         height: screenHeight / 36,
-                  //       ),
-                  //       SizedBox(width: screenWidth / 82),
-                  //       Text(
-                  //         rentalStatus[0].toUpperCase() +
-                  //             rentalStatus.substring(1),
-                  //         style: TextStyle(
-                  //           fontSize: 18,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //       SizedBox(width: screenWidth / 50),
-                  //     ],
-                  //   ),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(10),
-                  //     color: rentalColor,
-                  //   ),
-                  //   height: screenHeight / 27,
-                  // ),
 
-                  // Spacer(),
-
-                  // Container(
-                  //   child: Row(
-                  //     children: [
-                  //       Column(
-                  //         children: [
-                  //           // Row(
-                  //           //   children: [
-                  //           //     Container(
-                  //           //       child: Image(
-                  //           //         image: AssetImage(
-                  //           //           "assets/images/license plate.png",
-                  //           //         ),
-                  //           //         height: screenHeight / 40,
-                  //           //       ),
-                  //           //     ),
-                  //           //     SizedBox(width: screenWidth / 30),
-                  //           //     Text(
-                  //           //       licensePlate,
-                  //           //       style: TextStyle(
-                  //           //         fontSize: screenHeight / 60,
-                  //           //         fontWeight: FontWeight.bold,
-                  //           //       ),
-                  //           //     ),
-                  //           //     SizedBox(width: screenWidth / 30),
-                  //           //   ],
-                  //           // ),
-                  //           // SizedBox(height: screenHeight / 90),
-                  //           // Row(
-                  //           //   children: [
-                  //           //     Container(
-                  //           //       child: Image(
-                  //           //         image: AssetImage(
-                  //           //           "assets/images/mileage.png",
-                  //           //         ),
-                  //           //         height: screenHeight / 40,
-                  //           //       ),
-                  //           //     ),
-                  //           //     SizedBox(width: screenWidth / 30),
-                  //           //     Text(
-                  //           //       " " + mileage.toString() + " miles",
-                  //           //       style: TextStyle(
-                  //           //         fontSize: screenHeight / 60,
-                  //           //         fontWeight: FontWeight.bold,
-                  //           //       ),
-                  //           //     ),
-                  //           //     SizedBox(width: screenWidth / 30),
-                  //           //   ],
-                  //           // ),
-                  //         ],
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
 
               SizedBox(height: screenHeight / 80),
               if (rentalStatus == "maintenance")
+                Column(children: [
                 Row(
                   children: [
                     SizedBox(width: screenWidth / 35),
@@ -455,7 +369,7 @@ class MyCar extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
+                ),SizedBox(height: screenHeight / 70),]),
               if (rentalStatus == "rented")
                 Row(
                   children: [
