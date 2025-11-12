@@ -76,7 +76,7 @@ class ViewCarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Car View Page"),
+          title: Text("Car Details"),
           centerTitle: true,
           actions: <Widget>[
             IconButton(
