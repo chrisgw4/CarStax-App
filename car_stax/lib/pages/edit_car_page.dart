@@ -101,7 +101,6 @@ class _EditCarPageState extends State<EditCarPage> {
         selectedCar = CarType.sedan;
 
       });
-      loadRenter();
     }
     else if (carType == "truck") {
       setState(() {
