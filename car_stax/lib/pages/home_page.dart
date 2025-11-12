@@ -107,6 +107,8 @@ class HomePage extends ConsumerWidget {
                         SizedBox(height: 10),
                         SearchBar(
                           onTap: () {
+                            FocusScope.of(context).requestFocus(new FocusNode());
+
                             Future openDialog() => showDialog(
                               context: context,
                               builder: (context) => SearchDialog(
@@ -122,6 +124,8 @@ class HomePage extends ConsumerWidget {
                             );
 
                             openDialog();
+                            // FocusScope.of(context).requestFocus(new FocusNode());
+                            // FocusScope.of(context).unfocus();
                           },
 
                           hintText: "Search",
@@ -130,6 +134,8 @@ class HomePage extends ConsumerWidget {
                             Theme.of(context).colorScheme.primary,
                           ),
                         ),
+
+
                       ],
                     ),
                   ],
