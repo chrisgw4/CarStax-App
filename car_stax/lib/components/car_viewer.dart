@@ -476,6 +476,18 @@ class CarViewer extends StatelessWidget {
 
             SizedBox(height: screenHeight / 80),
             if (rentalStatus == "maintenance")
+              Center(child:
+              Text(
+                "Issues",
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: screenHeight / 50,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              ),
+              for (String warning in warningLightIndicators)
+
               Row(
                 children: [
                   SizedBox(width: screenWidth / 35),
@@ -483,14 +495,13 @@ class CarViewer extends StatelessWidget {
                     child: Image(
                       image: AssetImage("assets/images/warning.png"),
                     ),
-                    height: screenHeight / 40,
+                    height: screenHeight / 35,
                   ),
                   Text(
                     " " +
-                        warningLightIndicators.length.toString() +
-                        " Issues Present",
+                        warning,
                     style: TextStyle(
-                      fontSize: screenHeight / 60,
+                      fontSize: screenHeight / 50,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
