@@ -1,4 +1,5 @@
 import 'package:car_stax/backend/backend_functions.dart';
+import 'package:car_stax/components/car_viewer.dart';
 import 'package:flutter/material.dart';
 
 import 'edit_car_page.dart';
@@ -139,23 +140,15 @@ class ViewCarPage extends StatelessWidget {
         ),
       body: Padding(
         padding: EdgeInsets.all(8),
-        child: Column(
+        child: SingleChildScrollView(child: Column(
           // Insert what the car view page should have Here
 
-          children: [
-            Text("PLACEHOLDER"),
-
-            Row(
-
-              children: [
+          children: [CarViewer(carType: carType, licensePlate: licensePlate, year: year, mileage: mileage, make: make, model: model, color: color, VIN: vin, rentalStatus: rentalStatus, warningLightIndicators: warningList, carID: carID),
 
 
-                Text("License Plate: $licensePlate")
-              ],
-            )
           ],
         ),
-      )
+      ))
     );
   }
 }
