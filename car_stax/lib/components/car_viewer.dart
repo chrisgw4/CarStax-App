@@ -59,6 +59,7 @@ class CarViewer extends StatelessWidget {
       case "available":
         rentalImage = "https://farrukhanwar.site/assets/available-C_NG3xW-.png";
         rentalColor = Colors.green[400]!;
+        rentalColor = Colors.green[400]!;
         boxWidth = 3.3;
 
         break;
@@ -487,7 +488,7 @@ class CarViewer extends StatelessWidget {
               ),
               ),
               for (String warning in warningLightIndicators)
-
+              Column(children: [
               Row(
                 children: [
                   SizedBox(width: screenWidth / 35),
@@ -505,8 +506,10 @@ class CarViewer extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                 ],
-              ),
+              ),SizedBox(height: screenHeight / 70),]),
+
             if (rentalStatus == "rented")
               Row(
                 children: [
