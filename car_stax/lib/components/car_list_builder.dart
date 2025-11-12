@@ -9,7 +9,11 @@ import "my_car.dart";
 
 
 class CarListBuilderStf extends StatefulWidget {
-  const CarListBuilderStf({super.key});
+  const CarListBuilderStf({super.key, required this.searchControllers, required this.canSearch, required this.resetSearch});
+
+  final List<TextEditingController> searchControllers;
+  final bool Function () canSearch;
+  final void Function () resetSearch;
 
   @override
   State<CarListBuilderStf> createState() => _CarListBuilderStfState();
@@ -20,6 +24,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
   Stream? changeStream;
   Stream? changeStreamRental;
   bool allowStream = true;
+
 
   @override
   void initState() {
@@ -65,6 +70,17 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
     print("Set up streaming");
 
+    // widget.searchText.addListener(() {
+    //   print(widget.searchText.text);
+    //   print(widget.boolList[0]);
+    //
+    //   if (widget.boolList[0] == true) {
+    //     widget.boolList[0] = false;
+    //     widget.searchText.text = widget.searchText.text.substring(0, widget.searchText.text.length-1);
+    //     allowStream = true;
+    //   }
+    //   widget.boolList[0] = false;
+    // });
 
   }
 
@@ -72,6 +88,13 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
   Future<bool> getCanStream() async {
     while (true) {
       await Future.delayed(Duration(milliseconds: 50));
+      if (widget.canSearch() == true)
+      {
+        widget.resetSearch();
+        allowStream = true;
+      }
+
+
       if (allowStream == true) {
         return allowStream;
       }
@@ -84,9 +107,19 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
       await getCanStream(); // Waits until allowStream changes to true
       await Future.delayed(Duration(milliseconds: 200));
       allowStream = false;
-      var cars = await backend_get_cars();
+      var cars = await backend_search_cars(widget.searchControllers);
       yield cars; // Sends back stream of cars
       }
+  }
+
+  bool canSearch() {
+
+    // if (widget.boolList[0] == true) {
+    //   print("TRUTH");
+    //   widget.boolList[0] = false;
+    //   allowStream == true;
+    // }
+    return allowStream;
   }
 
 
@@ -111,11 +144,35 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
         List carList = snapshot.data?["cars"];
 
-        return Expanded(
-          child: ListView.builder(
+        // return Expanded(
+           return ListView.builder(
             itemCount: carList.length,
             itemBuilder: (context, index) {
               List<dynamic> stringList = carList[index]["warningLightIndicators"];
+
+              if (index == 0) {
+                return Container(
+                  padding: EdgeInsets.only(top: 80),
+
+                  child: Column(
+                    children: [
+                      MyCar(
+                        carType: carList[index]["carType"],
+                        licensePlate: carList[index]["licensePlate"],
+                        year: carList[index]["year"],
+                        mileage: carList[index]["mileage"],
+                        make: carList[index]["make"],
+                        model: carList[index]["model"],
+                        color: carList[index]["color"],
+                        VIN: carList[index]["vehicleIdentificationNumber"],
+                        rentalStatus: carList[index]["rentalStatus"],
+                        warningLightIndicators: stringList,
+                        carID: carList[index]["_id"],
+                      ),
+                    ],
+                  ),
+                );
+              }
 
               if (index == carList.length - 1) {
                 return Container(
@@ -163,7 +220,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                 ),
               );
             },
-          ),
+          // ),
         );
       }
     );

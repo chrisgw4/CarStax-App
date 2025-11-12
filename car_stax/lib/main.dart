@@ -46,7 +46,7 @@ class MyApp extends ConsumerWidget {
       theme: light_mode,
       darkTheme: dark_mode,
       home: authState == AuthState.authenticated
-          ? const HomePage()
+          ? HomePage()
           : const LoginOrRegister(),
     );
 
