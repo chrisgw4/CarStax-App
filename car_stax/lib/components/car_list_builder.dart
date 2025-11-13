@@ -59,13 +59,13 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
     changeStreamRental = collection2.watch(pipeline);
 
     var controller2 = changeStream?.listen((changeEvent) async {
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(Duration(milliseconds: 1000));
       allowStream = true;
       print("Change Happened");
     });
 
     var controller = changeStreamRental?.listen((changeEvent) async {
-      await Future.delayed(Duration(milliseconds: 800));
+      await Future.delayed(Duration(milliseconds: 1000));
       allowStream = true;
       print("Change Happened");
     });
