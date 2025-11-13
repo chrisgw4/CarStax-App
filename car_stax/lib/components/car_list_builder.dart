@@ -35,55 +35,43 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
 
   Future<void> _initMongoDBStream() async {
 
-    db = await Db.create(
-      mongo_db,
-    );
-    await db.open();
-
-    final collection = db.collection('cars');
-    final collection2 = db.collection('rentals');
-
-    final pipeline = [
-      {
-        '\$match': {
-          '\$or': [
-            {'operationType': 'insert'},
-            {'operationType': 'delete'},
-            {'operationType': 'update'},
-          ],
-        },
-      },
-    ];
-
-    // Checks for deletions
-    changeStream = collection.watch(pipeline);
-    changeStreamRental = collection2.watch(pipeline);
-
-    var controller2 = changeStream?.listen((changeEvent) async {
-      await Future.delayed(Duration(milliseconds: 1000));
-      allowStream = true;
-      print("Change Happened");
-    });
-
-    var controller = changeStreamRental?.listen((changeEvent) async {
-      await Future.delayed(Duration(milliseconds: 1000));
-      allowStream = true;
-      print("Change Happened");
-    });
-
-    print("Set up streaming");
-
-    // widget.searchText.addListener(() {
-    //   print(widget.searchText.text);
-    //   print(widget.boolList[0]);
+    // db = await Db.create(
+    //   mongo_db,
+    // );
+    // await db.open();
     //
-    //   if (widget.boolList[0] == true) {
-    //     widget.boolList[0] = false;
-    //     widget.searchText.text = widget.searchText.text.substring(0, widget.searchText.text.length-1);
-    //     allowStream = true;
-    //   }
-    //   widget.boolList[0] = false;
+    // final collection = db.collection('cars');
+    // final collection2 = db.collection('rentals');
+    //
+    // final pipeline = [
+    //   {
+    //     '\$match': {
+    //       '\$or': [
+    //         {'operationType': 'insert'},
+    //         {'operationType': 'delete'},
+    //         {'operationType': 'update'},
+    //       ],
+    //     },
+    //   },
+    // ];
+    //
+    // // Checks for deletions
+    // changeStream = collection.watch(pipeline);
+    // changeStreamRental = collection2.watch(pipeline);
+    //
+    // var controller2 = changeStream?.listen((changeEvent) async {
+    //   await Future.delayed(Duration(milliseconds: 1000));
+    //   allowStream = true;
+    //   // print("Change Happened");
     // });
+    //
+    // var controller = changeStreamRental?.listen((changeEvent) async {
+    //   await Future.delayed(Duration(milliseconds: 1000));
+    //   allowStream = true;
+    //   print("Change Happened");
+    // });
+    //
+    // print("Set up streaming");
 
   }
 

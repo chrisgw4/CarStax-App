@@ -177,7 +177,7 @@ class _AddCarPageState extends State<AddCarPage> {
           backgroundColor: Colors.transparent,
           child: Text("Add Car"),
           onPressed: () async {
-            print("Pressed add");
+            // print("Pressed add");
             if (yearController.text == "") return;
             if (mileageController.text == "") return;
 

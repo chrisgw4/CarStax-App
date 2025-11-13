@@ -45,7 +45,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void forgotPassword() async {
-    print("Run Forgot Password Code");
+    // print("Run Forgot Password Code");
 
     Future openDialog() =>
         showDialog(context: context, builder: (context) => ForgotPassword());
@@ -64,14 +64,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     attempting_login = true;
 
     if (emailController.text == "") {
-      print("No email input");
+      // print("No email input");
       attempting_login = false;
       loginFailedText.text = "Please enter all fields.";
       return;
     }
 
     if (passwordController.text == "") {
-      print("No password input");
+      // print("No password input");
       attempting_login = false;
       loginFailedText.text = "Please enter all fields.";
       return;
@@ -85,9 +85,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           const Center(child: CircularProgressIndicator()), //center
     );
 
-    ref
-        .read(authProvider.notifier)
+    dynamic v = await ref.read(authProvider.notifier)
         .login(emailController.text, passwordController.text);
+
+    if (v["success"] == false) {
+      Navigator.pop(context);
+      loginFailedText.text = "Invalid Credentials.";
+      attempting_login = false;
+      return;
+    }
 
     // var response = await backend_login(emailController.text, passwordController.text);
 
@@ -119,7 +125,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     //   }
 
     attempting_login = false;
-    print("Attempting Login");
+    // print("Attempting Login");
 
     return;
   }

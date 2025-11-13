@@ -471,7 +471,7 @@ class _EditCarPageState extends State<EditCarPage> {
             backgroundColor: Colors.transparent,
             child: Text("Edit Car"),
             onPressed: () async {
-              print("Pressed add");
+              // print("Pressed add");
               if (yearController.text == "")
                 return;
               if (mileageController.text == "")
@@ -505,7 +505,7 @@ class _EditCarPageState extends State<EditCarPage> {
               if (selectedStatus?.label == "Rented") {
 
                 var renter = await backend_get_renter(carID: carID);
-                print(renter);
+                // print(renter);
 
                 if (has_renter) {
                   await backend_edit_renter(

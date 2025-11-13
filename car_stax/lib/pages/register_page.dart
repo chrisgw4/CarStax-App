@@ -73,41 +73,41 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void register() async {
     if (firstNameController.text == "") {
-      print("No firstName input");
+      // print("No firstName input");
       return;
     }
 
     if (lastNameController.text == "") {
-      print("No lastName input");
+      // print("No lastName input");
       return;
     }
 
     if (companyNameController.text == "") {
-      print("No companyName input");
+      // print("No companyName input");
       return;
     }
 
     if (emailController.text == "") {
-      print("No email input");
+      // print("No email input");
       return;
     }
 
     if (passwordController.text == "") {
-      print("No password input");
+      // print("No password input");
       return;
     }
 
     if (confirmPasswordController.text == "") {
-      print("No confirm password input");
+      // print("No confirm password input");
       return;
     }
 
     if (passwordController.text != confirmPasswordController.text) {
-      print("Passwords do not match");
+      // print("Passwords do not match");
       return;
     }
 
-    print("Attempting to register");
+    // print("Attempting to register");
 
     Map<String, dynamic> response = await backend_register(
       email: emailController.text,
@@ -318,7 +318,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           });
                                           userType = "solo";
 
-                                          print(userType);
+                                          // print(userType);
                                         },
                                       ),
 
@@ -390,7 +390,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             companyBorderSize = 0;
                                           });
                                           userType = "company_member";
-                                          print(userType);
+                                          // print(userType);
                                         },
                                       ),
                                       SizedBox(width: 10),
@@ -460,7 +460,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             companyBorderSize = borderSize;
                                           });
                                           userType = "company_admin";
-                                          print(userType);
+                                          // print(userType);
                                         },
                                       ),
                                     ],

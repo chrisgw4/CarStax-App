@@ -28,13 +28,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<dynamic> login(String email, String password) async {
     final result = await _repo.login(email, password);
     if (result['success'] == true) {
       state = AuthState.authenticated;
     } else {
       state = AuthState.unauthenticated;
     }
+    return result;
   }
 
   Future<void> logout() async {

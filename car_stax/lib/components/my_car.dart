@@ -162,8 +162,8 @@ class MyCar extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        print("Pressed Car Item");
-        print(warningLightIndicators);
+        // print("Pressed Car Item");
+        // print(warningLightIndicators);
         Navigator.push(
           context,
           MaterialPageRoute<void>(
