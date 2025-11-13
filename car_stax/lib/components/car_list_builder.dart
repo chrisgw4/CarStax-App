@@ -9,11 +9,12 @@ import "my_car.dart";
 
 
 class CarListBuilderStf extends StatefulWidget {
-  const CarListBuilderStf({super.key, required this.searchControllers, required this.canSearch, required this.resetSearch});
+  const CarListBuilderStf({super.key, required this.searchControllers, required this.canSearch, required this.resetSearch, required this.setSearch});
 
   final List<TextEditingController> searchControllers;
   final bool Function () canSearch;
   final void Function () resetSearch;
+  final void Function () setSearch;
 
   @override
   State<CarListBuilderStf> createState() => _CarListBuilderStfState();
@@ -170,6 +171,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                         rentalStatus: carList[index]["rentalStatus"],
                         warningLightIndicators: stringList,
                         carID: carList[index]["_id"],
+                        signalUpdateFunction: widget.setSearch,
                       ),
                     ],
                   ),
@@ -194,6 +196,9 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                         rentalStatus: carList[index]["rentalStatus"],
                         warningLightIndicators: stringList,
                         carID: carList[index]["_id"],
+                        signalUpdateFunction: () {
+
+                        },
                       ),
                     ],
                   ),
@@ -217,6 +222,7 @@ class _CarListBuilderStfState extends State<CarListBuilderStf> {
                       rentalStatus: carList[index]["rentalStatus"],
                       warningLightIndicators: stringList,
                       carID: carList[index]["_id"],
+                      signalUpdateFunction: widget.setSearch,
                     ),
                   ],
                 ),

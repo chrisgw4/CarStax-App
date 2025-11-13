@@ -52,7 +52,11 @@ class HomePage extends ConsumerWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (context) => const AddCarPage(),
+                  builder: (context) => AddCarPage(
+                    signalUpdateFunction: () {
+                      boolList[0] = true;
+                  },
+                  ),
                 ),
               );
             },
@@ -99,6 +103,9 @@ class HomePage extends ConsumerWidget {
                       },
                       resetSearch: () {
                         boolList[0] = false;
+                      },
+                      setSearch: () {
+                        boolList[0] = true;
                       },
                     ),
                     Column(

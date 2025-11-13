@@ -90,7 +90,9 @@ enum RentalStatus {
 }
 
 class AddCarPage extends StatefulWidget {
-  const AddCarPage({super.key});
+  const AddCarPage({super.key, required this.signalUpdateFunction});
+
+  final Function () signalUpdateFunction;
 
   @override
   State<AddCarPage> createState() => _AddCarPageState();
@@ -224,6 +226,7 @@ class _AddCarPageState extends State<AddCarPage> {
             // Leave the add car page after successfully adding car to database
             if (response["success"] == true) {
               Navigator.pop(context);
+              widget.signalUpdateFunction();
             }
           },
         ),

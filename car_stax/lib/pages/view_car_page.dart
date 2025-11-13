@@ -19,7 +19,10 @@ class ViewCarPage extends StatelessWidget {
     required this.rentalStatus,
     required this.warningList,
     required this.carID,
+    required this.signalUpdateFunction,
   });
+
+  final Function () signalUpdateFunction;
 
   final String licensePlate;
   final int year;
@@ -112,6 +115,7 @@ class ViewCarPage extends StatelessWidget {
                       rentalStatus: rentalStatus,
                       warningList: warningList,
                       carID: carID,
+                      signalUpdateFunction: signalUpdateFunction,
                     )
                   )
                 );

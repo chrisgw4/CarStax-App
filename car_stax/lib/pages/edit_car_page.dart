@@ -19,7 +19,10 @@ class EditCarPage extends StatefulWidget {
     required this.rentalStatus,
     required this.warningList,
     required this.carID,
+    required this.signalUpdateFunction
   });
+
+  final Function () signalUpdateFunction;
 
   final String licensePlate;
   final int year;
@@ -534,6 +537,7 @@ class _EditCarPageState extends State<EditCarPage> {
               // Go back to the home page
               Navigator.pop(context);
               Navigator.pop(context);
+              widget.signalUpdateFunction();
 
             }
 

@@ -18,7 +18,10 @@ class MyCar extends StatelessWidget {
     required this.rentalStatus,
     required this.warningLightIndicators,
     required this.carID,
+    required this.signalUpdateFunction,
   });
+
+  final Function () signalUpdateFunction;
 
   final String carID;
 
@@ -176,6 +179,7 @@ class MyCar extends StatelessWidget {
               rentalStatus: rentalStatus,
               warningList: warningLightIndicators,
               carID: carID,
+              signalUpdateFunction: signalUpdateFunction,
             ),
           ),
         );
